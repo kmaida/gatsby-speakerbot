@@ -18,7 +18,7 @@ const blocksListEvent = [
     },
     "label": {
       "type": "plain_text",
-      "text": "Event Name"
+      "text": "Event Name:"
     }
   },
   {
@@ -26,7 +26,7 @@ const blocksListEvent = [
     "block_id": "event_date",
     "text": {
       "type": "mrkdwn",
-      "text": "*Event Date*"
+      "text": "*Event Date:*"
     },
     "accessory": {
       "type": "datepicker",
@@ -47,7 +47,7 @@ const blocksListEvent = [
     },
     "label": {
       "type": "plain_text",
-      "text": "Event Location"
+      "text": "Event Location:"
     }
   },
   {
@@ -63,7 +63,7 @@ const blocksListEvent = [
     },
     "label": {
       "type": "plain_text",
-      "text": "Event URL"
+      "text": "Event URL:"
     }
   },
   {
@@ -79,7 +79,7 @@ const blocksListEvent = [
     },
     "label": {
       "type": "plain_text",
-      "text": "Speaker(s)"
+      "text": "Speaker(s):"
     },
     "hint": {
       "type": "plain_text",
@@ -91,7 +91,7 @@ const blocksListEvent = [
     "block_id": "event_type",
     "text": {
       "type": "mrkdwn",
-      "text": "*Event Type*"
+      "text": "*Event Type:*"
     },
     "accessory": {
       "action_id": "a_event_type",
@@ -159,7 +159,7 @@ const blocksListEvent = [
     },
     "label": {
       "type": "plain_text",
-      "text": "Topic"
+      "text": "Topic:"
     }
   },
   {
@@ -176,7 +176,7 @@ const blocksListEvent = [
     },
     "label": {
       "type": "plain_text",
-      "text": "Notes"
+      "text": "Notes:"
     }
   }
 ];

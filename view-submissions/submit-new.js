@@ -12,7 +12,6 @@ const submitNew = (app, at, errHandler) => {
   app.action('a_event_date', async ({ action, context, ack, say }) => {
     await ack();
     data.event_date = action.selected_date;
-    console.log(data);
   });
 
   /*----
@@ -21,7 +20,6 @@ const submitNew = (app, at, errHandler) => {
   app.action('a_event_type', async ({ action, context, ack, say }) => {
     await ack();
     data.event_type = action.selected_option.value;
-    console.log(data);
   });
 
   /*----
@@ -39,10 +37,15 @@ const submitNew = (app, at, errHandler) => {
     const payload = view.state.values;
     data.event_name = payload.event_name.a_event_name.value;
     data.notes = payload.notes.a_notes.value;
-    console.log(data);
-    // @TODO: save data to Airtable
+    data.location = payload.location.a_location.value;
+    data.url = payload.url.a_url.value;
+    data.speakers = payload.speakers.a_speakers.value;
+    data.topic = payload.topic.a_topic.value;
 
-    // Confirm submission by sending DM to user
+    // @TODO: save data to Airtable
+    console.log(data);
+
+    // Confirm form submission by sending DM to user
     try {
       const confirmDM = await app.client.chat.postMessage({
         token: bc.botToken,
