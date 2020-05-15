@@ -4,6 +4,7 @@ const { App } = require('@slack/bolt');
 const at = require('./data/airtable');
 // Utils
 const errHandler = require('./utils/error');
+const utils = require('./utils/utils');
 const msgText = require('./bot-response/message-text');
 
 /*------------------
@@ -17,15 +18,26 @@ const app = new App({
 const port = process.env.PORT || 3000;
 
 /*------------------
-  APP HOME OPENED
-------------------*/
-require('./app-home-opened')(app, at);
-
-/*------------------
    SLASH COMMANDS
 ------------------*/
-require('./commands/speaking-new')(app, at, errHandler);
-require('./commands/speaking-report')(app, at, errHandler);
+require('./commands/command-new')(app, at, errHandler);
+require('./commands/command-report')(app, at, errHandler);
+
+/*------------------
+  VIEW SUBMISSIONS
+------------------*/
+require('./view-submissions/submit-new')(app, at, errHandler);
+require('./view-submissions/submit-report')(app, at, errHandler);
+
+/*------------------
+  APP HOME OPENED
+------------------*/
+require('./events/app-home-opened')(app, at);
+
+/*------------------
+    APP MENTION
+------------------*/
+require('./events/app-mention')(app, utils, errHandler);
 
 /*------------------
      START APP
