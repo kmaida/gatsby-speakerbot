@@ -19,7 +19,7 @@ const port = process.env.PORT || 3000;
 /*------------------
   APP HOME OPENED
 ------------------*/
-// require('./app-home-opened')(app);
+require('./app-home-opened')(app, at);
 
 /*------------------
    SLASH COMMANDS
