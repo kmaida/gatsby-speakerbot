@@ -48,7 +48,12 @@ const blocksListEvent = [
     "label": {
       "type": "plain_text",
       "text": "Event Location:"
-    }
+    },
+    "hint": {
+      "type": "plain_text",
+      "text": "You may leave location blank if the event is online / remote."
+    },
+    "optional": true
   },
   {
     "type": "input",
@@ -177,7 +182,8 @@ const blocksListEvent = [
     "label": {
       "type": "plain_text",
       "text": "Notes:"
-    }
+    },
+    "optional": true
   }
 ];
 
