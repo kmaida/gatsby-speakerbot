@@ -1,16 +1,18 @@
-module.exports = {
-  "type": "input",
-  "block_id": "event_name",
-  "element": {
-    "type": "plain_text_input",
-    "action_id": "a_event_name",
-    "placeholder": {
+module.exports = (aid) => {
+  return {
+    "type": "input",
+    "block_id": "event_name",
+    "element": {
+      "type": "plain_text_input",
+      "action_id": aid,
+      "placeholder": {
+        "type": "plain_text",
+        "text": "CoolConf 2020"
+      }
+    },
+    "label": {
       "type": "plain_text",
-      "text": "What is the event called?"
+      "text": "Event Name:"
     }
-  },
-  "label": {
-    "type": "plain_text",
-    "text": "Event Name:"
   }
 };

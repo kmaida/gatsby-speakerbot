@@ -8,7 +8,7 @@ const eventUrl = require('./form-components/event-url');
 ------------------*/
 
 const blocksListEvent = [
-  eventName,
+  eventName('a_event_name'),
   eventDate('a_event_date'),
   {
     "type": "input",
@@ -31,7 +31,7 @@ const blocksListEvent = [
     },
     "optional": true
   },
-  eventUrl,
+  eventUrl('a_url'),
   {
     "type": "input",
     "block_id": "speakers",

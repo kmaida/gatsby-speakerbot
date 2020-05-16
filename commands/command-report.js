@@ -10,7 +10,7 @@ const cmdSpeakingReport = (app, at, errHandler) => {
     await ack();
 
     try {
-      await say(`Open speaking report`);
+      // await say(`Open speaking report`);
       console.log(body, context);
       const result = await app.client.views.open({
         token: context.botToken,
@@ -20,12 +20,12 @@ const cmdSpeakingReport = (app, at, errHandler) => {
           callback_id: 'event_report',
           title: {
             type: 'plain_text',
-            text: 'Event Report'
+            text: 'Post Event Report'
           },
           blocks: blocksEventReport,
           submit: {
             type: 'plain_text',
-            text: 'Save Report'
+            text: 'Submit Report'
           }
         }
       });
