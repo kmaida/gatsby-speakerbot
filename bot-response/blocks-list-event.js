@@ -1,39 +1,15 @@
-const moment = require('moment');
+const eventName = require('./form-components/event-name');
+const eventDate = require('./form-components/event-date');
+const eventType = require('./form-components/event-type');
+const eventUrl = require('./form-components/event-url');
 
 /*------------------
  BLOCKS: LIST EVENT
 ------------------*/
 
 const blocksListEvent = [
-  {
-    "type": "input",
-    "block_id": "event_name",
-    "element": {
-      "type": "plain_text_input",
-      "action_id": "a_event_name",
-      "placeholder": {
-        "type": "plain_text",
-        "text": "What is the event called?"
-      }
-    },
-    "label": {
-      "type": "plain_text",
-      "text": "Event Name:"
-    }
-  },
-  {
-    "type": "section",
-    "block_id": "event_date",
-    "text": {
-      "type": "mrkdwn",
-      "text": "*Event Date:*"
-    },
-    "accessory": {
-      "type": "datepicker",
-      "action_id": "a_event_date",
-      "initial_date": moment().format('YYYY-MM-DD'),
-    }
-  },
+  eventName,
+  eventDate('a_event_date'),
   {
     "type": "input",
     "block_id": "location",
@@ -55,22 +31,7 @@ const blocksListEvent = [
     },
     "optional": true
   },
-  {
-    "type": "input",
-    "block_id": "url",
-    "element": {
-      "type": "plain_text_input",
-      "action_id": "a_url",
-      "placeholder": {
-        "type": "plain_text",
-        "text": "https://..."
-      }
-    },
-    "label": {
-      "type": "plain_text",
-      "text": "Event URL:"
-    }
-  },
+  eventUrl,
   {
     "type": "input",
     "block_id": "speakers",
@@ -91,66 +52,7 @@ const blocksListEvent = [
       "text": "If more than one person is speaking, please list all speakers."
     }
   },
-  {
-    "type": "section",
-    "block_id": "event_type",
-    "text": {
-      "type": "mrkdwn",
-      "text": "*Event Type:*"
-    },
-    "accessory": {
-      "action_id": "a_event_type",
-      "type": "static_select",
-      "placeholder": {
-        "type": "plain_text",
-        "text": "Select..."
-      },
-      "options": [
-        {
-          "text": {
-            "type": "plain_text",
-            "text": "Conference"
-          },
-          "value": "conference"
-        },
-        {
-          "text": {
-            "type": "plain_text",
-            "text": "Workshop"
-          },
-          "value": "workshop"
-        },
-        {
-          "text": {
-            "type": "plain_text",
-            "text": "Meetup"
-          },
-          "value": "meetup"
-        },
-        {
-          "text": {
-            "type": "plain_text",
-            "text": "Podcast"
-          },
-          "value": "podcast"
-        },
-        {
-          "text": {
-            "type": "plain_text",
-            "text": "Livestream / Webinar"
-          },
-          "value": "livestream-webinar"
-        },
-        {
-          "text": {
-            "type": "plain_text",
-            "text": "Other"
-          },
-          "value": "other"
-        }
-      ]
-    }
-  },
+  eventType('a_event_type'),
   {
     "type": "input",
     "block_id": "topic",
