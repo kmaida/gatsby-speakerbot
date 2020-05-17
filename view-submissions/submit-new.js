@@ -33,7 +33,7 @@ const submitNew = (app, at, utils, errHandler) => {
       ackParams.errors.event_date = 'This event is in the past. Please use /speaking-report to submit a post-event report instead.';
     }
     if (!utils.validUrl(data.url)) {
-      ackParams.errors.url = 'Please provide a URL, starting with http.';
+      ackParams.errors.url = 'Please provide a valid URL.';
     }
     if (utils.objNotEmpty(ackParams.errors)) {
       await ack(ackParams);

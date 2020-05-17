@@ -5,9 +5,6 @@
 const submitReport = (app, at, utils, errHandler) => {
   // Modal view submitted
   app.view('event_report', async ({ ack, body, view, context }) => {
-    await ack();
-
-    // console.log('body:', body, 'context:', context);
     const bc = {
       userID: body.user.id,
       userMention: `<@${body.user.id}>`,
@@ -21,14 +18,32 @@ const submitReport = (app, at, utils, errHandler) => {
       event_type: payload.event_type.r_event_type.selected_option.value,
       url: payload.url.r_url.value,
       topic: payload.topic.r_topic.value,
-      reach: payload.reach.r_reach.value * 1,
+      reach: payload.reach.r_reach.value,
       content_links: payload.content_links.r_content_links.value || '',
       rating: payload.rating.r_rating.selected_option.value * 1,
       report: payload.event_report.r_report.value
     };
 
-    // @TODO: validate form fields and handle errors
+    // Validate form fields and handle errors
     // https://api.slack.com/surfaces/modals/using#displaying_errors#displaying_errors
+    let ackParams = { 
+      response_action: 'errors',
+      errors: {}
+    };
+    if (!utils.datePast(data.event_date)) {
+      ackParams.errors.event_date = 'This event is in the future. Please use /speaking-new to list an upcoming event.';
+    }
+    if (!utils.validUrl(data.url)) {
+      ackParams.errors.url = 'Please provide a valid URL.';
+    }
+    if (!utils.isNumberFormat(data.reach)) {
+      ackParams.errors.reach = 'Estimated audience reach must be a number for metrics reasons. If you need to add more context, please use the "Report" field below.'
+    }
+    if (utils.objNotEmpty(ackParams.errors)) {
+      await ack(ackParams);
+      return;
+    }
+    await ack();
     
     // @TODO: save data to Airtable
     console.log(data);

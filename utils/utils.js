@@ -67,6 +67,16 @@ const utils = {
     return regex.test(str);
   },
   /*----
+    Is the string in a number-friendly format?
+    E.g., 1,000, 100.5
+    @Params: URL string
+    @Returns: boolean
+  ----*/
+  isNumberFormat(str) {
+    const regex = new RegExp(this.regex.number);
+    return regex.test(str);
+  },
+  /*----
     Does the object have properties?
     @Params: object
     @Returns: boolean
