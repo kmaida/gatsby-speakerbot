@@ -3,12 +3,7 @@
 ------------------*/
 
 const submitReport = (app, at, errHandler) => {
-  // Capture data from modal interactions
-  const data = {};
-
-  /*----
-    Modal view submitted
-  ----*/
+  // Modal view submitted
   app.view('event_report', async ({ ack, body, view, context }) => {
     await ack();
 
@@ -19,16 +14,18 @@ const submitReport = (app, at, errHandler) => {
       botToken: context.botToken
     };
     const payload = view.state.values;
-    data.submitterID = bc.userID;
-    data.event_name = payload.event_name.r_event_name.value;
-    data.event_date = payload.event_date.r_event_date.selected_date;
-    data.event_type = payload.event_type.r_event_type.selected_option.value;
-    data.url = payload.url.r_url.value;
-    data.topic = payload.topic.r_topic.value;
-    data.reach = payload.reach.r_reach.value;
-    data.content_links = payload.content_links.r_content_links.value || '';
-    data.rating = payload.rating.r_rating.selected_option.value;
-    data.report = payload.event_report.r_report.value;
+    const data = {
+      submitterID: bc.userID,
+      event_name: payload.event_name.r_event_name.value,
+      event_date: payload.event_date.r_event_date.selected_date,
+      event_type: payload.event_type.r_event_type.selected_option.value,
+      url: payload.url.r_url.value,
+      topic: payload.topic.r_topic.value,
+      reach: payload.reach.r_reach.value * 1,
+      content_links: payload.content_links.r_content_links.value || '',
+      rating: payload.rating.r_rating.selected_option.value * 1,
+      report: payload.event_report.r_report.value
+    };
     
     // @TODO: save data to Airtable
     console.log(data);
