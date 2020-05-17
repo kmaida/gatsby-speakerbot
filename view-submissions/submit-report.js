@@ -1,3 +1,5 @@
+const publishSlackReport = require('./../bot-response/publish-slack-report');
+
 /*------------------
    SUBMIT REPORT
 ------------------*/
@@ -56,7 +58,8 @@ const submitReport = (app, at, utils, errHandler) => {
         text: `Thank you for sharing your post-event report! Your *${data.event_name}* report has been saved. Someone on the DevRel team may follow up if we should get more deeply involved in this event, avoid it in the future, create resources or product feedback, etc.`
       });
 
-      // @TODO: post event report details with Airtable link in a Slack channel for DevRel team
+      // Post event report with Airtable link in a Slack channel for DevRel team
+      publishSlackReport(app, bc.botToken, utils, data);
     }
     catch (err) {
       errHandler(app, body, err);

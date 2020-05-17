@@ -1,3 +1,5 @@
+const publishSlackEvent = require('./../bot-response/publish-slack-event');
+
 /*------------------
  SUBMIT LIST EVENT
 ------------------*/
@@ -25,6 +27,7 @@ const submitNew = (app, at, utils, errHandler) => {
     };
 
     // Validate form fields and handle errors
+    // https://api.slack.com/surfaces/modals/using#displaying_errors#displaying_errors
     let ackParams = { 
       response_action: 'errors',
       errors: {}
@@ -52,7 +55,8 @@ const submitNew = (app, at, utils, errHandler) => {
         text: `Thank you for telling me about your event! Details for *${data.event_name}* have been saved. Someone on the DevRel team will follow up soon to provide you with any support you might need (rehearsal, resources, professional speaker coaching, help getting swag or equipment, etc.).`
       });
 
-      // @TODO: post event details with Airtable link in a Slack channel for DevRel team
+      // Post event details with Airtable link in a Slack channel for DevRel team
+      publishSlackEvent(app, bc.botToken, utils, data);
     }
     catch (err) {
       errHandler(app, body, err);

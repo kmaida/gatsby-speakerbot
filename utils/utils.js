@@ -10,7 +10,7 @@ const utils = {
     // URL regex - https://regexr.com/4va24
     url: /((?:[A-Za-z]{3,9})(?::\/\/|@)(?:(?:[A-Za-z0-9\-.]+[.:])|(?:www\.|[-;:&=+$,\w]+@))(?:[A-Za-z0-9.-]+)(?:[/\-+=&;%@.\w_~()]*)(?:[.!/\\\w-?%#~&=+()]*))/g,
     // Reach (number)
-    number: /[0-9.,]/g
+    number: /^[0-9.,]*$/g
   },
   /*----
     Clean up mention text so it can be tested / parsed
@@ -64,7 +64,8 @@ const utils = {
   ----*/
   validUrl(str) {
     const regex = new RegExp(this.regex.url);
-    return regex.test(str);
+    const cleanStr = str.trim();
+    return cleanStr.match(regex);
   },
   /*----
     Is the string in a number-friendly format?
@@ -74,7 +75,8 @@ const utils = {
   ----*/
   isNumberFormat(str) {
     const regex = new RegExp(this.regex.number);
-    return regex.test(str);
+    const cleanStr = str.trim();
+    return cleanStr.match(regex);
   },
   /*----
     Does the object have properties?
@@ -83,6 +85,14 @@ const utils = {
   ----*/
   objNotEmpty(obj) {
     return Object.keys(obj).length && obj.constructor === Object;
+  },
+  /*----
+    Capitalize the first letter of a string
+    @Params: string
+    @Returns: string
+  ----*/
+  capFirstLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 };
 
