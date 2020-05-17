@@ -13,12 +13,12 @@ const notes = require('./form-components/notes');
 
 const blocksListEvent = [
   eventName('a_event_name'),
-  eventDate('a_event_date'),
+  eventDate('a_event_date', 'When will this event happen?'),
   eventLocation('a_location'),
   eventUrl('a_url'),
   speakers('a_speakers'),
   eventType('a_event_type'),
-  topic('a_topic'),
+  topic('a_topic', 'What are you speaking about?'),
   notes('a_notes')
 ];
 

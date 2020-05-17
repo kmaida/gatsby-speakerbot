@@ -2,12 +2,12 @@
  FORM: EVENT RATING
 ------------------*/
 
-module.exports = () => {
+module.exports = (aid) => {
   return {
     "type": "input",
     "block_id": "rating",
     "element": {
-      "action_id": "r_rating",
+      "action_id": aid,
       "type": "static_select",
       "placeholder": {
         "type": "plain_text",

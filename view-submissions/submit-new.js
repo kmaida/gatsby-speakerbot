@@ -20,7 +20,7 @@ const submitNew = (app, at, errHandler) => {
       event_date: payload.event_date.a_event_date.selected_date,
       event_type: payload.event_type.a_event_type.selected_option.value,
       notes: payload.notes.a_notes.value || '',
-      location: payload.location.a_location.value || '',
+      location: payload.location.a_location.value || '(Remote)',
       url: payload.url.a_url.value,
       speakers: payload.speakers.a_speakers.value,
       topic: payload.topic.a_topic.value

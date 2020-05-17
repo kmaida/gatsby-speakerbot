@@ -2,7 +2,7 @@
   FORM: EVENT DATE
 ------------------*/
 
-module.exports = (aid) => {
+module.exports = (aid, placeholder) => {
   return {
     "type": "input",
     "block_id": "event_date",
@@ -11,8 +11,7 @@ module.exports = (aid) => {
       "action_id": aid,
       "placeholder": {
         "type": "plain_text",
-        "text": "Select a date",
-        "emoji": true
+        "text": placeholder
       }
     },
     "label": {
