@@ -2,6 +2,7 @@ const eventName = require('./form-components/event-name');
 const eventDate = require('./form-components/event-date');
 const eventType = require('./form-components/event-type');
 const eventUrl = require('./form-components/event-url');
+const eventRating = require('./form-components/event-rating');
 
 /*------------------
 BLOCKS: EVENT REPORT
@@ -20,7 +21,7 @@ const blocksReport = [
       "action_id": "r_topic",
       "placeholder": {
         "type": "plain_text",
-        "text": "What did you talk about?"
+        "text": "What did you speak about?"
       }
     },
     "label": {
@@ -70,52 +71,7 @@ const blocksReport = [
     },
     "optional": true
   },
-  {
-    "type": "section",
-    "block_id": "rating",
-    "text": {
-      "type": "mrkdwn",
-      "text": "*Event Rating:*"
-    },
-    "accessory": {
-      "action_id": "r_rating",
-      "type": "static_select",
-      "placeholder": {
-        "type": "plain_text",
-        "text": "Rating..."
-      },
-      "options": [
-        {
-          "text": {
-            "type": "plain_text",
-            "text": ":star-struck: Great!"
-          },
-          "value": "4"
-        },
-        {
-          "text": {
-            "type": "plain_text",
-            "text": ":simple_smile: Good"
-          },
-          "value": "3"
-        },
-        {
-          "text": {
-            "type": "plain_text",
-            "text": ":neutral_face: Meh"
-          },
-          "value": "2"
-        },
-        {
-          "text": {
-            "type": "plain_text",
-            "text": ":disappointed: Poor"
-          },
-          "value": "1"
-        }
-      ]
-    }
-  },
+  eventRating(),
   {
     "type": "input",
     "block_id": "event_report",

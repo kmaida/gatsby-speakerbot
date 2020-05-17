@@ -1,17 +1,13 @@
 module.exports = (aid) => {
   return {
-    "type": "section",
+    "type": "input",
     "block_id": "event_type",
-    "text": {
-      "type": "mrkdwn",
-      "text": "*Event Type:*"
-    },
-    "accessory": {
+    "element": {
       "action_id": aid,
       "type": "static_select",
       "placeholder": {
         "type": "plain_text",
-        "text": "Select..."
+        "text": "Choose event type"
       },
       "options": [
         {
@@ -57,6 +53,10 @@ module.exports = (aid) => {
           "value": "other"
         }
       ]
+    },
+    "label": {
+      "type": "plain_text",
+      "text": "Type of Event:"
     }
-  }
+  };
 };

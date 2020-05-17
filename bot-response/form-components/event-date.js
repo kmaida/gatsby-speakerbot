@@ -1,17 +1,22 @@
 const moment = require('moment');
 
-module.exports = (aid) => {
+module.exports = () => {
   return {
-    "type": "section",
+    "type": "input",
     "block_id": "event_date",
-    "text": {
-      "type": "mrkdwn",
-      "text": "*Event Date:*"
-    },
-    "accessory": {
+    "element": {
       "type": "datepicker",
-      "action_id": aid,
-      "initial_date": moment().format('YYYY-MM-DD'),
+      "action_id": "a_event_date",
+      // "initial_date": moment().format('YYYY-MM-DD'),
+      "placeholder": {
+        "type": "plain_text",
+        "text": "Select a date",
+        "emoji": true
+      }
+    },
+    "label": {
+      "type": "plain_text",
+      "text": "Event Date:"
     }
   }
 };
