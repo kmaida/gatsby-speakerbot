@@ -26,8 +26,8 @@ require('./commands/command-report')(app, at, errHandler);
 /*------------------
   VIEW SUBMISSIONS
 ------------------*/
-require('./view-submissions/submit-new')(app, at, errHandler);
-require('./view-submissions/submit-report')(app, at, errHandler);
+require('./view-submissions/submit-new')(app, at, utils, errHandler);
+require('./view-submissions/submit-report')(app, at, utils, errHandler);
 
 /*------------------
   APP HOME OPENED

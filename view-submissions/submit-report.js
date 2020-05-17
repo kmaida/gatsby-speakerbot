@@ -2,7 +2,7 @@
    SUBMIT REPORT
 ------------------*/
 
-const submitReport = (app, at, errHandler) => {
+const submitReport = (app, at, utils, errHandler) => {
   // Modal view submitted
   app.view('event_report', async ({ ack, body, view, context }) => {
     await ack();
@@ -26,6 +26,9 @@ const submitReport = (app, at, errHandler) => {
       rating: payload.rating.r_rating.selected_option.value * 1,
       report: payload.event_report.r_report.value
     };
+
+    // @TODO: validate form fields and handle errors
+    // https://api.slack.com/surfaces/modals/using#displaying_errors#displaying_errors
     
     // @TODO: save data to Airtable
     console.log(data);
