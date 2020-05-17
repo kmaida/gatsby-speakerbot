@@ -35,7 +35,7 @@ const submitNew = (app, at, utils, errHandler) => {
     if (!utils.validUrl(data.url)) {
       ackParams.errors.url = 'Please provide a URL, starting with http.';
     }
-    if (Object.keys(ackParams.errors).length && ackParams.errors.constructor === Object) {
+    if (utils.objNotEmpty(ackParams.errors)) {
       await ack(ackParams);
       return;
     }

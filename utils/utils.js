@@ -65,6 +65,14 @@ const utils = {
   validUrl(str) {
     const regex = new RegExp(this.regex.url);
     return regex.test(str);
+  },
+  /*----
+    Does the object have properties?
+    @Params: object
+    @Returns: boolean
+  ----*/
+  objNotEmpty(obj) {
+    return Object.keys(obj).length && obj.constructor === Object;
   }
 };
 
