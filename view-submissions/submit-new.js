@@ -24,21 +24,18 @@ const submitNew = (app, at, utils, errHandler) => {
       topic: payload.topic.a_topic.value
     };
 
-    // @TODO: validate form fields and handle errors
-    // https://api.slack.com/surfaces/modals/using#displaying_errors#displaying_errors
-    let ackParams = { "response_action": "errors", "errors": [] };
+    // Validate form fields and handle errors
+    let ackParams = { 
+      response_action: 'errors',
+      errors: {}
+    };
     if (!utils.dateFuture(data.event_date)) {
-      ackParams.errors.push({
-        "event_date": "This event is in the past. Please use /speaking-report to submit a post-event report instead."
-      });
+      ackParams.errors.event_date = 'This event is in the past. Please use /speaking-report to submit a post-event report instead.';
     }
     if (!utils.validUrl(data.url)) {
-      ackParams.errors.push({
-        "url": "Please provide a URL, starting with http."
-      });
+      ackParams.errors.url = 'Please provide a URL, starting with http.';
     }
-    console.log(ackParams);
-    if (ackParams.errors.length) {
+    if (Object.keys(ackParams.errors).length && ackParams.errors.constructor === Object) {
       await ack(ackParams);
       return;
     }
