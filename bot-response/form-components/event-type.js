@@ -1,3 +1,7 @@
+/*------------------
+  FORM: EVENT TYPE
+------------------*/
+
 module.exports = (aid) => {
   return {
     "type": "input",

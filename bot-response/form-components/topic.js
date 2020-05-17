@@ -1,22 +1,22 @@
 /*------------------
-  FORM: EVENT URL
+    FORM: TOPIC
 ------------------*/
 
 module.exports = (aid) => {
-  return {
+  return  {
     "type": "input",
-    "block_id": "url",
+    "block_id": "topic",
     "element": {
       "type": "plain_text_input",
       "action_id": aid,
       "placeholder": {
         "type": "plain_text",
-        "text": "https://..."
+        "text": "What are you speaking about?"
       }
     },
     "label": {
       "type": "plain_text",
-      "text": "Event URL:"
+      "text": "Topic:"
     }
-  }
-};
+  };
+}

@@ -1,3 +1,7 @@
+/*------------------
+ FORM: EVENT RATING
+------------------*/
+
 module.exports = () => {
   return {
     "type": "input",

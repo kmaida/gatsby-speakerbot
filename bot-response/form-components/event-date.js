@@ -1,13 +1,14 @@
-const moment = require('moment');
+/*------------------
+  FORM: EVENT DATE
+------------------*/
 
-module.exports = () => {
+module.exports = (aid) => {
   return {
     "type": "input",
     "block_id": "event_date",
     "element": {
       "type": "datepicker",
-      "action_id": "a_event_date",
-      // "initial_date": moment().format('YYYY-MM-DD'),
+      "action_id": aid,
       "placeholder": {
         "type": "plain_text",
         "text": "Select a date",

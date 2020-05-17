@@ -1,22 +1,24 @@
 /*------------------
-  FORM: EVENT URL
+     FORM: NOTES
 ------------------*/
 
 module.exports = (aid) => {
   return {
     "type": "input",
-    "block_id": "url",
+    "block_id": "notes",
     "element": {
       "type": "plain_text_input",
       "action_id": aid,
+      "multiline": true,
       "placeholder": {
         "type": "plain_text",
-        "text": "https://..."
+        "text": "Any additional information you'd like to share about this event."
       }
     },
     "label": {
       "type": "plain_text",
-      "text": "Event URL:"
-    }
-  }
+      "text": "Notes:"
+    },
+    "optional": true
+  };
 };

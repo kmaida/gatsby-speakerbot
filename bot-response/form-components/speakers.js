@@ -1,22 +1,26 @@
 /*------------------
-  FORM: EVENT URL
+   FORM: SPEAKERS
 ------------------*/
 
 module.exports = (aid) => {
   return {
     "type": "input",
-    "block_id": "url",
+    "block_id": "speakers",
     "element": {
       "type": "plain_text_input",
       "action_id": aid,
       "placeholder": {
         "type": "plain_text",
-        "text": "https://..."
+        "text": "Who is speaking at this event?"
       }
     },
     "label": {
       "type": "plain_text",
-      "text": "Event URL:"
+      "text": "Speaker(s):"
+    },
+    "hint": {
+      "type": "plain_text",
+      "text": "If more than one person is speaking, please list all speakers."
     }
-  }
-};
+  };
+}

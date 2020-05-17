@@ -2,6 +2,10 @@ const eventName = require('./form-components/event-name');
 const eventDate = require('./form-components/event-date');
 const eventType = require('./form-components/event-type');
 const eventUrl = require('./form-components/event-url');
+const eventLocation = require('./form-components/event-location');
+const speakers = require('./form-components/speakers');
+const topic = require('./form-components/topic');
+const notes = require('./form-components/notes');
 
 /*------------------
  BLOCKS: LIST EVENT
@@ -10,83 +14,12 @@ const eventUrl = require('./form-components/event-url');
 const blocksListEvent = [
   eventName('a_event_name'),
   eventDate('a_event_date'),
-  {
-    "type": "input",
-    "block_id": "location",
-    "element": {
-      "type": "plain_text_input",
-      "action_id": "a_location",
-      "placeholder": {
-        "type": "plain_text",
-        "text": "Where is the event taking place?"
-      }
-    },
-    "label": {
-      "type": "plain_text",
-      "text": "Event Location:"
-    },
-    "hint": {
-      "type": "plain_text",
-      "text": "You may leave location blank if the event is online / remote."
-    },
-    "optional": true
-  },
+  eventLocation('a_location'),
   eventUrl('a_url'),
-  {
-    "type": "input",
-    "block_id": "speakers",
-    "element": {
-      "type": "plain_text_input",
-      "action_id": "a_speakers",
-      "placeholder": {
-        "type": "plain_text",
-        "text": "Who is speaking at this event?"
-      }
-    },
-    "label": {
-      "type": "plain_text",
-      "text": "Speaker(s):"
-    },
-    "hint": {
-      "type": "plain_text",
-      "text": "If more than one person is speaking, please list all speakers."
-    }
-  },
+  speakers('a_speakers'),
   eventType('a_event_type'),
-  {
-    "type": "input",
-    "block_id": "topic",
-    "element": {
-      "type": "plain_text_input",
-      "action_id": "a_topic",
-      "placeholder": {
-        "type": "plain_text",
-        "text": "What are you speaking about?"
-      }
-    },
-    "label": {
-      "type": "plain_text",
-      "text": "Topic:"
-    }
-  },
-  {
-    "type": "input",
-    "block_id": "notes",
-    "element": {
-      "type": "plain_text_input",
-      "action_id": "a_notes",
-      "multiline": true,
-      "placeholder": {
-        "type": "plain_text",
-        "text": "Any additional information you'd like to share about this event."
-      }
-    },
-    "label": {
-      "type": "plain_text",
-      "text": "Notes:"
-    },
-    "optional": true
-  }
+  topic('a_topic'),
+  notes('a_notes')
 ];
 
 module.exports = blocksListEvent;
