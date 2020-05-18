@@ -20,7 +20,7 @@ const submitReport = (app, at, utils, errHandler) => {
       event_type: payload.event_type.r_event_type.selected_option.value,
       url: payload.url.r_url.value,
       topic: payload.topic.r_topic.value,
-      reach: payload.reach.r_reach.value,
+      reach: payload.reach.r_reach.value * 1,
       content_links: payload.content_links.r_content_links.value || '',
       rating: payload.rating.r_rating.selected_option.value * 1,
       report: payload.event_report.r_report.value
@@ -39,7 +39,7 @@ const submitReport = (app, at, utils, errHandler) => {
       ackParams.errors.url = 'Please provide a valid URL.';
     }
     if (!utils.isNumberFormat(data.reach)) {
-      ackParams.errors.reach = 'Estimated audience reach must be a number for metrics reasons. If you need to add more context, please use the "Report" field below.'
+      ackParams.errors.reach = 'Must be a number for metrics reasons. If you need to add more context, please use the "Report" field below.'
     }
     if (utils.objNotEmpty(ackParams.errors)) {
       await ack(ackParams);

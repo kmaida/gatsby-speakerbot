@@ -10,7 +10,7 @@ const utils = {
     // URL regex - https://regexr.com/4va24
     url: /((?:[A-Za-z]{3,9})(?::\/\/|@)(?:(?:[A-Za-z0-9\-.]+[.:])|(?:www\.|[-;:&=+$,\w]+@))(?:[A-Za-z0-9.-]+)(?:[/\-+=&;%@.\w_~()]*)(?:[.!/\\\w-?%#~&=+()]*))/g,
     // Reach (number)
-    number: /^[0-9.,]*$/g
+    number: /^[0-9]*$/g
   },
   /*----
     Clean up mention text so it can be tested / parsed

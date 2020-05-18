@@ -19,42 +19,56 @@ module.exports = (aid) => {
             "type": "plain_text",
             "text": "Conference"
           },
-          "value": "conference"
+          "value": "Conference"
         },
         {
           "text": {
             "type": "plain_text",
             "text": "Workshop"
           },
-          "value": "workshop"
+          "value": "Workshop"
         },
         {
           "text": {
             "type": "plain_text",
             "text": "Meetup"
           },
-          "value": "meetup"
+          "value": "Meetup"
         },
         {
           "text": {
             "type": "plain_text",
             "text": "Podcast"
           },
-          "value": "podcast"
+          "value": "Podcast"
         },
         {
           "text": {
             "type": "plain_text",
-            "text": "Livestream / Webinar"
+            "text": "Livestream"
           },
-          "value": "livestream-webinar"
+          "value": "Livestream"
+        },
+        {
+          "text": {
+            "type": "plain_text",
+            "text": "Webinar"
+          },
+          "value": "Webinar"
+        },
+        {
+          "text": {
+            "type": "plain_text",
+            "text": "Work event"
+          },
+          "value": "Work event"
         },
         {
           "text": {
             "type": "plain_text",
             "text": "Other"
           },
-          "value": "other"
+          "value": "Other"
         }
       ]
     },

@@ -31,7 +31,7 @@ module.exports = (aid) => {
         {
           "text": {
             "type": "plain_text",
-            "text": ":neutral_face: Meh"
+            "text": ":neutral_face: Okay"
           },
           "value": "2"
         },
