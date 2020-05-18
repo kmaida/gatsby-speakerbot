@@ -58,26 +58,24 @@ const utils = {
     return date >= now;
   },
   /*----
-    Is the string a URL?
-    @Params: URL string
+    Is the string a valid URL?
+    @Params: string
     @Returns: boolean
   ----*/
-  validUrl(str) {
-    console.log(typeof str);
+  validUrl(input) {
     const regex = new RegExp(this.regex.url);
-    const cleanStr = str.trim();
+    const cleanStr = input.toString().trim();
     return cleanStr.match(regex);
   },
   /*----
-    Is the string in a number-friendly format?
-    E.g., 1,000, 100.5
-    @Params: URL string
+    Is the text field input a string that only contains numbers?
+    (We will coerce it later if it passes this validation)
+    @Params: string
     @Returns: boolean
   ----*/
-  isNumberFormat(str) {
-    console.log(typeof str);
+  isNumberFormat(input) {
     const regex = new RegExp(this.regex.number);
-    const cleanStr = str.trim();
+    const cleanStr = input.toString().trim();
     return cleanStr.match(regex);
   },
   /*----
