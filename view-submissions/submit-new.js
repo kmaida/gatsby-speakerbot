@@ -56,7 +56,7 @@ const submitNew = (app, at, utils, errHandler) => {
       });
 
       // Post event details with Airtable link in a Slack channel for DevRel team
-      publishSlackEvent(app, bc.botToken, utils, data);
+      publishSlackEvent(app, bc.botToken, data);
     }
     catch (err) {
       errHandler(app, body, err);

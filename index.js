@@ -38,6 +38,8 @@ mon.once('open', function () {
      ON INIT
 ------------------*/
 store.initChannel();
+at.findEventID({ event_name: 'Learn With Us', event_type: 'Podcast', submitterID: 'URQ2W0DDY'});
+at.findEventID({ event_name: 'LesadfWith Us', event_type: 'Pogfcast' });
 
 /*------------------
    SLASH COMMANDS

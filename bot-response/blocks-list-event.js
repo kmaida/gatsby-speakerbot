@@ -16,7 +16,7 @@ const blocksListEvent = [
   eventDate('a_event_date', 'When will this event happen?'),
   eventLocation('a_location'),
   eventUrl('a_url'),
-  speakers('a_speakers'),
+  speakers('a_speakers', 'Who is speaking at this event?'),
   eventType('a_event_type'),
   topic('a_topic', 'What are you speaking about?'),
   notes('a_notes')

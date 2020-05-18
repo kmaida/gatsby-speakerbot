@@ -2,7 +2,7 @@
    FORM: SPEAKERS
 ------------------*/
 
-module.exports = (aid) => {
+module.exports = (aid, placeholder) => {
   return {
     "type": "input",
     "block_id": "speakers",
@@ -11,7 +11,7 @@ module.exports = (aid) => {
       "action_id": aid,
       "placeholder": {
         "type": "plain_text",
-        "text": "Who is speaking at this event?"
+        "text": placeholder
       }
     },
     "label": {
@@ -20,7 +20,7 @@ module.exports = (aid) => {
     },
     "hint": {
       "type": "plain_text",
-      "text": "If more than one person is speaking, please list all speakers."
+      "text": "If more than one speaker, please list all names."
     }
   };
 }

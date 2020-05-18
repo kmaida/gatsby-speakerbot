@@ -16,6 +16,7 @@ const submitReport = (app, at, utils, errHandler) => {
     const data = {
       submitterID: bc.userID,
       event_name: payload.event_name.r_event_name.value,
+      speakers: payload.speakers.r_speakers.value,
       event_date: payload.event_date.r_event_date.selected_date,
       event_type: payload.event_type.r_event_type.selected_option.value,
       url: payload.url.r_url.value,
@@ -59,7 +60,7 @@ const submitReport = (app, at, utils, errHandler) => {
       });
 
       // Post event report with Airtable link in a Slack channel for DevRel team
-      publishSlackReport(app, bc.botToken, utils, data);
+      publishSlackReport(app, bc.botToken, data);
     }
     catch (err) {
       errHandler(app, body, err);
