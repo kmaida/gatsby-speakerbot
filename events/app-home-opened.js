@@ -1,4 +1,4 @@
-const globals = require('./../utils/globals');
+const store = require('./../data/db');
 const homeBlocks = require('./../bot-response/blocks-home');
 
 /*------------------
@@ -9,7 +9,8 @@ const appHomeOpened = (app, at) => {
   app.event('app_home_opened', async ({ event, context }) => {
     const userID = event.user;
     const botID = context.botUserId;
-    console.log(event, context);
+    const settings = await store.getSettings();
+    const channel = settings.channel;
 
     try {
       const showHomeView = await app.client.views.publish({
@@ -17,7 +18,7 @@ const appHomeOpened = (app, at) => {
         user_id: userID,
         view: {
           "type": "home",
-          "blocks": homeBlocks(userID, botID, globals)
+          "blocks": homeBlocks(userID, botID, channel)
         }
       });
     }
@@ -26,9 +27,10 @@ const appHomeOpened = (app, at) => {
     }
   });
 
+  // Channel selected
   app.action('a_select_channel', async ({ action, ack }) => {
     await ack();
-    globals.setChannel(action.selected_channel);
+    store.setChannel(action.selected_channel);
   });
 }
 

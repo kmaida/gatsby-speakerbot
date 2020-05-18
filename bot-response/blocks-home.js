@@ -2,7 +2,7 @@
  BLOCKS: APP HOME
 ------------------*/
 
-const blocksHome = (userID, botID, globals) => {
+const blocksHome = async (userID, botID, channel) => {
   return [
     {
       "type": "section",
@@ -14,7 +14,7 @@ const blocksHome = (userID, botID, globals) => {
       "accessory": {
         "action_id": "a_select_channel",
         "type": "channels_select",
-        "initial_channel": globals.selectedChannel,
+        "initial_channel": channel,
         "placeholder": {
           "type": "plain_text",
           "text": "Select a channel"

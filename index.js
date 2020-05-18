@@ -6,16 +6,38 @@ const at = require('./data/airtable');
 const errHandler = require('./utils/error');
 const utils = require('./utils/utils');
 const msgText = require('./bot-response/message-text');
+// MongoDB
+const mongoose = require('mongoose');
+const store = require('./data/db');
 
 /*------------------
-       ON INIT
+  CREATE BOLT APP
 ------------------*/
-// Create Bolt app
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   signingSecret: process.env.SLACK_SIGNING_SECRET
 });
 const port = process.env.PORT || 3000;
+
+/*------------------
+      MONGODB
+------------------*/
+// Address server discovery deprecation warning
+mongoose.set('useUnifiedTopology', true);
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
+const mon = mongoose.connection;
+// Capture connection errors
+mon.on('error', console.error.bind(console, 'MongoDB Connection Error. Please make sure that', process.env.MONGO_URI, 'is running.'));
+// Open connection
+mon.once('open', function () {
+  console.info('Connected to MongoDB:', process.env.MONGO_URI);
+});
+
+/*------------------
+     ON INIT
+------------------*/
+store.setChannel(process.env.SLACK_CHANNEL_ID);
 
 /*------------------
    SLASH COMMANDS

@@ -1,4 +1,4 @@
-const globals = require('./../utils/globals');
+const settings = require('./../data/db');
 
 /*------------------
 PUBLISH SLACK REPORT
@@ -7,10 +7,12 @@ PUBLISH SLACK REPORT
 // @TODO: add airtable link
 const publishSlackReport = async (app, token, utils, data) => {
   // Post event to designated channel
+  const publishChannel = await settings.getChannel();
+  console.log(publishChannel);
   try {
     const publishSlackReport = await app.client.chat.postMessage({
       token: token,
-      channel: globals.selectedChannel,
+      channel: publishChannel,
       blocks: [
         {
           "type": "section",
