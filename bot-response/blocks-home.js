@@ -2,14 +2,21 @@
  BLOCKS: APP HOME
 ------------------*/
 
-const blocksHome = async (userID, botID, channel) => {
+const blocksHome = (userID, botID, channel) => {
   return [
+    {
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*Reporting Channel:*"
+			}
+		},
     {
       "type": "section",
       "block_id": "select_channel",
       "text": {
         "type": "mrkdwn",
-        "text": `*Select the channel* <@${botID}> should post to when event listings and event reports are submitted:`
+        "text": `Select a channel <@${botID}> should post to when event listings and event reports are submitted:`
       },
       "accessory": {
         "action_id": "a_select_channel",
@@ -26,7 +33,7 @@ const blocksHome = async (userID, botID, channel) => {
           },
           "text": {
             "type": "mrkdwn",
-            "text": `Are you sure you want to update the channel that <@${botID}> reports in?`
+            "text": `Are you sure you want to update the channel that <@${botID}> reports in? (Make sure you have added <@${botID}> to the new channel!)`
           },
           "confirm": {
             "type": "plain_text",
@@ -38,7 +45,19 @@ const blocksHome = async (userID, botID, channel) => {
           }
         }
       }
-    }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": `*Important:* <@${botID}> must be added to the channel you select.`
+        }
+      ]
+    },
+    {
+			"type": "divider"
+		}
   ];
 };
 

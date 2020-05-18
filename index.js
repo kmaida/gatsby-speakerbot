@@ -37,7 +37,7 @@ mon.once('open', function () {
 /*------------------
      ON INIT
 ------------------*/
-store.setChannel(process.env.SLACK_CHANNEL_ID);
+store.initChannel();
 
 /*------------------
    SLASH COMMANDS
