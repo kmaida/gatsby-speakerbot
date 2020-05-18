@@ -63,6 +63,7 @@ const utils = {
     @Returns: boolean
   ----*/
   validUrl(str) {
+    console.log(typeof str);
     const regex = new RegExp(this.regex.url);
     const cleanStr = str.trim();
     return cleanStr.match(regex);
@@ -74,6 +75,7 @@ const utils = {
     @Returns: boolean
   ----*/
   isNumberFormat(str) {
+    console.log(typeof str);
     const regex = new RegExp(this.regex.number);
     const cleanStr = str.trim();
     return cleanStr.match(regex);

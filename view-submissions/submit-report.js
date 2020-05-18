@@ -13,6 +13,7 @@ const submitReport = (app, at, utils, errHandler) => {
       botToken: context.botToken
     };
     const payload = view.state.values;
+    console.log(payload);
     const data = {
       submitterID: bc.userID,
       event_name: payload.event_name.r_event_name.value,
@@ -23,10 +24,9 @@ const submitReport = (app, at, utils, errHandler) => {
       topic: payload.topic.r_topic.value,
       reach: payload.reach.r_reach.value * 1,
       content_links: payload.content_links.r_content_links.value || '',
-      rating: payload.rating.r_rating.selected_option.value * 1,
+      rating: payload.rating.r_rating.selected_option.value,
       report: payload.event_report.r_report.value
     };
-
     // Validate form fields and handle errors
     // https://api.slack.com/surfaces/modals/using#displaying_errors#displaying_errors
     let ackParams = { 
@@ -36,20 +36,21 @@ const submitReport = (app, at, utils, errHandler) => {
     if (!utils.datePast(data.event_date)) {
       ackParams.errors.event_date = 'This event is in the future. Please use /speaking-new to list an upcoming event.';
     }
-    if (!utils.validUrl(data.url)) {
-      ackParams.errors.url = 'Please provide a valid URL.';
-    }
-    if (!utils.isNumberFormat(data.reach)) {
-      ackParams.errors.reach = 'Must be a number for metrics reasons. If you need to add more context, please use the "Report" field below.'
-    }
+    // if (!utils.validUrl(data.url)) {
+    //   ackParams.errors.url = 'Please provide a valid URL.';
+    // }
+    // if (!utils.isNumberFormat(data.reach)) {
+    //   ackParams.errors.reach = 'Must be a number for metrics reasons. If you need to add more context, please use the "Report" field below.'
+    // }
     if (utils.objNotEmpty(ackParams.errors)) {
       await ack(ackParams);
       return;
     }
     await ack();
-    
-    // @TODO: save data to Airtable
-    console.log(data);
+
+    // Save data to Airtable
+    const savedReportID = at.submitEventReport(data);
+    // @TODO: get link to this report
 
     try {
       // Confirm form submission by sending DM to user

@@ -7,33 +7,15 @@ const table = 'Gatsby Speakers 2020';
 
 const dbAt = {
   /*----
-    Get ID for an existing event by comparing event name, type, submitter ID
-    (if the event exists)
-    @Returns string
+    Get record by ID
   ----*/
-  findEventID(data) {
-    base(table).select({
-      filterByFormula: `AND({Name} = "${data.event_name}", {Event Type} = "${data.event_type}", {Submitter Slack ID} = "${data.submitterID}")`,
-      maxRecords: 1
-    }).eachPage(function page(records, fetchNextPage) {
-      if (records.length === 1) {
-        const record = records[0];
-        console.log('Found a matching record:', record.getId());
-        return record.getId();
-      } else if (records.length > 1) {
-        const recordsArr = [];
-        records.forEach(record => {
-          console.log(record.getId());
-          recordsArr.push(record.getId());
-        });
-        console.log('Multiple records matched', recordsArr);
-        return recordsArr;
-      } else {
-        console.log('No record found');
-        return null;
+  findEvent(id) {
+    base(table).find(id, function(err, record) {
+      if (err) {
+        console.error(err);
+        return new Error(err);
       }
-    }, function done(error) {
-      if (error) console.error(error);
+      return { id: record.id, fields: record.fields };
     });
   },
   /*----
@@ -65,26 +47,35 @@ const dbAt = {
     });
   },
   /*----
-    Submit event report
-    If a correlated event exists, update it
-    If the event doesn't already exist, create new report
+    Add post-event report
+    Check if event exists already, if so, update
+    If event does not exist, create new record
   ----*/
-  addEventReport(data) {
-    const existingRecordId = this.findEventID(data);
-    if (existingRecordId) {
+  async submitEventReport(data) {
+    // Check to see if report exists
+    const results = await base(table).select({
+      filterByFormula: `AND({Name} = "${data.event_name}", {Event Type} = "${data.event_type}", {Submitter Slack ID} = "${data.submitterID}")`,
+      maxRecords: 1
+    }).all();
+    const recordID = results.length ? results[0].getId() : null;
+
+    // If event exists, update
+    if (!!recordID) {
       base(table).update([
         {
-          "id": existingRecordId,
-          "Date": data.event_date,
-          "Event URL": data.url,
-          "Topic": data.topic,
-          "Est. Reach": data.reach,
-          "Content Links": data.content_links,
-          "Event Rating": data.rating,
-          "Post Event Report": data.report,
-          "Submitter Slack ID": data.submitterID
+          "id": recordID,
+          "fields": {
+            "Date": data.event_date,
+            "Event URL": data.url,
+            "Topic": data.topic,
+            "Est. Reach": data.reach,
+            "Content Links": data.content_links,
+            "Event Rating": data.rating,
+            "Post Event Report": data.report,
+            "Submitter Slack ID": data.submitterID
+          }
         }
-      ], function(err, records) {
+      ], function (err, records) {
         if (err) {
           console.error(err);
           return new Error(err);
@@ -93,7 +84,9 @@ const dbAt = {
         console.log('Updated existing event to add report:', updated.getId(), updated.fields);
         return updated.getId();
       });
-    } else {
+    }
+    // If event does not exist, create new
+    else {
       base(table).create([
         {
           "fields": {
@@ -102,7 +95,7 @@ const dbAt = {
             "Date": data.event_date,
             "Event Type": data.event_type,
             "Event URL": data.url,
-            "Who's speaking?": `Slack ID ${data.submitterID} (post-event report)`,
+            "Who's speaking?": data.speakers,
             "Topic": data.topic,
             "Est. Reach": data.reach,
             "Content Links": data.content_links,
