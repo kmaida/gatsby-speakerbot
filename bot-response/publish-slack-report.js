@@ -1,3 +1,5 @@
+const globals = require('./../utils/globals');
+
 /*------------------
 PUBLISH SLACK REPORT
 ------------------*/
@@ -8,7 +10,7 @@ const publishSlackReport = async (app, token, utils, data) => {
   try {
     const publishSlackReport = await app.client.chat.postMessage({
       token: token,
-      channel: process.env.SLACK_CHANNEL_ID,
+      channel: globals.selectedChannel,
       blocks: [
         {
           "type": "section",
