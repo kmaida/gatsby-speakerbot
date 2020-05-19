@@ -45,7 +45,7 @@ const submitNew = (app, at, utils, errHandler) => {
     }
     await ack();
 
-    // Save data to Airtable
+    // Save data to Airtable and output results in Slack channel
     try {
       at.listNewEvent(app, bc.botToken, data);
     }

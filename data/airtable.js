@@ -10,7 +10,7 @@ const publishSlackReport = require('./../bot-response/publish-slack-report');
 ------------------*/
 
 const dbAt = {
-  link: `https://airtable.com/${tableID}/${viewID}`,
+  linkBase: `https://airtable.com/${tableID}/${viewID}`,
   /*----
     Get record by ID
   ----*/
@@ -47,11 +47,9 @@ const dbAt = {
         return new Error(err);
       }
       const saved = records[0].getId();
-      // @TODO: link is fine here, but cannot be accessed outside this
-      // A race condition results when trying to use these results
       const savedObj = {
         id: saved,
-        link: `https://airtable.com/${tableID}/${viewID}/${saved}`
+        link: `${this.linkBase}/${saved}`
       };
       console.log('Saved new event:', savedObj);
       // Share event output in designated Slack channel
@@ -64,7 +62,7 @@ const dbAt = {
     Check if event exists already, if so, update
     If event does not exist, create new record
   ----*/
-  async submitEventReport(data) {
+  async submitEventReport(app, token, data) {
     // Check to see if report exists
     const results = await base(table).select({
       filterByFormula: `AND({Name} = "${data.event_name}", {Event Type} = "${data.event_type}", {Submitter Slack ID} = "${data.submitterID}")`,
@@ -93,9 +91,15 @@ const dbAt = {
           console.error(err);
           return new Error(err);
         }
-        const updated = records[0];
-        console.log('Updated existing event to add report:', updated.getId(), updated.fields);
-        return updated.getId();
+        const updated = records[0].getId();
+        console.log('Updated existing event to add report:', updated);
+        const updatedObj = {
+          id: updated.getId(),
+          link: `${this.linkBase}/${updated}`
+        };
+        // Share event output in designated Slack channel
+        publishSlackReport(app, token, data, updatedObj);
+        return updatedObj;
       });
     }
     // If event does not exist, create new
@@ -122,9 +126,15 @@ const dbAt = {
           console.error(err);
           return new Error(err);
         }
-        const newReport = records[0];
-        console.log('Saved new event with post-event report:', newReport.getId());
-        return newReport.getId();
+        const newReport = records[0].getId();
+        console.log('Saved new event with post-event report:', newReport);
+        const newObj = {
+          id: newReport,
+          link: `${this.linkBase}/${newReport}`
+        };
+        // Share event output in designated Slack channel
+        publishSlackReport(app, token, data, newObj);
+        return newObj;
       });
     }
   }

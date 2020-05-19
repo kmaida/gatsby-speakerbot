@@ -48,10 +48,9 @@ const submitReport = (app, at, utils, errHandler) => {
     }
     await ack();
 
-    // Save data to Airtable
+    // Save data to Airtable and output results in Slack channel
     try {
-      const saveResults = at.submitEventReport(data);
-      // @TODO: any awaiting of saveResults results in a race condition and does not work!
+      at.submitEventReport(app, bc.botToken, data);
     }
     catch (err) {
       errHandler(app, bc.botID, data, err);
