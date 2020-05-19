@@ -8,7 +8,7 @@ const blocksHomeAdmin = (homeParams) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": "*Reporting Channel:*"
+        "text": ":female-construction-worker: *Admin:*"
       }
     },
     {
@@ -16,7 +16,7 @@ const blocksHomeAdmin = (homeParams) => {
       "block_id": "select_channel",
       "text": {
         "type": "mrkdwn",
-        "text": `Select the channel <@${homeParams.botID}> should post to when event listings and event reports are submitted:`
+        "text": `*Select the channel* <@${homeParams.botID}> should post to when event listings and event reports are submitted:`
       },
       "accessory": {
         "action_id": "a_select_channel",
@@ -56,21 +56,11 @@ const blocksHomeAdmin = (homeParams) => {
       ]
     },
     {
-      "type": "divider"
-    },
-    {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": "*Speakerbot Admins:*"
-      }
-    },
-    {
       "type": "section",
       "block_id": "select_admins",
       "text": {
         "type": "mrkdwn",
-        "text": `Select users with admin privileges to control <@${homeParams.botID}>:`
+        "text": `*Select users with admin privileges* to control <@${homeParams.botID}>:`
       },
       "accessory": {
         "action_id": "a_select_admins",
@@ -90,6 +80,9 @@ const blocksHomeAdmin = (homeParams) => {
           "text": `Admins can change the channel that <@${homeParams.botID}> reports in and add other admins.`
         }
       ]
+    },
+    {
+      "type": "divider"
     }
   ];
 };
