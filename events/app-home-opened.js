@@ -1,4 +1,4 @@
-const store = require('./../data/db');
+const store = require('../data/settings-db');
 const homeBlocks = require('./../bot-response/blocks-home');
 
 /*------------------

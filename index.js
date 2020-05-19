@@ -8,7 +8,7 @@ const utils = require('./utils/utils');
 const msgText = require('./bot-response/message-text');
 // MongoDB
 const mongoose = require('mongoose');
-const store = require('./data/db');
+const store = require('./data/settings-db');
 
 /*------------------
   CREATE BOLT APP
@@ -37,7 +37,7 @@ mon.once('open', function () {
 /*------------------
     ON APP INIT
 ------------------*/
-store.initChannel();
+store.initSettings();
 // @TODO: get upcoming events and schedule followups
 
 /*------------------

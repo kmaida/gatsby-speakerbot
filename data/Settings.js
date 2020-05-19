@@ -6,7 +6,8 @@ const Schema = mongoose.Schema;
 ------------------*/
 
 const settingsSchema = new Schema({
-  channel: { type: String, required: true }
+  channel: { type: String, required: true },
+  admins: [String]
 });
 
-module.exports = mongoose.model('Settings', settingsSchema);
+module.exports = mongoose.model('SpeakerbotSettings', settingsSchema);
