@@ -47,9 +47,7 @@ const submitNew = (app, at, utils, errHandler) => {
 
     // Save data to Airtable
     try {
-      const saveResults = await at.listNewEvent(data);
-      // @TODO: any awaiting of saveResults results in a race condition and does not work below!
-      console.log('submit-new', saveResults);
+      at.listNewEvent(app, bc.botToken, data);
     }
     catch (err) {
       errHandler(app, bc.botID, data, err);
@@ -65,8 +63,6 @@ const submitNew = (app, at, utils, errHandler) => {
     catch (err) {
       errHandler(app, bc.botID, body, err);
     }
-    // Share event output in designated Slack channel
-    publishSlackEvent(app, bc.botToken, data, at);
   });
 };
 

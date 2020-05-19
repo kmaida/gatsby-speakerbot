@@ -2,6 +2,8 @@ const base = require('airtable').base(process.env.AIRTABLE_BASE_ID);
 const table = 'Gatsby Speakers 2020';
 const tableID = 'tblQWzFVnnzzHiOaM';
 const viewID = 'viwFea37sBQKZ6nJN';
+const publishSlackEvent = require('./../bot-response/publish-slack-event');
+const publishSlackReport = require('./../bot-response/publish-slack-report');
 
 /*------------------
       AIRTABLE
@@ -24,7 +26,7 @@ const dbAt = {
   /*----
     Add a new event to Airtable
   ----*/
-  async listNewEvent(data) {
+  async listNewEvent(app, token, data) {
     base(table).create([
       {
         "fields": {
@@ -45,11 +47,15 @@ const dbAt = {
         return new Error(err);
       }
       const saved = records[0].getId();
+      // @TODO: link is fine here, but cannot be accessed outside this
+      // A race condition results when trying to use these results
       const savedObj = {
         id: saved,
         link: `https://airtable.com/${tableID}/${viewID}/${saved}`
-      }
+      };
       console.log('Saved new event:', savedObj);
+      // Share event output in designated Slack channel
+      publishSlackEvent(app, token, data, savedObj);
       return savedObj;
     });
   },
