@@ -41,10 +41,10 @@ store.initSettings();
 // @TODO: get upcoming events and schedule followups
 
 /*------------------
-   SLASH COMMANDS
+     TRIGGERS
 ------------------*/
-require('./commands/command-new')(app, at, errHandler);
-require('./commands/command-report')(app, at, errHandler);
+require('./triggers/trigger-new')(app, errHandler);
+require('./triggers/trigger-report')(app, errHandler);
 
 /*------------------
   VIEW SUBMISSIONS

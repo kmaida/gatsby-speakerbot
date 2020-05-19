@@ -1,14 +1,13 @@
 const blocksEventReport = require('../bot-response/blocks-event-report');
 
 /*------------------
-  /speaking-report
+ Event Report
+ Command & Shortcut
 ------------------*/
 
-const cmdSpeakingReport = (app, at, errHandler) => {
-  app.command('/speaking-report', async ({ ack, body, context }) => {
-    // Acknowledge command request
+const triggerSpeakingReport = (app, errHandler) => {
+  const openModal = async ({ ack, body, context }) => {
     await ack();
-
     try {
       const result = await app.client.views.open({
         token: context.botToken,
@@ -31,7 +30,12 @@ const cmdSpeakingReport = (app, at, errHandler) => {
     catch (err) {
       errHandler(app, body, err);
     }
-  });
+  };
+
+  // Command /speaking-report
+  app.command('/speaking-report', openModal);
+  // Global shortcut Submit event report
+  app.shortcut('event_report', openModal);
 };
 
-module.exports = cmdSpeakingReport;
+module.exports = triggerSpeakingReport;

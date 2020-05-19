@@ -1,14 +1,13 @@
-const blocksListEvent = require('./../bot-response/blocks-list-event');
+const blocksListEvent = require('../bot-response/blocks-list-event');
 
 /*------------------
-   /speaking-new
+ List Event
+ Command & Shortcut
 ------------------*/
 
-const cmdSpeakingNew = (app, at, errHandler) => {
-  app.command('/speaking-new', async ({ ack, body, context }) => {
-    // Acknowledge command request
+const triggerSpeakingNew = (app, errHandler) => {
+  const openModal = async ({ ack, body, context }) => {
     await ack();
-
     try {
       const result = await app.client.views.open({
         token: context.botToken,
@@ -31,7 +30,11 @@ const cmdSpeakingNew = (app, at, errHandler) => {
     catch (err) {
       errHandler(app, body, err);
     }
-  });
+  };
+  // Command /speaking-new
+  app.command('/speaking-new', openModal);
+  // Global shortcut List a speaking event
+  app.shortcut('list_event', openModal);
 };
 
-module.exports = cmdSpeakingNew;
+module.exports = triggerSpeakingNew;
