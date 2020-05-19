@@ -4,7 +4,6 @@ const store = require('./../data/db');
 PUBLISH SLACK REPORT
 ------------------*/
 
-// @TODO: add airtable link
 const publishSlackReport = async (app, token, data, savedObj) => {
   // Post event to designated channel
   const settings = await store.getSettings();

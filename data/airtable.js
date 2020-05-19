@@ -4,12 +4,14 @@ const tableID = 'tblQWzFVnnzzHiOaM';
 const viewID = 'viwFea37sBQKZ6nJN';
 const publishSlackEvent = require('./../bot-response/publish-slack-event');
 const publishSlackReport = require('./../bot-response/publish-slack-report');
+const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
+const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
 
 /*------------------
       AIRTABLE
 ------------------*/
 
-const dbAt = {
+module.exports = {
   linkBase: `https://airtable.com/${tableID}/${viewID}`,
   /*----
     Get record by ID
@@ -26,7 +28,7 @@ const dbAt = {
   /*----
     Add a new event to Airtable
   ----*/
-  async listNewEvent(app, token, data) {
+  async listNewEvent(app, bc, data, body, errHandler) {
     base(table).create([
       {
         "fields": {
@@ -53,7 +55,9 @@ const dbAt = {
       };
       console.log('Saved new event:', savedObj);
       // Share event output in designated Slack channel
-      publishSlackEvent(app, token, data, savedObj);
+      publishSlackEvent(app, bc.botToken, data, savedObj);
+      // DM user who submitted event
+      dmConfirmNew(app, bc, data, body, errHandler);
       return savedObj;
     });
   },
@@ -62,7 +66,7 @@ const dbAt = {
     Check if event exists already, if so, update
     If event does not exist, create new record
   ----*/
-  async submitEventReport(app, token, data) {
+  async submitEventReport(app, bc, data, body, errHandler) {
     // Check to see if report exists
     const results = await base(table).select({
       filterByFormula: `AND({Name} = "${data.event_name}", {Event Type} = "${data.event_type}", {Submitter Slack ID} = "${data.submitterID}")`,
@@ -98,7 +102,9 @@ const dbAt = {
           link: `${this.linkBase}/${updated}`
         };
         // Share event output in designated Slack channel
-        publishSlackReport(app, token, data, updatedObj);
+        publishSlackReport(app, bc.botToken, data, updatedObj);
+        // DM user who submitted event
+        dmConfirmReport(app, bc, data, body, errHandler);
         return updatedObj;
       });
     }
@@ -133,11 +139,11 @@ const dbAt = {
           link: `${this.linkBase}/${newReport}`
         };
         // Share event output in designated Slack channel
-        publishSlackReport(app, token, data, newObj);
+        publishSlackReport(app, bc.botToken, data, newObj);
+        // DM user who submitted report
+        dmConfirmReport(app, bc, data, body, errHandler);
         return newObj;
       });
     }
   }
 };
-
-module.exports = dbAt;

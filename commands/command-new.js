@@ -5,13 +5,11 @@ const blocksListEvent = require('./../bot-response/blocks-list-event');
 ------------------*/
 
 const cmdSpeakingNew = (app, at, errHandler) => {
-  app.command('/speaking-new', async ({ ack, body, context, say }) => {
+  app.command('/speaking-new', async ({ ack, body, context }) => {
     // Acknowledge command request
     await ack();
 
     try {
-      // await say(`Open new speaking event`);
-      console.log(body, context);
       const result = await app.client.views.open({
         token: context.botToken,
         trigger_id: body.trigger_id,

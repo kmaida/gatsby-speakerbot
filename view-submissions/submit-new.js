@@ -47,21 +47,10 @@ const submitNew = (app, at, utils, errHandler) => {
 
     // Save data to Airtable and output results in Slack channel
     try {
-      at.listNewEvent(app, bc.botToken, data);
+      at.listNewEvent(app, bc, data, body, errHandler);
     }
     catch (err) {
       errHandler(app, bc.botID, data, err);
-    }
-    // Confirm form submission by sending DM to user
-    try {
-      const confirmDM = await app.client.chat.postMessage({
-        token: bc.botToken,
-        channel: bc.userID,
-        text: `Thank you for telling me about your event! Details for *${data.event_name}* have been saved. Someone on the DevRel team will follow up soon to provide you with any support you might need (rehearsal, resources, professional speaker coaching, help getting swag or equipment, etc.).`
-      });
-    }
-    catch (err) {
-      errHandler(app, bc.botID, body, err);
     }
   });
 };
