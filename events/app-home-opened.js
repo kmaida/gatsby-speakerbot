@@ -32,12 +32,14 @@ const appHomeOpened = (app) => {
     }
   });
 
-  // Channel selected
+  // Reporting channel selected
   app.action('a_select_channel', async ({ action, ack }) => {
     await ack();
+    // Set the new channel
     const newChannel = action.selected_channel;
     store.setChannel(newChannel);
     homeParams.channel = newChannel;
+    // Update the reporting channel in the home view for current user
     try {
       const updateHomeView = await app.client.views.update({
         token: homeParams.botToken,
@@ -57,8 +59,10 @@ const appHomeOpened = (app) => {
   // Admin users selected
   app.action('a_select_admins', async ({ action, ack }) => {
     await ack();
-    console.log(action);
-    store.setAdmins(action.selected_users);
+    // Set the new admins
+    const newAdmins = action.selected_users;
+    store.setAdmins(newAdmins);
+    homeParams.admins = newAdmins;
   });
 }
 
