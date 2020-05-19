@@ -1,26 +1,31 @@
 const store = require('../data/settings-db');
-const homeBlocks = require('./../bot-response/blocks-home');
+const homeBlocks = require('../bot-response/blocks-home/blocks-home');
 
 /*------------------
   APP HOME OPENED
 ------------------*/
 
-const appHomeOpened = (app, at) => {
+const appHomeOpened = (app) => {
+  const homeParams = {};
+  
   app.event('app_home_opened', async ({ event, context }) => {
-    const userID = event.user;
-    const botID = context.botUserId;
+    homeParams.userID = event.user;
+    homeParams.botID = context.botUserId;
+    homeParams.botToken = context.botToken;
     const settings = await store.getSettings();
-    const channel = settings.channel;
+    homeParams.channel = settings.channel;
+    homeParams.admins = settings.admins;
 
     try {
       const showHomeView = await app.client.views.publish({
-        token: context.botToken,
-        user_id: userID,
+        token: homeParams.botToken,
+        user_id: homeParams.userID,
         view: {
           "type": "home",
-          "blocks": homeBlocks(userID, botID, channel)
+          "blocks": homeBlocks(homeParams)
         }
       });
+      homeParams.viewID = showHomeView.view.id;
     }
     catch (err) {
       console.error(err);
@@ -30,7 +35,30 @@ const appHomeOpened = (app, at) => {
   // Channel selected
   app.action('a_select_channel', async ({ action, ack }) => {
     await ack();
-    store.setChannel(action.selected_channel);
+    const newChannel = action.selected_channel;
+    store.setChannel(newChannel);
+    homeParams.channel = newChannel;
+    try {
+      const updateHomeView = await app.client.views.update({
+        token: homeParams.botToken,
+        user_id: homeParams.userID,
+        view_id: homeParams.viewID,
+        view: {
+          "type": "home",
+          "blocks": homeBlocks(homeParams)
+        }
+      });
+    }
+    catch (err) {
+      console.error(err);
+    }
+  });
+
+  // Admin users selected
+  app.action('a_select_admins', async ({ action, ack }) => {
+    await ack();
+    console.log(action);
+    store.setAdmins(action.selected_users);
   });
 }
 

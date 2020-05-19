@@ -73,7 +73,7 @@ const settings = {
     @TODO: figure out how to remove admins
     @Params: array of userID strings
   ----*/
-  async addAdmins(admins) {
+  async setAdmins(admins) {
     return Settings.findOne({}, (err, settings) => {
       if (err) return errHandler(err);
       if (!admins || !admins.length) return new Error('No users provided');
