@@ -10,7 +10,8 @@ const submitNew = (app, at, utils, errHandler) => {
     const bc = {
       userID: body.user.id,
       userMention: `<@${body.user.id}>`,
-      botToken: context.botToken
+      botToken: context.botToken,
+      botID: context.botUserId
     };
     const payload = view.state.values;
     // Capture data from modal interactions
@@ -35,7 +36,7 @@ const submitNew = (app, at, utils, errHandler) => {
     if (!utils.dateFuture(data.event_date)) {
       ackParams.errors.event_date = 'This event is in the past. Please use /speaking-report to submit a post-event report instead.';
     }
-    if (!utils.validUrl(data.url)) {
+    if (!utils.validUrl(data.url.toString())) {
       ackParams.errors.url = 'Please provide a valid URL.';
     }
     if (utils.objNotEmpty(ackParams.errors)) {
@@ -44,23 +45,28 @@ const submitNew = (app, at, utils, errHandler) => {
     }
     await ack();
 
-    // @TODO: save data to Airtable
-    console.log(data);
-
+    // Save data to Airtable
     try {
-      // Confirm form submission by sending DM to user
+      const saveResults = await at.listNewEvent(data);
+      // @TODO: any awaiting of saveResults results in a race condition and does not work below!
+      console.log('submit-new', saveResults);
+    }
+    catch (err) {
+      errHandler(app, bc.botID, data, err);
+    }
+    // Confirm form submission by sending DM to user
+    try {
       const confirmDM = await app.client.chat.postMessage({
         token: bc.botToken,
         channel: bc.userID,
         text: `Thank you for telling me about your event! Details for *${data.event_name}* have been saved. Someone on the DevRel team will follow up soon to provide you with any support you might need (rehearsal, resources, professional speaker coaching, help getting swag or equipment, etc.).`
       });
-
-      // Post event details with Airtable link in a Slack channel for DevRel team
-      publishSlackEvent(app, bc.botToken, data);
     }
     catch (err) {
-      errHandler(app, body, err);
+      errHandler(app, bc.botID, body, err);
     }
+    // Share event output in designated Slack channel
+    publishSlackEvent(app, bc.botToken, data, at);
   });
 };
 

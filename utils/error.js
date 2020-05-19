@@ -1,5 +1,11 @@
-module.exports = async (app, command, err) => {
+/*------------------
+   ERROR HANDLER
+------------------*/
+
+module.exports = async (app, botID, data, err) => {
   console.error(err);
+  console.error('Error with:', data);
+  // @TODO: if not in channel, DM the user to tell them to add speakerbot to the channel
   // if (err.data.error === 'not_in_channel') {
   //   const joinChannel = await app.client.conversations.join({
   //     token: command.token,

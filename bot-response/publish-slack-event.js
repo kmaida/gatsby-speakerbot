@@ -5,7 +5,7 @@ PUBLISH SLACK EVENT
 ------------------*/
 
 // @TODO: add airtable link
-const publishSlackEvent = async (app, token, data) => {
+const publishSlackEvent = async (app, token, data, at) => {
   // Post event to designated channel
   const settings = await store.getSettings();
   const channel = settings.channel;
@@ -27,6 +27,15 @@ const publishSlackEvent = async (app, token, data) => {
             "type": "mrkdwn",
             "text": `*From:* <@${data.submitterID}>\n*Event Name:* ${data.event_name}\n*Event URL:* <${data.url}>\n*Event Location:* ${data.location}\n*Event Date:* ${data.event_date}\n*Type of Event:* ${data.event_type}\n*Speaker(s):* ${data.speakers}\n*Talk Topic:* ${data.topic}\n*Notes:* ${data.notes}`
           }
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": `:link: <${at.link}|Go to Speakers Airtable>`
+            }
+          ]
         }
       ]
     });

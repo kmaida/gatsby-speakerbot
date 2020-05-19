@@ -1,11 +1,14 @@
 const base = require('airtable').base(process.env.AIRTABLE_BASE_ID);
 const table = 'Gatsby Speakers 2020';
+const tableID = 'tblQWzFVnnzzHiOaM';
+const viewID = 'viwFea37sBQKZ6nJN';
 
 /*------------------
       AIRTABLE
 ------------------*/
 
 const dbAt = {
+  link: `https://airtable.com/${tableID}/${viewID}`,
   /*----
     Get record by ID
   ----*/
@@ -15,13 +18,13 @@ const dbAt = {
         console.error(err);
         return new Error(err);
       }
-      return { id: record.id, fields: record.fields };
+      return record.getId();
     });
   },
   /*----
     Add a new event to Airtable
   ----*/
-  listNewEvent(data) {
+  async listNewEvent(data) {
     base(table).create([
       {
         "fields": {
@@ -41,9 +44,13 @@ const dbAt = {
         console.error(err);
         return new Error(err);
       }
-      const saved = records[0];
-      console.log('Saved new event:', saved.getId(), saved.fields);
-      return saved.getId();
+      const saved = records[0].getId();
+      const savedObj = {
+        id: saved,
+        link: `https://airtable.com/${tableID}/${viewID}/${saved}`
+      }
+      console.log('Saved new event:', savedObj);
+      return savedObj;
     });
   },
   /*----
@@ -109,9 +116,9 @@ const dbAt = {
           console.error(err);
           return new Error(err);
         }
-        const saved = records[0];
-        console.log('Saved new event with post-event report:', saved.getId(), saved.fields);
-        return saved.getId();
+        const newReport = records[0];
+        console.log('Saved new event with post-event report:', newReport.getId());
+        return newReport.getId();
       });
     }
   }

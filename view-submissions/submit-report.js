@@ -49,23 +49,28 @@ const submitReport = (app, at, utils, errHandler) => {
     await ack();
 
     // Save data to Airtable
-    const savedReportID = at.submitEventReport(data);
-    // @TODO: get link to this report
-
     try {
-      // Confirm form submission by sending DM to user
+      const saveResults = at.submitEventReport(data);
+      // @TODO: any awaiting of saveResults results in a race condition and does not work!
+    }
+    catch (err) {
+      errHandler(app, bc.botID, data, err);
+    }
+
+    // Confirm form submission by sending DM to user
+    try {
       const confirmDM = await app.client.chat.postMessage({
         token: bc.botToken,
         channel: bc.userID,
         text: `Thank you for sharing your post-event report! Your *${data.event_name}* report has been saved. Someone on the DevRel team may follow up if we should get more deeply involved in this event, avoid it in the future, create resources or product feedback, etc.`
       });
-
-      // Post event report with Airtable link in a Slack channel for DevRel team
-      publishSlackReport(app, bc.botToken, data);
     }
     catch (err) {
       errHandler(app, body, err);
     }
+
+    // Post event report with Airtable link in a Slack channel for DevRel team
+    publishSlackReport(app, bc.botToken, data);
   });
 };
 
