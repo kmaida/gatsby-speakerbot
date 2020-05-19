@@ -2,7 +2,7 @@
    ERROR HANDLER
 ------------------*/
 
-module.exports = async (app, botID, data, err) => {
+module.exports = async (app, data, err) => {
   console.error(err);
   console.error('Error with:', data);
   // @TODO: if not in channel, DM the user to tell them to add speakerbot to the channel

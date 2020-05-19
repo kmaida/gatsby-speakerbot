@@ -13,6 +13,7 @@ const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
 
 module.exports = {
   linkBase: `https://airtable.com/${tableID}/${viewID}`,
+
   /*----
     Get record by ID
   ----*/
@@ -25,6 +26,7 @@ module.exports = {
       return record.getId();
     });
   },
+
   /*----
     Add a new event to Airtable
   ----*/
@@ -61,6 +63,7 @@ module.exports = {
       return savedObj;
     });
   },
+
   /*----
     Add post-event report
     Check if event exists already, if so, update
@@ -144,6 +147,41 @@ module.exports = {
         dmConfirmReport(app, bc, data, body, errHandler);
         return newObj;
       });
+    }
+  },
+
+  /*----
+    Get data on upcoming events to schedule user
+    followups to fill out a post-event report
+    (This should be called on init of the app)
+  ----*/
+  async getUpcomingEvents(app, bc, errHandler) {
+    try {
+      const results = [];
+      const atData = await base(table).select({
+        filterByFormula: `IS_AFTER({Date}, TODAY())`,
+        view: viewID,
+        fields: ["Name", "Date", "Event Type", "Submitter Slack ID"]
+      }).all();
+      atData.forEach((record) => {
+        const eventtime = new Date(record.fields['Date']).getTime();
+        const hourDelay = (1000 * 60 * 60) * 40;  // 2 days later at 11/12 Eastern, depending on DST
+        const followupAt = eventtime + hourDelay;
+        const recordObj = {
+          id: record.getId(),
+          name: record.fields['Name'],
+          datetime: new Date(record.fields['Date']).getTime(),
+          schedule_followup: followupAt,
+          event_type: record.fields['Event Type'],
+          submitterID: record.fields['Submitter Slack ID']
+        };
+        results.push(recordObj);
+      });
+      console.log('The following events are coming up in the future:', results);
+      return results;
+    }
+    catch (err) {
+      console.error(err);
     }
   }
 };

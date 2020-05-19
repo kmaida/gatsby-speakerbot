@@ -35,9 +35,10 @@ mon.once('open', function () {
 });
 
 /*------------------
-     ON INIT
+    ON APP INIT
 ------------------*/
 store.initChannel();
+// @TODO: get upcoming events and schedule followups
 
 /*------------------
    SLASH COMMANDS
