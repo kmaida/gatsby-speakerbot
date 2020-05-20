@@ -7,6 +7,7 @@ const publishSlackEvent = require('./../bot-response/publish/publish-slack-event
 const publishSlackReport = require('./../bot-response/publish/publish-slack-report');
 const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
 const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
+const schedule = require('./../outreach/schedule-followup');
 
 /*------------------
       AIRTABLE
@@ -154,7 +155,7 @@ module.exports = {
     followups to fill out a post-event report
     (This should be called on init of the app)
   ----*/
-  async getUpcomingEvents(app, bc, errHandler) {
+  async getUpcomingEvents(app) {
     try {
       const results = [];
       const atData = await base(table).select({
@@ -170,13 +171,25 @@ module.exports = {
           id: record.getId(),
           name: record.fields['Name'],
           datetime: new Date(record.fields['Date']).getTime(),
-          schedule_followup: followupAt,
+          followup_at: followupAt,
           event_type: record.fields['Event Type'],
           submitterID: record.fields['Submitter Slack ID']
         };
         results.push(recordObj);
       });
-      console.log('The following events are coming up in the future:', results);
+
+      // ----- TEST
+      // const testArrDeleteMe = [{
+      //   id: 'rectp9Y6d6QEmDABS',
+      //   name: 'TEST FOLLOWUP',
+      //   datetime: new Date('2020-05-19').getTime(),
+      //   followup_at: this.datetime + ((1000 * 60 * 60) * 40),
+      //   event_type: 'Conference',
+      //   submitterID: 'U01238R77J6'
+      // }];
+      // testArrDeleteMe.forEach(recordObj => schedule.followup(app, recordObj));
+      // ----- END TEST
+      results.forEach(recordObj => schedule.followup(app, recordObj));
       return results;
     }
     catch (err) {

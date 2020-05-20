@@ -52,6 +52,11 @@ require('./view-submissions/submit-new')(app, at, utils, errHandler);
 require('./view-submissions/submit-report')(app, at, utils, errHandler);
 
 /*------------------
+ SCHEDULE FOLLOWUPS
+------------------*/
+at.getUpcomingEvents(app);
+
+/*------------------
   APP HOME OPENED
 ------------------*/
 require('./events/app-home-opened')(app);
