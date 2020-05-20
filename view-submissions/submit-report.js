@@ -1,4 +1,4 @@
-const publishSlackReport = require('./../bot-response/publish-slack-report');
+const publishSlackReport = require('./../bot-response/publish/publish-slack-report');
 
 /*------------------
    SUBMIT REPORT
@@ -13,7 +13,6 @@ const submitReport = (app, at, utils, errHandler) => {
       botToken: context.botToken
     };
     const payload = view.state.values;
-    console.log(payload);
     const data = {
       submitterID: bc.userID,
       event_name: payload.event_name.r_event_name.value,

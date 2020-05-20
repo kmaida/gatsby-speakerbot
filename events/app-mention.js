@@ -12,7 +12,7 @@ const appMention = (app, utils, errHandler) => {
       botToken: context.botToken,                 // bot access token
       botUserID: context.botUserID                // bot user ID for mentions
     }
-    console.log(event, context);
+    console.log('app_mention', event, context);
 
     try {
       if (utils.isMentionCmd('help', ec.text)) {

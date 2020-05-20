@@ -1,15 +1,15 @@
-const store = require('../data/settings-db');
+const store = require('./../../data/settings-db');
 
 /*------------------
-PUBLISH SLACK REPORT
+PUBLISH SLACK EVENT
 ------------------*/
 
-const publishSlackReport = async (app, token, data, savedObj) => {
+const publishSlackEvent = async (app, token, data, savedObj) => {
   // Post event to designated channel
   const settings = await store.getSettings();
   const channel = settings.channel;
   try {
-    const publishSlackReport = await app.client.chat.postMessage({
+    const publishSlackEvent = await app.client.chat.postMessage({
       token: token,
       channel: channel,
       blocks: [
@@ -17,14 +17,14 @@ const publishSlackReport = async (app, token, data, savedObj) => {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": `:microphone: *Post-Event Report Added* :newspaper:`
+            "text": `:microphone: *New Event Added* :sparkles:`
           }
         },
         {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": `*From:* <@${data.submitterID}>\n*Event Name:* ${data.event_name}\n*Event URL:* <${data.url}>\n*Event Date:* ${data.event_date}\n*Speaker(s):* ${data.speakers}\n*Type of Event:* ${data.event_type}\n*Talk Topic:* ${data.topic}\n*Estimated Reach:* ${data.reach}\n*Content Links:* ${data.content_links}\n*Event Rating:* ${data.rating}/4\n*Report:* ${data.report}`
+            "text": `*From:* <@${data.submitterID}>\n*Event Name:* ${data.event_name}\n*Event URL:* <${data.url}>\n*Event Location:* ${data.location}\n*Event Date:* ${data.event_date}\n*Type of Event:* ${data.event_type}\n*Speaker(s):* ${data.speakers}\n*Talk Topic:* ${data.topic}\n*Notes:* ${data.notes}`
           }
         },
         {
@@ -44,4 +44,4 @@ const publishSlackReport = async (app, token, data, savedObj) => {
   }
 }
 
-module.exports = publishSlackReport;
+module.exports = publishSlackEvent;

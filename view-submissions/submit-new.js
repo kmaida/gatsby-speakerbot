@@ -1,4 +1,4 @@
-const publishSlackEvent = require('./../bot-response/publish-slack-event');
+const publishSlackEvent = require('../bot-response/publish/publish-slack-event');
 
 /*------------------
  SUBMIT LIST EVENT

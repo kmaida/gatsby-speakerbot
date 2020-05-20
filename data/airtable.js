@@ -2,8 +2,9 @@ const base = require('airtable').base(process.env.AIRTABLE_BASE_ID);
 const table = 'Gatsby Speakers 2020';
 const tableID = 'tblQWzFVnnzzHiOaM';
 const viewID = 'viwFea37sBQKZ6nJN';
-const publishSlackEvent = require('./../bot-response/publish-slack-event');
-const publishSlackReport = require('./../bot-response/publish-slack-report');
+const linkBase = `https://airtable.com/${tableID}/${viewID}`;
+const publishSlackEvent = require('./../bot-response/publish/publish-slack-event');
+const publishSlackReport = require('./../bot-response/publish/publish-slack-report');
 const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
 const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
 
@@ -12,8 +13,6 @@ const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
 ------------------*/
 
 module.exports = {
-  linkBase: `https://airtable.com/${tableID}/${viewID}`,
-
   /*----
     Get record by ID
   ----*/
@@ -53,7 +52,7 @@ module.exports = {
       const saved = records[0].getId();
       const savedObj = {
         id: saved,
-        link: `${this.linkBase}/${saved}`
+        link: `${linkBase}/${saved}`
       };
       console.log('Saved new event:', savedObj);
       // Share event output in designated Slack channel
@@ -101,8 +100,8 @@ module.exports = {
         const updated = records[0].getId();
         console.log('Updated existing event to add report:', updated);
         const updatedObj = {
-          id: updated.getId(),
-          link: `${this.linkBase}/${updated}`
+          id: updated,
+          link: `${linkBase}/${updated}`
         };
         // Share event output in designated Slack channel
         publishSlackReport(app, bc.botToken, data, updatedObj);

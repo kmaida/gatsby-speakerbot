@@ -6,7 +6,7 @@ const blocksEventReport = require('../bot-response/blocks-event-report');
 ------------------*/
 
 const triggerSpeakingReport = (app, errHandler) => {
-  const openModal = async ({ ack, body, context }) => {
+  const openReportModal = async ({ ack, body, context }) => {
     await ack();
     try {
       const result = await app.client.views.open({
@@ -31,11 +31,10 @@ const triggerSpeakingReport = (app, errHandler) => {
       errHandler(app, body, err);
     }
   };
-
   // Command /speaking-report
-  app.command('/speaking-report', openModal);
+  app.command('/speaking-report', openReportModal);
   // Global shortcut Submit event report
-  app.shortcut('event_report', openModal);
+  app.shortcut('event_report', openReportModal);
 };
 
 module.exports = triggerSpeakingReport;

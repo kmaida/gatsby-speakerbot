@@ -6,7 +6,7 @@ const blocksListEvent = require('../bot-response/blocks-list-event');
 ------------------*/
 
 const triggerSpeakingNew = (app, errHandler) => {
-  const openModal = async ({ ack, body, context }) => {
+  const openNewModal = async ({ ack, body, context }) => {
     await ack();
     try {
       const result = await app.client.views.open({
@@ -32,9 +32,9 @@ const triggerSpeakingNew = (app, errHandler) => {
     }
   };
   // Command /speaking-new
-  app.command('/speaking-new', openModal);
+  app.command('/speaking-new', openNewModal);
   // Global shortcut List a speaking event
-  app.shortcut('list_event', openModal);
+  app.shortcut('list_event', openNewModal);
 };
 
 module.exports = triggerSpeakingNew;

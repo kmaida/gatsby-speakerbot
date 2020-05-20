@@ -5,7 +5,6 @@ const at = require('./data/airtable');
 // Utils
 const errHandler = require('./utils/error');
 const utils = require('./utils/utils');
-const msgText = require('./bot-response/message-text');
 // MongoDB
 const mongoose = require('mongoose');
 const store = require('./data/settings-db');
