@@ -50,9 +50,9 @@ module.exports = {
         console.error(err);
         return new Error(err);
       }
-      const saved = records[0].getId();
+      const saved = records[0];
       const savedObj = {
-        id: saved,
+        id: saved.getId(),
         link: `${linkBase}/${saved}`
       };
       console.log('Saved new event:', savedObj);
@@ -60,6 +60,8 @@ module.exports = {
       publishSlackEvent(app, bc.botToken, data, savedObj);
       // DM user who submitted event
       dmConfirmNew(app, bc, data, body, errHandler);
+      // Set up followup
+      this.setupFollowup(app, saved);
       return savedObj;
     });
   },
@@ -164,36 +166,44 @@ module.exports = {
         fields: ["Name", "Date", "Event Type", "Submitter Slack ID"]
       }).all();
       atData.forEach((record) => {
-        const eventtime = new Date(record.fields['Date']).getTime();
-        const hourDelay = (1000 * 60 * 60) * 40;  // 2 days later at 11/12 Eastern, depending on DST
-        const followupAt = eventtime + hourDelay;
-        const recordObj = {
-          id: record.getId(),
-          name: record.fields['Name'],
-          datetime: new Date(record.fields['Date']).getTime(),
-          followup_at: followupAt,
-          event_type: record.fields['Event Type'],
-          submitterID: record.fields['Submitter Slack ID']
-        };
-        results.push(recordObj);
+        const resObj = this.setupFollowup(app, record);
+        results.push(resObj);
       });
-
-      // ----- TEST
-      // const testArrDeleteMe = [{
-      //   id: 'rectp9Y6d6QEmDABS',
-      //   name: 'TEST FOLLOWUP',
-      //   datetime: new Date('2020-05-19').getTime(),
-      //   followup_at: this.datetime + ((1000 * 60 * 60) * 40),
-      //   event_type: 'Conference',
-      //   submitterID: 'U01238R77J6'
-      // }];
-      // testArrDeleteMe.forEach(recordObj => schedule.followup(app, recordObj));
-      // ----- END TEST
-      results.forEach(recordObj => schedule.followup(app, recordObj));
       return results;
     }
     catch (err) {
       console.error(err);
     }
+  },
+
+  /*----
+    Set up followup by forming a followup object
+    Passing object to schedule.followup() service
+  ----*/
+  setupFollowup(app, record) {
+    // Build followup object with necessary data to schedule followup
+    const eventtime = new Date(record.fields['Date']).getTime();
+    const hourDelay = (1000 * 60 * 60) * 40;  // 2 days later at 11/12 Eastern, depending on DST
+    const followupAt = eventtime + hourDelay;
+    const recordObj = {
+      id: record.getId(),
+      name: record.fields['Name'],
+      datetime: new Date(record.fields['Date']).getTime(),
+      followup_at: followupAt,
+      event_type: record.fields['Event Type'],
+      submitterID: record.fields['Submitter Slack ID']
+    };
+    // Schedule the followup
+    schedule.followup(app, recordObj);
+    return recordObj;
   }
 };
+
+// const record = {
+//   id: 'rectp9Y6d6QEmDABS',
+//   name: 'TEST FOLLOWUP',
+//   datetime: new Date('2020-05-19').getTime(),
+//   followup_at: this.datetime + ((1000 * 60 * 60) * 40),
+//   event_type: 'Conference',
+//   submitterID: 'U01238R77J6'
+// };

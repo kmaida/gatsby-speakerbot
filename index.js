@@ -54,7 +54,8 @@ require('./view-submissions/submit-report')(app, at, utils, errHandler);
 /*------------------
  SCHEDULE FOLLOWUPS
 ------------------*/
-at.getUpcomingEvents(app);
+// Uncomment after test database is set up
+// at.getUpcomingEvents(app);
 
 /*------------------
   APP HOME OPENED
