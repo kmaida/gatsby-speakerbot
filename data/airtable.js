@@ -2,7 +2,6 @@ const base = require('airtable').base(process.env.AIRTABLE_BASE_ID);
 const table = process.env.AIRTABLE_TABLE;
 const tableID = process.env.AIRTABLE_TABLE_ID;
 const viewID = process.env.AIRTABLE_VIEW_ID;
-const linkBase = `https://airtable.com/${tableID}/${viewID}`;
 const publishSlackEvent = require('./../bot-response/publish/publish-slack-event');
 const publishSlackReport = require('./../bot-response/publish/publish-slack-report');
 const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
@@ -54,7 +53,7 @@ module.exports = {
       const saved = records[0];
       const savedObj = {
         id: saved.getId(),
-        link: `${linkBase}/${saved.getId()}`
+        link: `https://airtable.com/${tableID}/${viewID}/${saved.getId()}`
       };
       console.log('Saved new event:', savedObj);
       // Share event output in designated Slack channel
@@ -105,8 +104,9 @@ module.exports = {
         console.log('Updated existing event to add report:', updated);
         const updatedObj = {
           id: updated,
-          link: `${linkBase}/${updated}`
+          link: `https://airtable.com/${tableID}/${viewID}/${updated}`
         };
+        console.log('airtable:', updatedObj);
         // Share event output in designated Slack channel
         publishSlackReport(app, bc.botToken, data, updatedObj);
         // DM user who submitted event
@@ -142,7 +142,7 @@ module.exports = {
         console.log('Saved new event with post-event report:', newReport);
         const newObj = {
           id: newReport,
-          link: `${this.linkBase}/${newReport}`
+          link: `https://airtable.com/${tableID}/${viewID}/${newReport}`
         };
         // Share event output in designated Slack channel
         publishSlackReport(app, bc.botToken, data, newObj);

@@ -62,12 +62,12 @@ const appHomeOpened = async (app, at) => {
   });
 
   // Update home view when an event report was submitted
-  app.view('event_report', async () => {
-    // Don't need ack() here because it's already called elsewhere
-    // @TODO: this is not working
-    console.log('TODO: trigger home view update');
-    triggerHomeViewUpdate();
-  });
+  // app.view('event_report', async () => {
+  //   // Don't need ack() here because it's already called elsewhere
+  //   // @TODO: this is not working
+  //   console.log('TODO: trigger home view update');
+  //   triggerHomeViewUpdate();
+  // });
 
   // Admin users selected
   app.action('a_select_admins', async ({ action, ack }) => {
