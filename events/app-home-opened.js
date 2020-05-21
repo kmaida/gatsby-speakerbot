@@ -5,7 +5,7 @@ const homeBlocks = require('../bot-response/blocks-home/blocks-home');
   APP HOME OPENED
 ------------------*/
 
-const appHomeOpened = (app) => {
+const appHomeOpened = async (app, at) => {
   const homeParams = {};
   
   app.event('app_home_opened', async ({ event, context }) => {
@@ -22,7 +22,7 @@ const appHomeOpened = (app) => {
         user_id: homeParams.userID,
         view: {
           "type": "home",
-          "blocks": homeBlocks(homeParams)
+          "blocks": await homeBlocks(homeParams, at)
         }
       });
       homeParams.viewID = showHomeView.view.id;
@@ -47,7 +47,7 @@ const appHomeOpened = (app) => {
         view_id: homeParams.viewID,
         view: {
           "type": "home",
-          "blocks": homeBlocks(homeParams)
+          "blocks": await homeBlocks(homeParams, at)
         }
       });
     }
