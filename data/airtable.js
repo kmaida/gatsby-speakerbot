@@ -163,12 +163,13 @@ module.exports = {
       const atData = await base(table).select({
         filterByFormula: `IS_AFTER({Date}, TODAY())`,
         view: viewID,
-        fields: ["Name", "Date", "Event Type", "Submitter Slack ID"]
+        fields: ["Name", "Date", "Event Type", "Topic", "Event URL", "Who's speaking?", "Submitter Slack ID"]
       }).all();
       atData.forEach((record) => {
         const resObj = this.setupFollowup(app, record);
         results.push(resObj);
       });
+      console.log(results);
       return results;
     }
     catch (err) {
@@ -183,27 +184,70 @@ module.exports = {
   setupFollowup(app, record) {
     // Build followup object with necessary data to schedule followup
     const eventtime = new Date(record.fields['Date']).getTime();
-    const hourDelay = (1000 * 60 * 60) * 40;  // 2 days later at 11/12 Eastern, depending on DST
+    const hourDelay = (1000 * 60 * 60) * 40;  // Next day at 11/12 Eastern, depending on DST
     const followupAt = eventtime + hourDelay;
     const recordObj = {
       id: record.getId(),
-      name: record.fields['Name'],
+      event_name: record.fields['Name'],
+      event_date: record.fields['Date'],
       datetime: new Date(record.fields['Date']).getTime(),
       followup_at: followupAt,
       event_type: record.fields['Event Type'],
+      topic: record.fields['Topic'],
+      speakers: record.fields["Who's speaking?"],
+      url: record.fields['Event URL'],
       submitterID: record.fields['Submitter Slack ID']
     };
     // Schedule the followup
     schedule.followup(app, recordObj);
     return recordObj;
+  },
+
+  /*----
+    Get data on recently past events for a
+    specific user that don't have a report yet
+    (Display in a user's app home)
+  ----*/
+  async getPastEventsNeedReport(userID) {
+    try {
+      const results = [];
+      const atData = await base(table).select({
+        filterByFormula: `AND({Event Rating} = BLANK(), {Submitter Slack ID} = ${userID}, IS_BEFORE({Date}, TODAY()))`,
+        view: viewID,
+        fields: ["Name", "Date", "Event Type", "Topic", "Event URL", "Who's speaking?"]
+      }).all();
+      atData.forEach((record) => {
+        const resObj = this.setupNeedsReportByUser(record);
+        results.push(resObj);
+      });
+      console.log(`${userID}'s past events that need a report: ${results}`);
+      return results;
+    }
+    catch (err) {
+      console.error(err);
+    }
+  },
+
+  /*----
+    Return a record object for a specific user
+    for events in the past that don't yet have
+    a report submitted
+    (This object should be used to populate
+    initial fields in event report form from
+    user's app home)
+  ----*/
+  setupNeedsReportByUser(record) {
+    const recordObj = {
+      id: record.getId(),
+      event_name: record.fields['Name'],
+      event_date: record.fields['Date'],
+      event_type: record.fields['Event Type'],
+      topic: record.fields['Topic'],
+      speakers: record.fields["Who's speaking?"],
+      url: record.fields['Event URL'],
+      submitterID: record.fields['Submitter Slack ID']
+    };
+    // Return known record data to prefill event report form with
+    return recordObj;
   }
 };
-
-// const record = {
-//   id: 'rectp9Y6d6QEmDABS',
-//   name: 'TEST FOLLOWUP',
-//   datetime: new Date('2020-05-19').getTime(),
-//   followup_at: this.datetime + ((1000 * 60 * 60) * 40),
-//   event_type: 'Conference',
-//   submitterID: 'U01238R77J6'
-// };
