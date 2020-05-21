@@ -2,7 +2,7 @@
   FORM: EVENT TYPE
 ------------------*/
 
-module.exports = (aid) => {
+module.exports = (aid, initial) => {
   return {
     "type": "input",
     "block_id": "event_type",
@@ -13,6 +13,7 @@ module.exports = (aid) => {
         "type": "plain_text",
         "text": "Choose event type"
       },
+      "initial_option": initial,
       "options": [
         {
           "text": {

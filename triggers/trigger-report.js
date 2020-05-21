@@ -5,7 +5,7 @@ const blocksEventReport = require('../bot-response/blocks-event-report');
  Command & Shortcut
 ------------------*/
 
-const triggerSpeakingReport = (app, errHandler) => {
+const triggerSpeakingReport = (app, errHandler, prefill = {}) => {
   const openReportModal = async ({ ack, body, context }) => {
     await ack();
     try {
@@ -19,7 +19,7 @@ const triggerSpeakingReport = (app, errHandler) => {
             type: 'plain_text',
             text: 'Post Event Report'
           },
-          blocks: blocksEventReport,
+          blocks: blocksEventReport(prefill),
           submit: {
             type: 'plain_text',
             text: 'Submit Report'

@@ -13,17 +13,19 @@ const report = require('./form-components/report');
 BLOCKS: EVENT REPORT
 ------------------*/
 
-const blocksReport = [
-  eventName('r_event_name'),
-  eventDate('r_event_date', 'When did the event take place?'),
-  eventUrl('r_url'),
-  eventType('r_event_type'),
-  speakers('r_speakers', 'Who spoke at this event?'),
-  topic('r_topic', 'What did you speak about?'),
-  reach('r_reach'),
-  contentLinks('r_content_links'),
-  eventRating('r_rating'),
-  report('r_report')
-];
+const blocksReport = (prefill = {}) => {
+  return [
+    eventName('r_event_name', prefill.event_name),
+    eventDate('r_event_date', 'When did the event take place?', prefill.event_date),
+    eventUrl('r_url', prefill.url),
+    eventType('r_event_type', prefill.event_type),
+    speakers('r_speakers', 'Who spoke at this event?', prefill.speakers),
+    topic('r_topic', 'What did you speak about?', prefill.topic),
+    reach('r_reach'),
+    contentLinks('r_content_links'),
+    eventRating('r_rating'),
+    report('r_report')
+  ];
+}
 
 module.exports = blocksReport;

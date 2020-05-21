@@ -2,7 +2,7 @@
   FORM: EVENT URL
 ------------------*/
 
-module.exports = (aid) => {
+module.exports = (aid, initial) => {
   return {
     "type": "input",
     "block_id": "url",
@@ -12,7 +12,8 @@ module.exports = (aid) => {
       "placeholder": {
         "type": "plain_text",
         "text": "https://..."
-      }
+      },
+      "initial_value": initial
     },
     "label": {
       "type": "plain_text",

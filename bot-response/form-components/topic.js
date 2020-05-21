@@ -2,7 +2,7 @@
     FORM: TOPIC
 ------------------*/
 
-module.exports = (aid, placeholder) => {
+module.exports = (aid, placeholder, initial) => {
   return  {
     "type": "input",
     "block_id": "topic",
@@ -12,7 +12,8 @@ module.exports = (aid, placeholder) => {
       "placeholder": {
         "type": "plain_text",
         "text": placeholder
-      }
+      },
+      "initial_value": initial
     },
     "label": {
       "type": "plain_text",

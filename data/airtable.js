@@ -169,7 +169,6 @@ module.exports = {
         const resObj = this.setupFollowup(app, record);
         results.push(resObj);
       });
-      console.log(results);
       return results;
     }
     catch (err) {
