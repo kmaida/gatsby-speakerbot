@@ -156,13 +156,14 @@ module.exports = {
   /*----
     Get data on upcoming events to schedule user
     followups to fill out a post-event report
+    Do this for events happening today or after today
     (This should be called on init of the app)
   ----*/
   async getUpcomingEvents(app) {
     try {
       const results = [];
       const atData = await base(table).select({
-        filterByFormula: `IS_AFTER({Date}, TODAY())`,
+        filterByFormula: `OR(IS_AFTER({Date}, TODAY()), {Date} = TODAY())`,
         view: viewID,
         fields: ["Name", "Date", "Event Type", "Topic", "Event URL", "Who's speaking?", "Submitter Slack ID"]
       }).all();

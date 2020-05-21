@@ -14,8 +14,8 @@ const blocksHome = async (homeParams, at) => {
 
   // Concat arrays and return appropriate configuration
   const allBlocks = introBlocks
-                      .concat(reportBlocks)
                       .concat(adminBlocks)
+                      .concat(reportBlocks)
                       .concat(useBlocks)
                       .concat(helpBlocks)
                       .concat(footerBlocks);

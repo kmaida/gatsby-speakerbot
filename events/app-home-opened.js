@@ -22,12 +22,10 @@ const appHomeOpened = async (app, at) => {
         user_id: homeParams.userID,
         view: {
           "type": "home",
-          "blocks": await homeBlocks(homeParams, at),
-          "external_id": "view_home"
+          "blocks": await homeBlocks(homeParams, at)
         }
       });
-      // homeParams.viewID = showHomeView.view.id;
-      console.log(showHomeView);
+      homeParams.viewID = showHomeView.view.id;
     }
     catch (err) {
       console.error(err);
@@ -40,10 +38,10 @@ const appHomeOpened = async (app, at) => {
       const updateHomeView = await app.client.views.update({
         token: homeParams.botToken,
         user_id: homeParams.userID,
+        view_id: homeParams.viewID,
         view: {
           "type": "home",
-          "blocks": await homeBlocks(homeParams, at),
-          "external_id": "view_home",
+          "blocks": await homeBlocks(homeParams, at)
         }
       });
     }
@@ -62,14 +60,6 @@ const appHomeOpened = async (app, at) => {
     // Update the reporting channel in the home view for current user
     triggerHomeViewUpdate();
   });
-
-  // Update home view when an event report was submitted AND the home view is currently open
-  // app.view('event_report', async () => {
-  //   // Don't need ack() here because it's already called elsewhere
-  //   // @TODO: this is not working
-  //   console.log('TODO: trigger home view update');
-  //   triggerHomeViewUpdate();
-  // });
 
   // Admin users selected
   app.action('a_select_admins', async ({ action, ack }) => {

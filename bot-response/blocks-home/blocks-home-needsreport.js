@@ -18,8 +18,17 @@ const blocksHomeNeedsReport = (recordObjArr) => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": "According to my records, you've completed the following speaking engagements, but have not filled out event reports yet! I can help with that. Just click the button next to any events listed here, and I'll help you fill out your report."
+          "text": "According to my records, you've _completed the following speaking engagements, but have not filled out event reports yet_.\n\nI can help with that. Just click the button next to any event listed here, and I'll help you fill out your report."
         }
+      },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "mrkdwn",
+            "text": `:pencil: I've included everything I know in the reports so far. Please make sure the info in the form is correct, then fill in the remaining fields.`
+          }
+        ]
       }
     ];
     const eventsListBlocks = [];
@@ -40,7 +49,7 @@ const blocksHomeNeedsReport = (recordObjArr) => {
         "elements": [
           {
             "type": "mrkdwn",
-            "text": ":information_desk_person: I've prefilled your reports with everything I know about events. Please make sure it's correct and then fill in the remaining fields."
+            "text": `:arrows_counterclockwise: To refresh this list, leave the Home tab and then come back (I'm sorry I can't do this automatically for you!).`
           }
         ]
       },

@@ -13,19 +13,11 @@ const appMention = (app, utils, errHandler) => {
       botUserID: context.botUserID                // bot user ID for mentions
     }
     try {
-      if (utils.isMentionCmd('help', ec.text)) {
-        const result = await app.client.chat.postMessage({
-          token: ec.botToken,
-          channel: ec.channelID,
-          text: 'You asked me for help!'
-        });
-      } else {
-        const result = await app.client.chat.postMessage({
-          token: ec.botToken,
-          channel: ec.channelID,
-          text: ":disappointed: I'm sorry, I don't understand. Try `@speakerbot help` to see what I can do for you!"
-        });
-      }
+     const result = await app.client.chat.postMessage({
+        token: ec.botToken,
+        channel: ec.channelID,
+        text: `:thinking_face: I'm sorry, I don't understand. Go to my <slack://app?team=${process.env.SLACK_TEAM_ID}&id=${process.env.SLACK_APP_ID}&tab=home|App Home tab> to find out how I work!`
+      });
     }
     catch (err) {
       errHandler(app, null, err);
