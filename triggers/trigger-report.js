@@ -5,9 +5,12 @@ const blocksEventReport = require('../bot-response/blocks-event-report');
  Command & Shortcut
 ------------------*/
 
-const triggerSpeakingReport = (app, errHandler, prefill = {}) => {
+const triggerSpeakingReport = (app, errHandler) => {
   const openReportModal = async ({ ack, body, context }) => {
     await ack();
+    // If prefill info is available, set it
+    const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
+    // Open post event report form
     try {
       const result = await app.client.views.open({
         token: context.botToken,
@@ -35,6 +38,8 @@ const triggerSpeakingReport = (app, errHandler, prefill = {}) => {
   app.command('/speaking-report', openReportModal);
   // Global shortcut Submit event report
   app.shortcut('event_report', openReportModal);
+  // Button click
+  app.action('btn_event_report', openReportModal);
 };
 
 module.exports = triggerSpeakingReport;

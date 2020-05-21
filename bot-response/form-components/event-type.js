@@ -3,6 +3,14 @@
 ------------------*/
 
 module.exports = (aid, initial) => {
+  const initialOption = initial ? {
+    "text": {
+      "type": "plain_text",
+      "text": initial
+    },
+    "value": initial
+  } : undefined;
+
   return {
     "type": "input",
     "block_id": "event_type",
@@ -13,7 +21,7 @@ module.exports = (aid, initial) => {
         "type": "plain_text",
         "text": "Choose event type"
       },
-      "initial_option": initial,
+      "initial_option": initialOption,
       "options": [
         {
           "text": {
