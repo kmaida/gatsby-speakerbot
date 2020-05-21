@@ -1,7 +1,7 @@
 const base = require('airtable').base(process.env.AIRTABLE_BASE_ID);
-const table = 'Gatsby Speakers 2020';
-const tableID = 'tblQWzFVnnzzHiOaM';
-const viewID = 'viwFea37sBQKZ6nJN';
+const table = process.env.AIRTABLE_TABLE;
+const tableID = process.env.AIRTABLE_TABLE_ID;
+const viewID = process.env.AIRTABLE_VIEW_ID;
 const linkBase = `https://airtable.com/${tableID}/${viewID}`;
 const publishSlackEvent = require('./../bot-response/publish/publish-slack-event');
 const publishSlackReport = require('./../bot-response/publish/publish-slack-report');
@@ -53,7 +53,7 @@ module.exports = {
       const saved = records[0];
       const savedObj = {
         id: saved.getId(),
-        link: `${linkBase}/${saved}`
+        link: `${linkBase}/${saved.getId()}`
       };
       console.log('Saved new event:', savedObj);
       // Share event output in designated Slack channel

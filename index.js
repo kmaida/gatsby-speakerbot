@@ -36,8 +36,10 @@ mon.once('open', function () {
 /*------------------
     ON APP INIT
 ------------------*/
+// Get bot configuration settings from MongoDB
 store.initSettings();
-// @TODO: get upcoming events and schedule followups
+// Get upcoming events and schedule followups
+at.getUpcomingEvents(app);
 
 /*------------------
      TRIGGERS
@@ -50,12 +52,6 @@ require('./triggers/trigger-report')(app, errHandler);
 ------------------*/
 require('./view-submissions/submit-new')(app, at, utils, errHandler);
 require('./view-submissions/submit-report')(app, at, utils, errHandler);
-
-/*------------------
- SCHEDULE FOLLOWUPS
-------------------*/
-// Uncomment after test database is set up
-// at.getUpcomingEvents(app);
 
 /*------------------
   APP HOME OPENED
