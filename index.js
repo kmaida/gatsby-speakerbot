@@ -61,7 +61,7 @@ require('./events/app-home-opened')(app, at);
 /*------------------
     APP MENTION
 ------------------*/
-require('./events/app-mention')(app, utils, errHandler);
+require('./events/app-mention')(app, errHandler);
 
 /*------------------
      START APP

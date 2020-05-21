@@ -1,4 +1,5 @@
 const dmFollowup = require('./../bot-response/dm/dm-event-followup');
+const channelFollowup = require('./../bot-response/publish/publish-channel-followup');
 
 /*------------------
  SCHEDULE FOLLOWUP
@@ -9,9 +10,14 @@ const schedule = {
     const now = new Date().getTime();
     const timeout = recordObj.followup_at - now;
     // const timeout = 10000;
-    timeoutCb = () =>  dmFollowup(app, recordObj);
+    timeoutCb = () => {
+      dmFollowup(app, recordObj);
+      channelFollowup(app, recordObj);
+    }
     const followupID = setTimeout(timeoutCb, timeout);
-    console.log(`Scheduled followup for ${recordObj.event_name} in ${timeout / (1000 * 60 * 60) / 24} days: ${new Date(recordObj.followup_at)}`);
+    // Logging
+    const logDays = Math.round(((timeout / (1000 * 60 * 60) / 24) + 0.00001) * 100) / 100;
+    console.log(`Scheduled followup for ${recordObj.event_name} in ${logDays} days: ${new Date(recordObj.followup_at)}`);
   }
 };
 

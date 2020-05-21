@@ -7,7 +7,6 @@ const btnEventReport = require('./../ix-components/btn-event-report');
 
 module.exports = async (app, recordObj) => {
   // Notify user they should fill out the post-event form
-  // @TODO: show a button that lets the user trigger the command
   try {
     const confirmDM = await app.client.chat.postMessage({
       token: process.env.SLACK_BOT_TOKEN,
