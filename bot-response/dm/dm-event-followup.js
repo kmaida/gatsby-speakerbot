@@ -1,4 +1,5 @@
 const errHandler = require('./../../utils/error');
+const btnEventReport = require('./../ix-components/btn-event-report');
 
 /*------------------
  DM EVENT FOLLOWUP
@@ -19,16 +20,7 @@ module.exports = async (app, recordObj) => {
             "text": `:card_file_box: Hello! According to my records, you recently spoke at *${recordObj.event_name} (${recordObj.event_date})*.\n:postbox: Please *complete an Event Report*. This information is incredibly valuable to Gatsby — thank you for your contributions! :tada:`
           },
           "block_id": "dm_followup_report",
-          "accessory": {
-            "type": "button",
-            "text": {
-              "type": "plain_text",
-              "text": "Submit Event Report"
-            },
-            "action_id": "btn_event_report",
-            "style": "primary",
-            "value": JSON.stringify(recordObj)
-          }
+          "accessory": btnEventReport(recordObj)
         },
         {
           "type": "context",
