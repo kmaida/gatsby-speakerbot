@@ -32,14 +32,8 @@ const appHomeOpened = async (app, at) => {
     }
   });
 
-  // Reporting channel selected
-  app.action('a_select_channel', async ({ action, ack }) => {
-    await ack();
-    // Set the new channel
-    const newChannel = action.selected_channel;
-    store.setChannel(newChannel);
-    homeParams.channel = newChannel;
-    // Update the reporting channel in the home view for current user
+  // Update the app home view (when data in it has changed)
+  const triggerHomeViewUpdate = async () => {
     try {
       const updateHomeView = await app.client.views.update({
         token: homeParams.botToken,
@@ -54,6 +48,25 @@ const appHomeOpened = async (app, at) => {
     catch (err) {
       console.error(err);
     }
+  }
+
+  // Reporting channel selected
+  app.action('a_select_channel', async ({ action, ack }) => {
+    await ack();
+    // Set the new channel
+    const newChannel = action.selected_channel;
+    store.setChannel(newChannel);
+    homeParams.channel = newChannel;
+    // Update the reporting channel in the home view for current user
+    triggerHomeViewUpdate();
+  });
+
+  // Update home view when an event report was submitted
+  app.view('event_report', async () => {
+    // Don't need ack() here because it's already called elsewhere
+    // @TODO: this is not working
+    console.log('TODO: trigger home view update');
+    triggerHomeViewUpdate();
   });
 
   // Admin users selected
