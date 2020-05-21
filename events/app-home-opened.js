@@ -22,10 +22,12 @@ const appHomeOpened = async (app, at) => {
         user_id: homeParams.userID,
         view: {
           "type": "home",
-          "blocks": await homeBlocks(homeParams, at)
+          "blocks": await homeBlocks(homeParams, at),
+          "external_id": "view_home"
         }
       });
-      homeParams.viewID = showHomeView.view.id;
+      // homeParams.viewID = showHomeView.view.id;
+      console.log(showHomeView);
     }
     catch (err) {
       console.error(err);
@@ -38,10 +40,10 @@ const appHomeOpened = async (app, at) => {
       const updateHomeView = await app.client.views.update({
         token: homeParams.botToken,
         user_id: homeParams.userID,
-        view_id: homeParams.viewID,
         view: {
           "type": "home",
-          "blocks": await homeBlocks(homeParams, at)
+          "blocks": await homeBlocks(homeParams, at),
+          "external_id": "view_home",
         }
       });
     }

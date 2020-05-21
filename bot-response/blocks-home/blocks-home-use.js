@@ -8,7 +8,7 @@ const blocksHomeUse = (homeParams) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":postbox: *How to Use:*\n\nYou can use `/slash` commands to open the appropriate forms to list events and submit reports.\n\nAlternatively, you can use the *speakerbot* shortcuts from the lightning bolt menu at the left side of the input textarea in channels and messages."
+        "text": ":postbox: *How to Use:*\n\nYou can use `/slash` commands to open the appropriate forms to list events and submit reports.\n\nAlternatively, you can use the *speakerbot* shortcuts from the lightning bolt menu at the left side of the input textarea in channels and messages.\n\nIf you have listed events that have now passed and you haven't filled out a report yet, I've collected those for you and they will show up above so you can easily start filling out reports by clicking a button! If you don't see any report buttons above, you don't have any events that currently need reports. :sunny:"
       },
       "accessory": {
         "type": "image",
