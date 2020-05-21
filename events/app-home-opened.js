@@ -63,7 +63,7 @@ const appHomeOpened = async (app, at) => {
     triggerHomeViewUpdate();
   });
 
-  // Update home view when an event report was submitted
+  // Update home view when an event report was submitted AND the home view is currently open
   // app.view('event_report', async () => {
   //   // Don't need ack() here because it's already called elsewhere
   //   // @TODO: this is not working
