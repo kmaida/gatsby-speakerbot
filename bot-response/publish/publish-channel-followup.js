@@ -13,7 +13,7 @@ module.exports = async (app, recordObj) => {
     const channelMsgFollowup = await app.client.chat.postMessage({
       token: process.env.SLACK_BOT_TOKEN,
       channel: channel,
-      text: `:speech_balloon: \`<@${recordObj.submitterID}>\` spoke at *${recordObj.event_name}* on ${recordObj.event_date}. I've just sent them a reminder to fill out their post-event report.`
+      text: `:tada: \`<@${recordObj.submitterID}>\` recently spoke at *${recordObj.event_name}* on ${recordObj.event_date}. :speech_balloon: I've just sent them a reminder to fill out their post-event report.`
     });
   }
   catch (err) {

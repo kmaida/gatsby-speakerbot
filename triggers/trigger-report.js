@@ -7,7 +7,6 @@ const blocksEventReport = require('../bot-response/blocks-event-report');
 
 const triggerSpeakingReport = (app, errHandler) => {
   const openReportModal = async ({ ack, body, context }) => {
-    console.log('open report modal');
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};

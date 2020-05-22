@@ -222,7 +222,7 @@ module.exports = {
         const resObj = this.setupNeedsReportByUser(record);
         results.push(resObj);
       });
-      console.log(`${homeParams.userID}'s past events that need a report:`, results);
+      // console.log(`${homeParams.userID}'s past events that need a report:`, results);
       return blocksHomeNeedsReport(results, homeParams);
     }
     catch (err) {
