@@ -1,8 +1,8 @@
 const store = require('../data/settings-db');
 const homeBlocks = require('../bot-response/blocks-home/blocks-home');
-const triggerHomeReport = require('./../triggers/trigger-home-report');
 const errHandler = require('./../utils/error');
 const triggerHomeViewUpdate = require('./../triggers/trigger-home-view-update');
+const blocksEventReport = require('./../bot-response/blocks-event-report');
 
 /*------------------
   APP HOME OPENED
@@ -29,11 +29,9 @@ const appHomeOpened = async (app, at) => {
         }
       });
       homeParams.viewID = showHomeView.view.id;
-      // Construct event report view
-      triggerHomeReport(app, homeParams, errHandler);
     }
     catch (err) {
-      console.error(err);
+      errHandler(app, event, err);
     }
   });
 
@@ -60,6 +58,38 @@ const appHomeOpened = async (app, at) => {
     const newAdmins = action.selected_users;
     store.setAdmins(newAdmins);
     homeParams.admins = newAdmins;
+  });
+
+  // Open an event report form
+  // @TODO: this could technically be abstracted trigger-report.js try/catch block
+  app.action('btn_event_report_home', async ({ ack, body, context }) => {
+    await ack();
+    // If prefill info is available, set it
+    const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
+    // Open post event report form
+    try {
+      const result = await app.client.views.open({
+        token: context.botToken,
+        trigger_id: body.trigger_id,
+        view: {
+          type: 'modal',
+          callback_id: 'event_report',
+          title: {
+            type: 'plain_text',
+            text: 'Post Event Report'
+          },
+          blocks: blocksEventReport(prefill),
+          private_metadata: JSON.stringify(homeParams),
+          submit: {
+            type: 'plain_text',
+            text: 'Submit Report'
+          }
+        }
+      });
+    }
+    catch (err) {
+      errHandler(app, body, err);
+    }
   });
 }
 
