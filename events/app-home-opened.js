@@ -14,14 +14,13 @@ const appHomeOpened = async (app, at) => {
   app.event('app_home_opened', async ({ event, context }) => {
     homeParams.userID = event.user;
     homeParams.botID = context.botUserId;
-    homeParams.botToken = context.botToken;
     const settings = await store.getSettings();
     homeParams.channel = settings.channel;
     homeParams.admins = settings.admins;
 
     try {
       const showHomeView = await app.client.views.publish({
-        token: homeParams.botToken,
+        token: context.botToken,
         user_id: homeParams.userID,
         view: {
           "type": "home",
