@@ -20,15 +20,6 @@ const blocksHomeNeedsReport = (recordObjArr, homeParams) => {
           "type": "mrkdwn",
           "text": "According to my records, you've _completed the following speaking engagements, but have not filled out event reports yet_.\n\nI can help with that. Just click the button next to any event listed here, and I'll help you fill out your report."
         }
-      },
-      {
-        "type": "context",
-        "elements": [
-          {
-            "type": "mrkdwn",
-            "text": `:pencil: I've included everything I know in the reports so far. Please make sure the info in the form is correct, then fill in the remaining fields.`
-          }
-        ]
       }
     ];
     const eventsListBlocks = [];
@@ -37,7 +28,7 @@ const blocksHomeNeedsReport = (recordObjArr, homeParams) => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": `*${recordObj.event_name}* (${recordObj.event_date})`
+          "text": `:microphone: *${recordObj.event_name}*: ${recordObj.event_type} (${recordObj.event_date})`
         },
         "accessory": btnEventReport(recordObj, homeParams)
       };
@@ -49,7 +40,7 @@ const blocksHomeNeedsReport = (recordObjArr, homeParams) => {
         "elements": [
           {
             "type": "mrkdwn",
-            "text": `:arrows_counterclockwise: To refresh this list, leave the Home tab and then come back (I'm sorry I can't do this automatically for you!).`
+            "text": `:pencil: I've included everything I know in the reports so far. Please make sure the info in the form is correct, then fill in the remaining fields.`
           }
         ]
       },
