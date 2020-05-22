@@ -1,5 +1,7 @@
 const store = require('../data/settings-db');
 const homeBlocks = require('../bot-response/blocks-home/blocks-home');
+const triggerHomeReport = require('./../triggers/trigger-home-report');
+const errHandler = require('./../utils/error');
 
 /*------------------
   APP HOME OPENED
@@ -26,29 +28,31 @@ const appHomeOpened = async (app, at) => {
         }
       });
       homeParams.viewID = showHomeView.view.id;
+      // Construct event report view
+      triggerHomeReport(app, homeParams, errHandler);
     }
     catch (err) {
       console.error(err);
     }
   });
 
-  // Update the app home view (when data in it has changed)
-  const triggerHomeViewUpdate = async () => {
-    try {
-      const updateHomeView = await app.client.views.update({
-        token: homeParams.botToken,
-        user_id: homeParams.userID,
-        view_id: homeParams.viewID,
-        view: {
-          "type": "home",
-          "blocks": await homeBlocks(homeParams, at)
-        }
-      });
-    }
-    catch (err) {
-      console.error(err);
-    }
-  }
+  // // Update the app home view (when data in it has changed)
+  // const triggerHomeViewUpdate = async (app, homeParams) => {
+  //   try {
+  //     const updateHomeView = await app.client.views.update({
+  //       token: process.env.SLACK_BOT_TOKEN,
+  //       user_id: homeParams.userID,
+  //       view_id: homeParams.viewID,
+  //       view: {
+  //         "type": "home",
+  //         "blocks": await homeBlocks(homeParams, at)
+  //       }
+  //     });
+  //   }
+  //   catch (err) {
+  //     errHandler(app, {}, err);
+  //   }
+  // }
 
   // Reporting channel selected
   app.action('a_select_channel', async ({ action, ack }) => {

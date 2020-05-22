@@ -4,7 +4,7 @@ const btnEventReport = require('./../../bot-response/ix-components/btn-event-rep
 BLOCKS: APP HOME REPORT
 ------------------*/
 
-const blocksHomeNeedsReport = (recordObjArr) => {
+const blocksHomeNeedsReport = (recordObjArr, homeParams) => {
   if (recordObjArr.length) {
     const aboutReportsBlocks = [
       {
@@ -39,7 +39,7 @@ const blocksHomeNeedsReport = (recordObjArr) => {
           "type": "mrkdwn",
           "text": `*${recordObj.event_name}* (${recordObj.event_date})`
         },
-        "accessory": btnEventReport(recordObj)
+        "accessory": btnEventReport(recordObj, homeParams)
       };
       eventsListBlocks.push(thisEventBlock);
     });

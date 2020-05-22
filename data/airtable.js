@@ -210,11 +210,11 @@ module.exports = {
     (Display in a user's app home)
     @Returns: blocks for user's app home
   ----*/
-  async getPastEventsNeedReport(userID) {
+  async getPastEventsNeedReport(homeParams) {
     try {
       const results = [];
       const atData = await base(table).select({
-        filterByFormula: `AND({Event Rating} = BLANK(), {Submitter Slack ID} = "${userID}", IS_BEFORE({Date}, TODAY()))`,
+        filterByFormula: `AND({Event Rating} = BLANK(), {Submitter Slack ID} = "${homeParams.userID}", IS_BEFORE({Date}, TODAY()))`,
         view: viewID,
         fields: ["Name", "Date", "Event Type", "Topic", "Event URL", "Who's speaking?", "Submitter Slack ID"]
       }).all();
@@ -222,8 +222,8 @@ module.exports = {
         const resObj = this.setupNeedsReportByUser(record);
         results.push(resObj);
       });
-      console.log(`${userID}'s past events that need a report:`, results);
-      return blocksHomeNeedsReport(results);
+      console.log(`${homeParams.userID}'s past events that need a report:`, results);
+      return blocksHomeNeedsReport(results, homeParams);
     }
     catch (err) {
       console.error(err);

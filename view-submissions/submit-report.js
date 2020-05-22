@@ -1,4 +1,4 @@
-const publishSlackReport = require('./../bot-response/publish/publish-slack-report');
+const triggerHomeViewUpdate = require('./../triggers/trigger-home-view-update');
 
 /*------------------
    SUBMIT REPORT
@@ -49,10 +49,20 @@ const submitReport = (app, at, utils, errHandler) => {
 
     // Save data to Airtable and output results in Slack channel
     try {
-      at.submitEventReport(app, bc, data, body, errHandler);
+      const saveToAirtable = await at.submitEventReport(app, bc, data, body, errHandler);
     }
     catch (err) {
-      errHandler(app, bc.botID, data, err);
+      errHandler(app, data, err);
+    }
+    // Update the home view
+    if (view.private_metadata) {
+      const homeParams = JSON.parse(view.private_metadata);
+      try {
+        const updateHome = await triggerHomeViewUpdate(app, homeParams, at, errHandler);
+      }
+      catch (err) {
+        errHandler(app, homeParams, err);
+      }
     }
   });
 };
