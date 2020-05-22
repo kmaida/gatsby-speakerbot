@@ -7,6 +7,7 @@ const blocksEventReport = require('../bot-response/blocks-event-report');
 
 const triggerHomeReport = (app, homeParams, errHandler) => {
   const openReportModal = async ({ ack, body, context }) => {
+    // console.log('btn_event_report_home');
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};

@@ -2,6 +2,7 @@ const store = require('../data/settings-db');
 const homeBlocks = require('../bot-response/blocks-home/blocks-home');
 const triggerHomeReport = require('./../triggers/trigger-home-report');
 const errHandler = require('./../utils/error');
+const triggerHomeViewUpdate = require('./../triggers/trigger-home-view-update');
 
 /*------------------
   APP HOME OPENED
@@ -36,24 +37,6 @@ const appHomeOpened = async (app, at) => {
     }
   });
 
-  // // Update the app home view (when data in it has changed)
-  // const triggerHomeViewUpdate = async (app, homeParams) => {
-  //   try {
-  //     const updateHomeView = await app.client.views.update({
-  //       token: process.env.SLACK_BOT_TOKEN,
-  //       user_id: homeParams.userID,
-  //       view_id: homeParams.viewID,
-  //       view: {
-  //         "type": "home",
-  //         "blocks": await homeBlocks(homeParams, at)
-  //       }
-  //     });
-  //   }
-  //   catch (err) {
-  //     errHandler(app, {}, err);
-  //   }
-  // }
-
   // Reporting channel selected
   app.action('a_select_channel', async ({ action, ack }) => {
     await ack();
@@ -62,7 +45,12 @@ const appHomeOpened = async (app, at) => {
     store.setChannel(newChannel);
     homeParams.channel = newChannel;
     // Update the reporting channel in the home view for current user
-    triggerHomeViewUpdate();
+    try {
+      const updateHome = await triggerHomeViewUpdate(app, homeParams, at, errHandler);
+    }
+    catch (err) {
+      errHandler(app, homeParams, err);
+    }
   });
 
   // Admin users selected
