@@ -16,7 +16,7 @@ module.exports = async (app, recordObj) => {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": `:card_file_box: Hello! According to my records, you recently spoke at *${recordObj.event_name} (${recordObj.event_date})*.\n:postbox: Please *complete an Event Report*. This information is incredibly valuable to Gatsby — thank you for your contributions! :tada:`
+            "text": `:card_file_box: Hello! According to my records, *you recently spoke at ${recordObj.event_name} (${recordObj.event_date})*.\n:postbox: Please *complete an Event Report* to share how it went. This information is <https://app.getguru.com/card/iKLo6x9T/-Tell-Us-How-Your-Event-Went|incredibly valuable to Gatsby> — thank you for your contributions! :tada:`
           },
           "block_id": "dm_followup_report",
           "accessory": btnEventReport(recordObj)
