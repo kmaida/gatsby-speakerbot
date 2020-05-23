@@ -4,7 +4,7 @@ const Settings = require('./Settings');
    SETTINGS DB
 ------------------*/
 
-const errHandler = (err) => {
+const dbErrHandler = (err) => {
   console.error(err.message);
   return new Error(err.message);
 };
@@ -15,14 +15,14 @@ const settings = {
   ----*/
   async initSettings() {
     return Settings.findOne({}, (err, settings) => {
-      if (err) return errHandler(err);
+      if (err) return dbErrHandler(err);
       if (!settings) {
         const newSettings = new Settings({
           channel: process.env.SLACK_CHANNEL_ID,
           admins: process.env.SLACK_ADMINS.split(',')
         });
         newSettings.save((err) => {
-          if (err) return errHandler(err);
+          if (err) return dbErrHandler(err);
           return newSettings;
         });
       }
@@ -33,7 +33,7 @@ const settings = {
   ----*/
   async getSettings() {
     return Settings.findOne({}, (err, settings) => {
-      if (err) return errHandler(err);
+      if (err) return dbErrHandler(err);
       if (!settings) return new Error('No settings are saved');
       return settings;
     });
@@ -44,7 +44,7 @@ const settings = {
   ----*/
   async setChannel(channel) {
     return Settings.findOne({}, (err, settings) => {
-      if (err) return errHandler(err);
+      if (err) return dbErrHandler(err);
       if (!channel) return new Error('No channel provided');
       // No settings exist yet; save new settings document
       if (!settings) {
@@ -53,7 +53,7 @@ const settings = {
           admins: process.env.SLACK_ADMINS.split(',')
         });
         newSettings.save((err) => {
-          if (err) return errHandler(err);
+          if (err) return dbErrHandler(err);
           return newSettings;
         });
       }
@@ -61,7 +61,7 @@ const settings = {
       else {
         settings.channel = channel;
         settings.save((err) => {
-          if (err) return errHandler(err);
+          if (err) return dbErrHandler(err);
           console.log('Successfully set channel to', settings.channel);
           return settings;
         });
@@ -75,7 +75,7 @@ const settings = {
   ----*/
   async setAdmins(admins) {
     return Settings.findOne({}, (err, settings) => {
-      if (err) return errHandler(err);
+      if (err) return dbErrHandler(err);
       if (!admins || !admins.length) return new Error('No users provided');
       // No settings exist yet; save new settings document
       if (!settings) {
@@ -84,7 +84,7 @@ const settings = {
           admins: admins
         });
         newSettings.save((err) => {
-          if (err) return errHandler(err);
+          if (err) return dbErrHandler(err);
           return newSettings;
         });
       } 
@@ -92,7 +92,7 @@ const settings = {
       else {
         settings.admins = admins;
         settings.save((err) => {
-          if (err) return errHandler(err);
+          if (err) return dbErrHandler(err);
           console.log('Successfully updated admin list to', settings.admins);
           return settings;
         });
