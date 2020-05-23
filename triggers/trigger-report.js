@@ -31,7 +31,7 @@ const triggerSpeakingReport = (app, errHandler) => {
       });
     }
     catch (err) {
-      errHandler(app, body, err);
+      errHandler(body, err);
     }
   };
   // Command /speaking-report

@@ -52,7 +52,7 @@ const submitReport = (app, at, utils, errHandler) => {
       const saveToAirtable = await at.submitEventReport(app, bc, data, body, errHandler);
     }
     catch (err) {
-      errHandler(app, data, err);
+      errHandler(data, err);
     }
     // Update the home view
     if (view.private_metadata) {
@@ -61,7 +61,7 @@ const submitReport = (app, at, utils, errHandler) => {
         const updateHome = await triggerHomeViewUpdate(app, homeParams, at, errHandler);
       }
       catch (err) {
-        errHandler(app, homeParams, err);
+        errHandler(homeParams, err);
       }
     }
   });

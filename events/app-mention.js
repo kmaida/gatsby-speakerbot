@@ -12,7 +12,7 @@ const appMention = (app, errHandler) => {
       });
     }
     catch (err) {
-      errHandler(app, null, err);
+      errHandler({}, err);
     }
   });
 };

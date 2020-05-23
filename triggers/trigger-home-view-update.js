@@ -14,7 +14,7 @@ const triggerHomeViewUpdate = async (app, homeParams, at, errHandler) => {
     });
   }
   catch (err) {
-    errHandler(app, {}, err);
+    errHandler({}, err);
   }
 }
 

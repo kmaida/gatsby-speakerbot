@@ -12,6 +12,6 @@ module.exports = async (app, bc, data, body, errHandler) => {
     });
   }
   catch (err) {
-    errHandler(app, body, err);
+    errHandler(body, err);
   }
 }

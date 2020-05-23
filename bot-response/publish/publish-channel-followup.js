@@ -17,6 +17,6 @@ module.exports = async (app, recordObj) => {
     });
   }
   catch (err) {
-    errHandler(app, recordObj, err);
+    errHandler(recordObj, err);
   }
 }

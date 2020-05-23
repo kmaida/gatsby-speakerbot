@@ -28,7 +28,7 @@ const triggerSpeakingNew = (app, errHandler) => {
       });
     }
     catch (err) {
-      errHandler(app, body, err);
+      errHandler(body, err);
     }
   };
   // Command /speaking-new

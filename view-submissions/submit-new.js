@@ -50,7 +50,7 @@ const submitNew = (app, at, utils, errHandler) => {
       at.listNewEvent(app, bc, data, body, errHandler);
     }
     catch (err) {
-      errHandler(app, data, err);
+      errHandler(data, err);
     }
   });
 };

@@ -30,7 +30,7 @@ const appHomeOpened = async (app, at) => {
       homeParams.viewID = showHomeView.view.id;
     }
     catch (err) {
-      errHandler(app, event, err);
+      errHandler(event, err);
     }
   });
 
@@ -46,7 +46,7 @@ const appHomeOpened = async (app, at) => {
       const updateHome = await triggerHomeViewUpdate(app, homeParams, at, errHandler);
     }
     catch (err) {
-      errHandler(app, homeParams, err);
+      errHandler(homeParams, err);
     }
   });
 
@@ -87,7 +87,7 @@ const appHomeOpened = async (app, at) => {
       });
     }
     catch (err) {
-      errHandler(app, body, err);
+      errHandler(body, err);
     }
   });
 }
