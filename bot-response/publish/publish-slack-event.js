@@ -40,6 +40,7 @@ const publishSlackEvent = async (app, token, data, savedObj) => {
     });
   }
   catch (err) {
+    // @TODO: display in error in Slack
     console.log(err);
   }
 }

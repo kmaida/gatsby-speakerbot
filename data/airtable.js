@@ -106,7 +106,6 @@ module.exports = {
           id: updated,
           link: `https://airtable.com/${tableID}/${viewID}/${updated}`
         };
-        console.log('airtable:', updatedObj);
         // Share event output in designated Slack channel
         publishSlackReport(app, bc.botToken, data, updatedObj);
         // DM user who submitted event
@@ -222,7 +221,6 @@ module.exports = {
         const resObj = this.setupNeedsReportByUser(record);
         results.push(resObj);
       });
-      // console.log(`${homeParams.userID}'s past events that need a report:`, results);
       return blocksHomeNeedsReport(results, homeParams);
     }
     catch (err) {
