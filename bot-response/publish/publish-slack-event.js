@@ -1,4 +1,5 @@
 const store = require('./../../data/settings-db');
+const slackErr = require('./../../utils/error-slack');
 
 /*------------------
 PUBLISH SLACK EVENT
@@ -40,8 +41,7 @@ const publishSlackEvent = async (app, token, data, savedObj) => {
     });
   }
   catch (err) {
-    // @TODO: display in error in Slack
-    console.log(err);
+    slackErr(app, channel, err);
   }
 }
 

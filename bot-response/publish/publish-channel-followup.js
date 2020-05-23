@@ -1,5 +1,5 @@
-const errHandler = require('./../../utils/error');
 const store = require('./../../data/settings-db');
+const slackErr = require('./../../utils/error-slack');
 
 /*------------------
  NOTIFY OF FOLLOWUP
@@ -17,6 +17,6 @@ module.exports = async (app, recordObj) => {
     });
   }
   catch (err) {
-    errHandler(recordObj, err);
+    slackErr(app, channel, err);
   }
 }

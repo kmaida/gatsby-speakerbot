@@ -1,3 +1,5 @@
+const slackErr = require('./../../utils/error-slack');
+
 /*------------------
  DM CONFIRM REPORT
 ------------------*/
@@ -12,6 +14,6 @@ module.exports = async (app, bc, data, body, errHandler) => {
     });
   }
   catch (err) {
-    errHandler(body, err);
+    slackErr(app, bc.userID, err);
   }
 }

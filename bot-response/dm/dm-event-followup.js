@@ -1,5 +1,5 @@
-const errHandler = require('./../../utils/error');
 const btnEventReport = require('./../ix-components/btn-event-report');
+const slackErr = require('./../../utils/error-slack');
 
 /*------------------
  DM EVENT FOLLOWUP
@@ -34,6 +34,6 @@ module.exports = async (app, recordObj) => {
     });
   }
   catch (err) {
-    errHandler(recordObj, err);
+    slackErr(app, recordObj.submitterID, err);
   }
 }
