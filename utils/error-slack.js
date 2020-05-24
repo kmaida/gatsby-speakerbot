@@ -10,7 +10,7 @@ module.exports = async (app, channel, err) => {
       channel: channel,
       text: {
         "type": "mrkdwn",
-        "text": ':disappointed: I\'m sorry, an error occurred: ```' + JSON.stringify(err) + '```'
+        "text": ":disappointed: I'm sorry, I couldn't do that because an error occurred: ```" + JSON.stringify(err) + "```"
       }
     });
   }
