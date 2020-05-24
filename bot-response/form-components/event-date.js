@@ -2,7 +2,7 @@
   FORM: EVENT DATE
 ------------------*/
 
-module.exports = (aid, placeholder, initial) => {
+module.exports = (aid, placeholder, hint, initial) => {
   return {
     "type": "input",
     "block_id": "event_date",
@@ -18,6 +18,10 @@ module.exports = (aid, placeholder, initial) => {
     "label": {
       "type": "plain_text",
       "text": "Event Date:"
+    },
+    "hint": {
+      "type": "plain_text",
+      "text": hint
     }
   }
 };

@@ -50,7 +50,7 @@ module.exports = (aid) => {
     },
     "hint": {
       "type": "plain_text",
-      "text": "What did you think of the event's overall quality? This helps us determine which events to watch out for and potentially invest in in the future."
+      "text": "What did you think of the event's overall quality? This helps us determine which events to follow / invest in (or avoid) in the future."
     }
   };
 };

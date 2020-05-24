@@ -16,7 +16,7 @@ BLOCKS: EVENT REPORT
 const blocksReport = (prefill = {}) => {
   return [
     eventName('r_event_name', prefill.event_name),
-    eventDate('r_event_date', 'When did the event take place?', prefill.event_date),
+    eventDate('r_event_date', 'When did you speak?', 'If this was a multi-day event, enter the date you spoke. If you spoke multiple days, enter the first date.', prefill.event_date),
     eventUrl('r_url', prefill.url),
     eventType('r_event_type', prefill.event_type),
     speakers('r_speakers', 'Who spoke at this event?', prefill.speakers),

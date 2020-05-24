@@ -26,7 +26,7 @@ module.exports = async (app, recordObj) => {
           "elements": [
             {
               "type": "mrkdwn",
-              "text": ":information_desk_person: I've prefilled the form with information I already know. Please make sure it's correct and then fill in the remaining fields."
+              "text": ":information_desk_person: I've prefilled the form with information I already know. Please make sure it's correct, then fill in the remaining fields."
             }
           ]
         }

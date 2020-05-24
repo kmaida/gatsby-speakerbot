@@ -9,16 +9,14 @@ const blocksHome = async (homeParams, at) => {
   const adminBlocks = isUserAdmin ? require('./blocks-home-admin')(homeParams) : [];
   const reportBlocks = await at.getPastEventsNeedReport(homeParams);
   const useBlocks = require('./blocks-home-use')(homeParams);
-  const helpBlocks = [];
   const footerBlocks = require('./blocks-home-footer');
 
   // Concat arrays and return appropriate configuration
   const allBlocks = introBlocks
-                      .concat(adminBlocks)
-                      .concat(reportBlocks)
-                      .concat(useBlocks)
-                      .concat(helpBlocks)
-                      .concat(footerBlocks);
+    .concat(adminBlocks)
+    .concat(reportBlocks)
+    .concat(useBlocks)
+    .concat(footerBlocks);
   // Return all composed blocks
   return allBlocks;
 };

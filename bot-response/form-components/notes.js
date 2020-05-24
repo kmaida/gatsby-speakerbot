@@ -12,7 +12,7 @@ module.exports = (aid) => {
       "multiline": true,
       "placeholder": {
         "type": "plain_text",
-        "text": "Any additional information you'd like to share about this event."
+        "text": "Please provide any additional information you'd like to share about this event. How can DevRel help support you?"
       }
     },
     "label": {

@@ -21,7 +21,7 @@ module.exports = (aid) => {
     },
     "hint": {
       "type": "plain_text",
-      "text": "Made connections? Received product feedback? Had interesting conversations? Learned anything new that should be shared with Gatsby teammates?"
+      "text": "Did you make connections? Receive product feedback? Have interesting conversations? Learn anything new that should be shared with Gatsby teammates?"
     }
   }
 };

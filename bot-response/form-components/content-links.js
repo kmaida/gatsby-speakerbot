@@ -21,7 +21,7 @@ module.exports = (aid) => {
     },
     "hint": {
       "type": "plain_text",
-      "text": "Links to video recordings, podcast broadcasts, promotional tweets, etc."
+      "text": "Links to slides, video recordings, podcast broadcasts, promotional tweets, etc."
     },
     "optional": true
   }

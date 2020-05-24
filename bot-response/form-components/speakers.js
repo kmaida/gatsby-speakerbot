@@ -21,7 +21,7 @@ module.exports = (aid, placeholder, initial) => {
     },
     "hint": {
       "type": "plain_text",
-      "text": "If more than one speaker, please list all names."
+      "text": "If you have co-speakers for your session(s), please list all names."
     }
   };
 }

@@ -18,6 +18,10 @@ module.exports = (aid, initial) => {
     "label": {
       "type": "plain_text",
       "text": "Event Name:"
+    },
+    "hint": {
+      "type": "plain_text",
+      "text": "If the event takes place regularly and/or in multiple locations, please include details (e.g., Gatsby Days Los Angeles 2019)."
     }
   }
 };

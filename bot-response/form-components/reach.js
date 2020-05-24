@@ -20,7 +20,7 @@ module.exports = (aid) => {
     },
     "hint": {
       "type": "plain_text",
-      "text": "Roughly how many people have you reached so far by participating? We understand this number may change over time."
+      "text": "Roughly how many people have you reached so far by participating? (We understand this number may change over time.)"
     }
   }
 };
