@@ -1,8 +1,10 @@
+const errSlack = require('./../utils/error-slack');
+
 /*------------------
     APP MENTION
 ------------------*/
 
-const appMention = (app, errHandler) => {
+const appMention = (app) => {
   app.event('app_mention', async ({ event, context }) => {
     try {
      const result = await app.client.chat.postMessage({
@@ -12,7 +14,7 @@ const appMention = (app, errHandler) => {
       });
     }
     catch (err) {
-      errHandler({}, err);
+      errSlack(app, event.channel, err);
     }
   });
 };

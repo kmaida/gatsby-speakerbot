@@ -1,12 +1,14 @@
 const blocksListEvent = require('../bot-response/blocks-list-event');
+const errSlack = require('./../utils/error-slack');
 
 /*------------------
  List Event
  Command & Shortcut
 ------------------*/
 
-const triggerSpeakingNew = (app, errHandler) => {
+const triggerSpeakingNew = (app) => {
   const openNewModal = async ({ ack, body, context }) => {
+    const userID = body.user_id || body.user.id;
     await ack();
     try {
       const result = await app.client.views.open({
@@ -28,7 +30,7 @@ const triggerSpeakingNew = (app, errHandler) => {
       });
     }
     catch (err) {
-      errHandler(body, err);
+      errSlack(app, userID, err);
     }
   };
   // Command /speaking-new

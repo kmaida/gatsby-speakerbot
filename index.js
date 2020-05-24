@@ -44,8 +44,8 @@ at.getUpcomingEvents(app);
 /*------------------
      TRIGGERS
 ------------------*/
-require('./triggers/trigger-new')(app, errHandler);
-require('./triggers/trigger-report')(app, errHandler);
+require('./triggers/trigger-new')(app);
+require('./triggers/trigger-report')(app);
 
 /*------------------
   VIEW SUBMISSIONS
@@ -61,7 +61,7 @@ require('./events/app-home-opened')(app, at);
 /*------------------
     APP MENTION
 ------------------*/
-require('./events/app-mention')(app, errHandler);
+require('./events/app-mention')(app);
 
 /*------------------
      START APP

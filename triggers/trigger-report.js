@@ -1,12 +1,15 @@
 const blocksEventReport = require('../bot-response/blocks-event-report');
+const errSlack = require('./../utils/error-slack');
 
 /*------------------
  Event Report
  Command & Shortcut
 ------------------*/
 
-const triggerSpeakingReport = (app, errHandler) => {
+const triggerSpeakingReport = (app) => {
   const openReportModal = async ({ ack, body, context }) => {
+    const userID = body.user_id || body.user.id;
+    console.log(body, userID);
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
@@ -31,7 +34,7 @@ const triggerSpeakingReport = (app, errHandler) => {
       });
     }
     catch (err) {
-      errHandler(body, err);
+      errSlack(app, userID, err);
     }
   };
   // Command /speaking-report
