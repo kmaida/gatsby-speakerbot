@@ -70,7 +70,6 @@ const settings = {
   },
   /*----
     Save admins to settings
-    @TODO: figure out how to remove admins
     @Params: array of userID strings
   ----*/
   async setAdmins(admins) {

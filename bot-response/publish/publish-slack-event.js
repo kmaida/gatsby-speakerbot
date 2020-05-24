@@ -5,13 +5,13 @@ const slackErr = require('./../../utils/error-slack');
 PUBLISH SLACK EVENT
 ------------------*/
 
-const publishSlackEvent = async (app, token, data, savedObj) => {
+const publishSlackEvent = async (app, data, savedObj) => {
   // Post event to designated channel
   const settings = await store.getSettings();
   const channel = settings.channel;
   try {
     const publishSlackEvent = await app.client.chat.postMessage({
-      token: token,
+      token: process.env.SLACK_BOT_TOKEN,
       channel: channel,
       blocks: [
         {

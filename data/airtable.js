@@ -57,7 +57,7 @@ module.exports = {
       };
       console.log('Saved new event:', savedObj);
       // Share event output in designated Slack channel
-      publishSlackEvent(app, bc.botToken, data, savedObj);
+      publishSlackEvent(app, data, savedObj);
       // DM user who submitted event
       dmConfirmNew(app, bc, data);
       // Set up followup
@@ -107,7 +107,7 @@ module.exports = {
           link: `https://airtable.com/${tableID}/${viewID}/${updated}`
         };
         // Share event output in designated Slack channel
-        publishSlackReport(app, bc.botToken, data, updatedObj);
+        publishSlackReport(app, data, updatedObj);
         // DM user who submitted event
         dmConfirmReport(app, bc, data);
         return updatedObj;
@@ -144,7 +144,7 @@ module.exports = {
           link: `https://airtable.com/${tableID}/${viewID}/${newReport}`
         };
         // Share event output in designated Slack channel
-        publishSlackReport(app, bc.botToken, data, newObj);
+        publishSlackReport(app, data, newObj);
         // DM user who submitted report
         dmConfirmReport(app, bc, data);
         return newObj;
