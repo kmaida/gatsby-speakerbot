@@ -34,7 +34,7 @@ const submitReport = (app, at, utils) => {
       errors: {}
     };
     if (!utils.datePast(data.event_date)) {
-      ackParams.errors.event_date = 'This event is in the future. Please use /speaking-new to list an upcoming event.';
+      ackParams.errors.event_date = 'This event is in the future. Please use "/speaking-new" to list an upcoming event.';
     }
     if (!utils.validUrl(data.url.toString())) {
       ackParams.errors.url = 'Please provide a valid URL.';
