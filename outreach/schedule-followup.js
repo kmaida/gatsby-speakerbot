@@ -8,9 +8,9 @@ const channelFollowup = require('./../bot-response/publish/publish-channel-follo
 const schedule = {
   followup(app, recordObj) {
     const now = new Date().getTime();
-    // const timeout = recordObj.followup_at - now;
+    const timeout = recordObj.followup_at - now;
     // Uncomment to test followup scheduling: 
-    const timeout = 5000;
+    // const timeout = 5000;
     timeoutCb = () => {
       dmFollowup(app, recordObj);
       channelFollowup(app, recordObj);

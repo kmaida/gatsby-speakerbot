@@ -1,10 +1,10 @@
-const publishSlackEvent = require('../bot-response/publish/publish-slack-event');
+const errSlack = require('./../utils/error-slack');
 
 /*------------------
  SUBMIT LIST EVENT
 ------------------*/
 
-const submitNew = (app, at, utils, errHandler) => {
+const submitNew = (app, at, utils) => {
   // Modal view submitted
   app.view('list_event', async ({ ack, body, view, context }) => {
     const bc = {
@@ -47,10 +47,10 @@ const submitNew = (app, at, utils, errHandler) => {
 
     // Save data to Airtable and output results in Slack channel
     try {
-      at.listNewEvent(app, bc, data, body, errHandler);
+      at.listNewEvent(app, bc, data);
     }
     catch (err) {
-      errHandler(data, err);
+      errSlack(app, bc.userID, err);
     }
   });
 };

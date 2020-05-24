@@ -1,6 +1,6 @@
 const store = require('../data/settings-db');
 const homeBlocks = require('../bot-response/blocks-home/blocks-home');
-const errHandler = require('./../utils/error');
+const errSlack = require('./../utils/error-slack');
 const triggerHomeViewUpdate = require('./../triggers/trigger-home-view-update');
 const blocksEventReport = require('./../bot-response/blocks-event-report');
 
@@ -30,7 +30,7 @@ const appHomeOpened = async (app, at) => {
       homeParams.viewID = showHomeView.view.id;
     }
     catch (err) {
-      errHandler(event, err);
+      errSlack(app, homeParams.userID, err);
     }
   });
 
@@ -43,10 +43,10 @@ const appHomeOpened = async (app, at) => {
     homeParams.channel = newChannel;
     // Update the reporting channel in the home view for current user
     try {
-      const updateHome = await triggerHomeViewUpdate(app, homeParams, at, errHandler);
+      const updateHome = await triggerHomeViewUpdate(app, homeParams, at);
     }
     catch (err) {
-      errHandler(homeParams, err);
+      errSlack(app, homeParams.userID, err);
     }
   });
 
@@ -87,7 +87,7 @@ const appHomeOpened = async (app, at) => {
       });
     }
     catch (err) {
-      errHandler(body, err);
+      errSlack(app, homeParams.userID, err);
     }
   });
 }

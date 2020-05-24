@@ -4,7 +4,7 @@ const slackErr = require('./../../utils/error-slack');
  DM CONFIRM REPORT
 ------------------*/
 
-module.exports = async (app, bc, data, body, errHandler) => {
+module.exports = async (app, bc, data) => {
   // Confirm form submission by sending DM to user
   try {
     const confirmDM = await app.client.chat.postMessage({

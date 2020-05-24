@@ -9,7 +9,6 @@ const errSlack = require('./../utils/error-slack');
 const triggerSpeakingReport = (app) => {
   const openReportModal = async ({ ack, body, context }) => {
     const userID = body.user_id || body.user.id;
-    console.log(body, userID);
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};

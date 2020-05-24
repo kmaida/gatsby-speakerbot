@@ -3,7 +3,6 @@ const { App } = require('@slack/bolt');
 // Airtable
 const at = require('./data/airtable');
 // Utils
-const errHandler = require('./utils/error');
 const utils = require('./utils/utils');
 // MongoDB
 const mongoose = require('mongoose');
@@ -50,8 +49,8 @@ require('./triggers/trigger-report')(app);
 /*------------------
   VIEW SUBMISSIONS
 ------------------*/
-require('./view-submissions/submit-new')(app, at, utils, errHandler);
-require('./view-submissions/submit-report')(app, at, utils, errHandler);
+require('./view-submissions/submit-new')(app, at, utils);
+require('./view-submissions/submit-report')(app, at, utils);
 
 /*------------------
   APP HOME OPENED

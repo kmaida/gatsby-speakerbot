@@ -30,7 +30,7 @@ module.exports = {
   /*----
     Add a new event to Airtable
   ----*/
-  async listNewEvent(app, bc, data, body, errHandler) {
+  async listNewEvent(app, bc, data) {
     base(table).create([
       {
         "fields": {
@@ -59,7 +59,7 @@ module.exports = {
       // Share event output in designated Slack channel
       publishSlackEvent(app, bc.botToken, data, savedObj);
       // DM user who submitted event
-      dmConfirmNew(app, bc, data, body, errHandler);
+      dmConfirmNew(app, bc, data);
       // Set up followup
       this.setupFollowup(app, saved);
       return savedObj;
@@ -71,7 +71,7 @@ module.exports = {
     Check if event exists already, if so, update
     If event does not exist, create new record
   ----*/
-  async submitEventReport(app, bc, data, body, errHandler) {
+  async submitEventReport(app, bc, data) {
     // Check to see if report exists
     const results = await base(table).select({
       filterByFormula: `AND({Name} = "${data.event_name}", {Event Type} = "${data.event_type}", {Submitter Slack ID} = "${data.submitterID}")`,
@@ -109,7 +109,7 @@ module.exports = {
         // Share event output in designated Slack channel
         publishSlackReport(app, bc.botToken, data, updatedObj);
         // DM user who submitted event
-        dmConfirmReport(app, bc, data, body, errHandler);
+        dmConfirmReport(app, bc, data);
         return updatedObj;
       });
     }
@@ -146,7 +146,7 @@ module.exports = {
         // Share event output in designated Slack channel
         publishSlackReport(app, bc.botToken, data, newObj);
         // DM user who submitted report
-        dmConfirmReport(app, bc, data, body, errHandler);
+        dmConfirmReport(app, bc, data);
         return newObj;
       });
     }

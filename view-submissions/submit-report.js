@@ -1,10 +1,11 @@
 const triggerHomeViewUpdate = require('./../triggers/trigger-home-view-update');
+const errSlack = require('./../utils/error-slack');
 
 /*------------------
    SUBMIT REPORT
 ------------------*/
 
-const submitReport = (app, at, utils, errHandler) => {
+const submitReport = (app, at, utils) => {
   // Modal view submitted
   app.view('event_report', async ({ ack, body, view, context }) => {
     const bc = {
@@ -49,19 +50,19 @@ const submitReport = (app, at, utils, errHandler) => {
 
     // Save data to Airtable and output results in Slack channel
     try {
-      const saveToAirtable = await at.submitEventReport(app, bc, data, body, errHandler);
+      const saveToAirtable = await at.submitEventReport(app, bc, data);
     }
     catch (err) {
-      errHandler(data, err);
+      errSlack(app, bc.userID, err);
     }
     // Update the home view
     if (view.private_metadata) {
       const homeParams = JSON.parse(view.private_metadata);
       try {
-        const updateHome = await triggerHomeViewUpdate(app, homeParams, at, errHandler);
+        const updateHome = await triggerHomeViewUpdate(app, homeParams, at);
       }
       catch (err) {
-        errHandler(homeParams, err);
+        errSlack(app, bc.userID, err);
       }
     }
   });
