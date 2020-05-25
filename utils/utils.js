@@ -10,24 +10,24 @@ const utils = {
     number: /^[0-9]*$/g
   },
   /*----
-    Is the date in the past?
-    @Params: date string (MM-DD-YYYY)
+    Is the date today or in the future/past?
+    @Params: date string (YYYY-MM-DD)
+    @Params: boolean (testing future = true)
     @Returns: boolean
   ----*/
-  datePast(dateStr) {
-    const now = new Date().getTime();
-    const date = new Date(dateStr).getTime();
-    return now >= date;
-  },
-  /*----
-    Is the date in the future?
-    @Params: date string (MM-DD-YYYY)
-    @Returns: boolean
-  ----*/
-  dateFuture(dateStr) {
-    const now = new Date().getTime();
-    const date = new Date(dateStr).getTime();
-    return date >= now;
+  dateCompare(dateInput, testFuture) {
+    const now = new Date();
+    const eventDate = new Date(dateInput + 'T00:00:00');
+    const isFuture = eventDate.getTime() >= now.getTime();
+    const isPast = eventDate.getTime() <= now.getTime();
+    const todayStr = now.toDateString();
+    const dateStr = eventDate.toDateString();
+    const isToday = todayStr === dateStr;
+    if (testFuture) {
+      return !!(isFuture || isToday);
+    } else {
+      return !!(isPast || isToday);
+    }
   },
   /*----
     Is the string a valid URL?

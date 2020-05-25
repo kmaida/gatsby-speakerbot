@@ -33,7 +33,7 @@ const submitNew = (app, at, utils) => {
       response_action: 'errors',
       errors: {}
     };
-    if (!utils.dateFuture(data.event_date)) {
+    if (!utils.dateCompare(data.event_date, true)) {
       ackParams.errors.event_date = 'This event is in the past. Please use "/speaking-report" to submit a post-event report instead.';
     }
     if (!utils.validUrl(data.url.toString())) {

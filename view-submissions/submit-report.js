@@ -33,14 +33,14 @@ const submitReport = (app, at, utils) => {
       response_action: 'errors',
       errors: {}
     };
-    if (!utils.datePast(data.event_date)) {
+    if (!utils.dateCompare(data.event_date, false)) {
       ackParams.errors.event_date = 'This event is in the future. Please use "/speaking-new" to list an upcoming event.';
     }
     if (!utils.validUrl(data.url.toString())) {
       ackParams.errors.url = 'Please provide a valid URL.';
     }
     if (!utils.isNumberFormat(payload.reach.r_reach.value)) {
-      ackParams.errors.reach = 'Must be a number for metrics reasons. If you need to add more context, please use the "Report" field below.'
+      ackParams.errors.reach = 'Only numbers are allowed in this field for metrics reasons. If you\'d like to add more context, use the "Report" field below.'
     }
     if (utils.objNotEmpty(ackParams.errors)) {
       await ack(ackParams);
