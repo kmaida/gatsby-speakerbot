@@ -183,14 +183,14 @@ module.exports = {
   ----*/
   setupFollowup(app, record) {
     // Build followup object with necessary data to schedule followup
-    const eventtime = new Date(record.fields['Date']).getTime();
-    const hourDelay = (1000 * 60 * 60) * 40;  // Next day at 11/12 Eastern, depending on DST
+    const eventtime = new Date(record.fields['Date'] + 'T00:00:00').getTime();
+    const hourDelay = (1000 * 60 * 60) * 35.5;  // Next day at 11:30 Eastern
     const followupAt = eventtime + hourDelay;
     const recordObj = {
       id: record.getId(),
       event_name: record.fields['Name'],
       event_date: record.fields['Date'],
-      datetime: new Date(record.fields['Date']).getTime(),
+      datetime: eventtime,
       followup_at: followupAt,
       event_type: record.fields['Event Type'],
       topic: record.fields['Topic'],
