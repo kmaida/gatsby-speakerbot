@@ -1,3 +1,4 @@
+const setTimeout = require('safe-timers').setTimeout;
 const dmFollowup = require('./../bot-response/dm/dm-event-followup');
 const channelFollowup = require('./../bot-response/publish/publish-channel-followup');
 

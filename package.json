@@ -24,5 +24,8 @@
     "slackapi",
     "slackapp",
     "airtable"
-  ]
+  ],
+  "devDependencies": {
+    "safe-timers": "^1.1.0"
+  }
 }
