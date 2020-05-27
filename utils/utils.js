@@ -17,7 +17,7 @@ const utils = {
   ----*/
   dateCompare(dateInput, testFuture) {
     const now = new Date();
-    const eventDate = new Date(dateInput + 'T00:00:00');
+    const eventDate = new Date(dateInput + 'T00:00:00Z'); // ISO date string (UTC)
     const isFuture = eventDate.getTime() >= now.getTime();
     const isPast = eventDate.getTime() <= now.getTime();
     const todayStr = now.toDateString();
