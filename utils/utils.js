@@ -10,23 +10,30 @@ const utils = {
     number: /^[0-9]*$/g
   },
   /*----
-    Is the date today or in the future/past?
+    Is the date today + future, or today + past?
     @Params: date string (YYYY-MM-DD)
     @Params: boolean (testing future = true)
     @Returns: boolean
   ----*/
   dateCompare(dateInput, testFuture) {
+    // Get today's date in ISO at 11:59:59
     const now = new Date();
-    const eventDate = new Date(dateInput + 'T00:00:00Z'); // ISO date string (UTC)
-    const isFuture = eventDate.getTime() >= now.getTime();
-    const isPast = eventDate.getTime() <= now.getTime();
-    const todayStr = now.toDateString();
-    const dateStr = eventDate.toDateString();
-    const isToday = todayStr === dateStr;
+    const nowUTCdate = ('0' + now.getUTCDate()).slice(-2);
+    const nowUTCmonth = ('0' + (now.getUTCMonth() * 1 + 1)).slice(-2);
+    const nowUTCyear = now.getUTCFullYear();
+    const todayISO = `${nowUTCyear}-${nowUTCmonth}-${nowUTCdate}T23:59:59Z`;
+    const today = new Date(todayISO);
+    // Get event date in ISO at 11:59:59
+    const eventDate = new Date(dateInput + 'T23:59:59Z');
+    // Compare timestamps for UTC event date and UTC today to determine past/future
+    // (Today is valid for both past and future)
+    const isFuture = eventDate.getTime() >= today.getTime();
+    const isPast = eventDate.getTime() <= today.getTime();
+    // Are we checking for a future date or a past date?
     if (testFuture) {
-      return !!(isFuture || isToday);
+      return isFuture;
     } else {
-      return !!(isPast || isToday);
+      return isPast;
     }
   },
   /*----
@@ -57,6 +64,19 @@ const utils = {
   ----*/
   objNotEmpty(obj) {
     return Object.keys(obj).length && obj.constructor === Object;
+  },
+  /*----
+    Takes event date and returns ISO string of next day
+    @Params: ISO date string (YYYY-MM-DD)
+    @Returns: ISO date string (full)
+  ----*/
+  getFollowupISO(dateStr) {
+    const jsDate = new Date(dateStr);
+    const jsDatetime = jsDate.getTime();
+    const dayms = (1000 * 60 * 60) * 24;
+    const nextDayDatetime = jsDatetime + dayms;
+    const jsNextDay = new Date(nextDayDatetime);
+    return jsNextDay.toISOString();
   }
 };
 

@@ -2,6 +2,7 @@ const base = require('airtable').base(process.env.AIRTABLE_BASE_ID);
 const table = process.env.AIRTABLE_TABLE;
 const tableID = process.env.AIRTABLE_TABLE_ID;
 const viewID = process.env.AIRTABLE_VIEW_ID;
+const utils = require('./../utils/utils');
 const publishSlackEvent = require('./../bot-response/publish/publish-slack-event');
 const publishSlackReport = require('./../bot-response/publish/publish-slack-report');
 const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
@@ -42,6 +43,7 @@ module.exports = {
           "Event Type": data.event_type,
           "Topic": data.topic,
           "Notes": data.notes,
+          "Followup": utils.getFollowupISO(data.event_date),
           "Submitter Slack ID": data.submitterID
         }
       }
