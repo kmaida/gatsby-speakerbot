@@ -14,6 +14,11 @@ const blocksHomeNeedsReport = require('./../bot-response/blocks-home/blocks-home
       AIRTABLE
 ------------------*/
 
+const sendErr = (err) => {
+  console.error(err);
+  return new Error(err);
+};
+
 module.exports = {
   /*----
     Get record by ID
@@ -21,8 +26,7 @@ module.exports = {
   findEvent(id) {
     base(table).find(id, function(err, record) {
       if (err) {
-        console.error(err);
-        return new Error(err);
+        sendErr(err);
       }
       return record.getId();
     });
@@ -49,8 +53,7 @@ module.exports = {
       }
     ], (err, records) => {
       if (err) {
-        console.error(err);
-        return new Error(err);
+        sendErr(err);
       }
       const saved = records[0];
       const savedObj = {
@@ -99,8 +102,7 @@ module.exports = {
         }
       ], function (err, records) {
         if (err) {
-          console.error(err);
-          return new Error(err);
+          sendErr(err);
         }
         const updated = records[0].getId();
         console.log('Updated existing event to add report:', updated);
@@ -136,8 +138,7 @@ module.exports = {
         }
       ], (err, records) => {
         if (err) {
-          console.error(err);
-          return new Error(err);
+          sendErr(err);
         }
         const newReport = records[0].getId();
         console.log('Saved new event with post-event report:', newReport);
@@ -176,7 +177,7 @@ module.exports = {
       return results;
     }
     catch (err) {
-      console.error(err);
+      sendErr(err);
     }
   },
 
@@ -232,7 +233,7 @@ module.exports = {
       return blocksHomeNeedsReport(results, homeParams);
     }
     catch (err) {
-      console.error(err);
+      sendErr(err);
     }
   },
 
