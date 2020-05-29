@@ -153,18 +153,18 @@ module.exports = {
   },
 
   /*----
-    Get data on upcoming events to schedule user
-    followups to fill out a post-event report
-    Do this for events happening today or after today
+    Get data on events to schedule user followups
+    to fill out a post-event report
+    Do this for events with a followup of today or after today
     (This should be called on init of the app)
   ----*/
-  async getUpcomingEvents(app) {
+  async getFollowupEvents(app) {
     try {
       const results = [];
       const atData = await base(table).select({
-        filterByFormula: `OR(IS_AFTER({Date}, TODAY()), {Date} = TODAY())`,
+        filterByFormula: `OR(IS_AFTER({Followup}, TODAY()), {Followup} = TODAY())`,
         view: viewID,
-        fields: ["Name", "Date", "Event Type", "Topic", "Event URL", "Who's speaking?", "Submitter Slack ID"]
+        fields: ["Name", "Date", "Event Type", "Topic", "Event URL", "Who's speaking?", "Followup", "Submitter Slack ID"]
       }).all();
       atData.forEach((record) => {
         const resObj = this.setupFollowup(app, record);
@@ -183,14 +183,14 @@ module.exports = {
   ----*/
   setupFollowup(app, record) {
     // Build followup object with necessary data to schedule followup
-    const eventtime = new Date(record.fields['Date'] + 'T00:00:00Z').getTime();
-    const hourDelay = (1000 * 60 * 60) * 40.5;  // Next day at 11:30/12:30 Eastern (depending on DST)
-    const followupAt = eventtime + hourDelay;
+    const followuptime = new Date(record.fields['Followup'] + 'T00:00:00Z').getTime();
+    const hourDelay = (1000 * 60 * 60) * 16.5;  // 11:30/12:30 Eastern (depending on DST)
+    const followupAt = followuptime + hourDelay;
     const recordObj = {
       id: record.getId(),
       event_name: record.fields['Name'],
       event_date: record.fields['Date'],
-      datetime: eventtime,
+      datetime: new Date(record.fields['Date'] + 'T00:00:00Z').getTime(),
       followup_at: followupAt,
       event_type: record.fields['Event Type'],
       topic: record.fields['Topic'],

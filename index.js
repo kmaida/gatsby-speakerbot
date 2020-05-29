@@ -37,8 +37,8 @@ mon.once('open', function () {
 ------------------*/
 // Get bot configuration settings from MongoDB
 store.initSettings();
-// Get upcoming events and schedule followups
-at.getUpcomingEvents(app);
+// Schedule event followups
+at.getFollowupEvents(app);
 
 /*------------------
      TRIGGERS
