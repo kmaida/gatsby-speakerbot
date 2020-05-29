@@ -8,10 +8,7 @@ module.exports = async (app, channel, err) => {
     const sendErr = await app.client.chat.postMessage({
       token: process.env.SLACK_BOT_TOKEN,
       channel: channel,
-      text: {
-        "type": "mrkdwn",
-        "text": ":disappointed: I'm sorry, I couldn't do that because an error occurred: ```" + JSON.stringify(err) + "```"
-      }
+      text: ":disappointed: I'm sorry, I couldn't do that because an error occurred: ```" + JSON.stringify(err) + "```"
     });
   }
   catch (err) {
