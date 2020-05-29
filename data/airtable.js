@@ -123,7 +123,6 @@ module.exports = {
         {
           "fields": {
             "Name": data.event_name,
-            "Submitter Slack ID": data.submitterID,
             "Date": data.event_date,
             "Event Type": data.event_type,
             "Event URL": data.url,
