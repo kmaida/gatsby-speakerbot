@@ -18,7 +18,7 @@ const blocksHomeNeedsReport = (recordObjArr, homeParams) => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": "According to my records, you've _completed the following speaking engagements, but have not filled out event reports yet_.\n\nI can help with that. Just click the button next to any event listed here, and I'll help you fill out your report."
+          "text": "According to my records, you have reports you can fill out for events that may have occurred today or in the past.\n\nI can help with that. Just click the button next to any event listed here, and I'll help you fill out your report."
         }
       }
     ];

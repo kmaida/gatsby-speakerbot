@@ -158,13 +158,14 @@ module.exports = {
     Get data on events to schedule user followups
     to fill out a post-event report
     Do this for events with a followup of today or after today
+    Do for events that do NOT have a rating
     (This should be called on init of the app)
   ----*/
   async getFollowupEvents(app) {
     try {
       const results = [];
       const atData = await base(table).select({
-        filterByFormula: `OR(IS_AFTER({Followup}, TODAY()), {Followup} = TODAY())`,
+        filterByFormula: `AND({Event Rating} = BLANK(), OR(IS_AFTER({Followup}, TODAY()), {Followup} = TODAY()))`,
         view: viewID,
         fields: ["Name", "Date", "Event Type", "Topic", "Event URL", "Who's speaking?", "Followup", "Submitter Slack ID"]
       }).all();
@@ -211,7 +212,8 @@ module.exports = {
 
   /*----
     Get data on recently past events for a
-    specific user that don't have a report yet
+    specific user that don't have a report yet.
+    Events can be today or in the past.
     (Display in a user's app home)
     @Returns: blocks for user's app home
   ----*/
@@ -219,7 +221,7 @@ module.exports = {
     try {
       const results = [];
       const atData = await base(table).select({
-        filterByFormula: `AND({Event Rating} = BLANK(), {Submitter Slack ID} = "${homeParams.userID}", IS_BEFORE({Date}, TODAY()))`,
+        filterByFormula: `AND({Event Rating} = BLANK(), {Submitter Slack ID} = "${homeParams.userID}", OR(IS_BEFORE({Date}, TODAY()), {Date} = TODAY()))`,
         view: viewID,
         fields: ["Name", "Date", "Event Type", "Topic", "Event URL", "Who's speaking?", "Submitter Slack ID"]
       }).all();
