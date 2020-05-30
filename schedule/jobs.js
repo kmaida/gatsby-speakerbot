@@ -1,4 +1,5 @@
 const cron = require('cron');
+const utils = require('./../utils/utils');
 
 /*------------------
      CRON JOBS

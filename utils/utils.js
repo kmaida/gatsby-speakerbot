@@ -84,14 +84,11 @@ const utils = {
     @Param: number - offset from passed date in days (optional)
     @Returns: Simple ISO date string (YYYY-MM-DD)
   ----*/
-  dateStrToISO(dateInput, dayOffset) {
+  dateToISO(dateInput, dayOffset) {
     const msOffset = dayOffset ? dayOffset * (1000 * 60 * 60 * 24) : 0;
-    const baseDate = new Date(dateInput);
+    const baseDate = typeof dateInput.getMonth === 'function' ? dateInput : new Date(dateInput);
     const dateObj = new Date(baseDate.getTime() + msOffset);
-    const date = ('0' + dateObj.getDate()).slice(-2);
-    const month = ('0' + (dateObj.getMonth() * 1 + 1)).slice(-2);
-    const year = dateObj.getFullYear();
-    const iso = `${year}-${month}-${date}`;
+    const iso = dateObj.toISOString().split('T')[0];
     return iso;
   }
 };
