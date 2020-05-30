@@ -14,12 +14,12 @@ const jobs = {
       const roundup = await at.getEventsThisWeek(endOfWeekISO, app);
     };
     const job = new cron.CronJob({
-      cronTime: '00 12 * * MON',
+      cronTime: '15 12 * * MON',
       onTick: weeklyRoundup,
       timeZone: 'America/Detroit'
     });
     // Log next 5 scheduled dates
-    console.log('Next 5 weekly roundups scheduled for:', job.nextDates(5).map(date => date.toString()));
+    console.log('Next 3 weekly roundups scheduled for:', job.nextDates(3).map(date => date.toString()));
     job.start();
   }
 };
