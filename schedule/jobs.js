@@ -9,7 +9,7 @@ const jobs = {
   eventsThisWeek(app, at) {
     const weeklyRoundup = async () => {
       const today = new Date();
-      // We'll get dates BEFORE this date, so it should be the following Monday
+      // We'll get dates BEFORE this date in Airtable filter formula, so it should be the following Monday
       const endOfWeekISO = utils.dateToISO(today, 7);
       const roundup = await at.getEventsThisWeek(endOfWeekISO, app);
     };
@@ -19,10 +19,8 @@ const jobs = {
       timeZone: 'America/Detroit'
     });
     // Log next 5 scheduled dates
-    console.log('Weekly roundups scheduled for:', job.nextDates(5).map(date => date.toString()));
+    console.log('Next 5 weekly roundups scheduled for:', job.nextDates(5).map(date => date.toString()));
     job.start();
-    // TESTING: run roundup now
-    weeklyRoundup();
   }
 };
 

@@ -5,6 +5,7 @@ const viewID = process.env.AIRTABLE_VIEW_ID;
 const utils = require('./../utils/utils');
 const publishSlackEvent = require('./../bot-response/publish/publish-slack-event');
 const publishSlackReport = require('./../bot-response/publish/publish-slack-report');
+const publishWeekly = require('./../bot-response/publish/publish-weekly-upcoming');
 const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
 const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
 const schedule = require('../schedule/schedule-followup');
@@ -276,8 +277,7 @@ module.exports = {
         const resObj = this.setupUpcomingWeekEvent(record);
         results.push(resObj);
       });
-      // @TODO: show roundup in channel
-      return results;
+      return publishWeekly(app, results);
     }
     catch (err) {
       sendErr(err);
@@ -298,7 +298,7 @@ module.exports = {
       url: record.fields['Event URL'],
       submitterID: record.fields['Submitter Slack ID']
     };
-    const recordString = `• <${r.url}|${r.name}> (${r.date}): ${r.speakers} (submitted by \`<@${r.submitterID}>)\` | <${r.link}>|Details>`;
+    const recordString = `• <${r.url}|${r.name}> (${r.date}) | ${r.speakers} | submitted by \`<@${r.submitterID}>\` | <${r.link}|Details>`;
     return recordString;
   }
 };
