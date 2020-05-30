@@ -10,7 +10,9 @@
     "@slack/bolt": "^2.0.1",
     "airtable": "^0.8.1",
     "dotenv": "^8.2.0",
-    "mongoose": "^5.9.14"
+    "mongoose": "^5.9.14",
+    "cron": "^1.8.2",
+    "safe-timers": "^1.1.0"
   },
   "engines": {
     "node": "12.x"
@@ -24,9 +26,5 @@
     "slackapi",
     "slackapp",
     "airtable"
-  ],
-  "devDependencies": {
-    "cron": "^1.8.2",
-    "safe-timers": "^1.1.0"
-  }
+  ]
 }
