@@ -264,22 +264,41 @@ module.exports = {
     @Param: ISO before (YYYY-MM-DD) (7 days out)
     @Returns: array of events
   ----*/
-  async getEventsThisWeek(beforeDate) {
+  async getEventsThisWeek(beforeDate, app) {
     try {
       const results = [];
       const atData = await base(table).select({
-        filterByFormula: `AND(IS_BEFORE({Date}, ${beforeDate}), OR(IS_AFTER({Date}, TODAY()), {Date} = TODAY()))`,
+        filterByFormula: `AND(IS_BEFORE({Date}, "${beforeDate}"), OR(IS_AFTER({Date}, TODAY()), {Date} = TODAY()))`,
         view: viewID,
-        fields: ["Name", "Date", "Event Type", "Topic", "Event URL", "Who's speaking?", "Submitter Slack ID"]
+        fields: ["Name", "Date", "Event URL", "Who's speaking?", "Submitter Slack ID"]
       }).all();
       atData.forEach((record) => {
-        const resObj = this.setupNeedsReportByUser(record);
+        const resObj = this.setupUpcomingWeekEvent(record);
         results.push(resObj);
       });
-      return blocksHomeNeedsReport(results, homeParams);
+      // @TODO: show roundup in channel
+      return results;
     }
     catch (err) {
       sendErr(err);
     }
+  },
+  /*----
+    Return a string formatted into display for a single record
+    for events upcoming this week
+    @Param: Airtable record
+    @Returns: string (to be displayed in iterable list)
+  ----*/
+  setupUpcomingWeekEvent(record) {
+    const r = {
+      link: `https://airtable.com/${tableID}/${viewID}/${record.getId()}`,
+      name: record.fields['Name'],
+      date: record.fields['Date'],
+      speakers: record.fields["Who's speaking?"],
+      url: record.fields['Event URL'],
+      submitterID: record.fields['Submitter Slack ID']
+    };
+    const recordString = `• <${r.url}|${r.name}> (${r.date}): ${r.speakers} (submitted by \`<@${r.submitterID}>)\` | <${r.link}>|Details>`;
+    return recordString;
   }
 };

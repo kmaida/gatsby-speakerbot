@@ -7,9 +7,11 @@ const utils = require('./../utils/utils');
 
 const jobs = {
   eventsThisWeek(app, at) {
-    const weeklyRoundup = () => {
-      const endOfWeekISO = null;
-      at.getEventsThisWeek(endofWeekISO);
+    const weeklyRoundup = async () => {
+      const today = new Date();
+      // We'll get dates BEFORE this date, so it should be the following Monday
+      const endOfWeekISO = utils.dateToISO(today, 7);
+      const roundup = await at.getEventsThisWeek(endOfWeekISO, app);
     };
     const job = new cron.CronJob({
       cronTime: '00 12 * * MON',
@@ -19,6 +21,8 @@ const jobs = {
     // Log next 5 scheduled dates
     console.log('Weekly roundups scheduled for:', job.nextDates(5).map(date => date.toString()));
     job.start();
+    // TESTING: run roundup now
+    weeklyRoundup();
   }
 };
 
