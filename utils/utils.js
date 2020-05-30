@@ -17,11 +17,8 @@ const utils = {
   ----*/
   dateCompare(dateInput, testFuture) {
     // Get today's date in ISO at 11:59:59
-    const now = new Date();
-    const nowUTCdate = ('0' + now.getUTCDate()).slice(-2);
-    const nowUTCmonth = ('0' + (now.getUTCMonth() * 1 + 1)).slice(-2);
-    const nowUTCyear = now.getUTCFullYear();
-    const todayISO = `${nowUTCyear}-${nowUTCmonth}-${nowUTCdate}T23:59:59Z`;
+    const now = new Date().toISOString().split('T')[0];
+    const todayISO = now + 'T23:59:59Z';
     const today = new Date(todayISO);
     // Get event date in ISO at 11:59:59
     const eventDate = new Date(dateInput + 'T23:59:59Z');
