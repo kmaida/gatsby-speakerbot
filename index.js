@@ -2,6 +2,8 @@ require('dotenv').config();
 const { App } = require('@slack/bolt');
 // Airtable
 const at = require('./data/airtable');
+// Roundups
+const jobs = require('./schedule/jobs');
 // Utils
 const utils = require('./utils/utils');
 // MongoDB
@@ -39,6 +41,8 @@ mon.once('open', function () {
 store.initSettings();
 // Schedule event followups
 at.getFollowupEvents(app);
+// Set up weekly roundups
+jobs.eventsThisWeek(app, at);
 
 /*------------------
      TRIGGERS

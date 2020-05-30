@@ -7,7 +7,7 @@ const publishSlackEvent = require('./../bot-response/publish/publish-slack-event
 const publishSlackReport = require('./../bot-response/publish/publish-slack-report');
 const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
 const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
-const schedule = require('./../outreach/schedule-followup');
+const schedule = require('../schedule/schedule-followup');
 const blocksHomeNeedsReport = require('./../bot-response/blocks-home/blocks-home-needsreport');
 
 /*------------------
@@ -257,5 +257,29 @@ module.exports = {
     };
     // Return known record data to prefill event report form with
     return recordObj;
+  },
+
+  /*----
+    Get events upcoming this week
+    @Param: ISO before (YYYY-MM-DD) (7 days out)
+    @Returns: array of events
+  ----*/
+  async getEventsThisWeek(beforeDate) {
+    try {
+      const results = [];
+      const atData = await base(table).select({
+        filterByFormula: `AND(IS_BEFORE({Date}, ${beforeDate}), OR(IS_AFTER({Date}, TODAY()), {Date} = TODAY()))`,
+        view: viewID,
+        fields: ["Name", "Date", "Event Type", "Topic", "Event URL", "Who's speaking?", "Submitter Slack ID"]
+      }).all();
+      atData.forEach((record) => {
+        const resObj = this.setupNeedsReportByUser(record);
+        results.push(resObj);
+      });
+      return blocksHomeNeedsReport(results, homeParams);
+    }
+    catch (err) {
+      sendErr(err);
+    }
   }
 };

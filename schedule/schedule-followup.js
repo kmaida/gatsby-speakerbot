@@ -1,9 +1,9 @@
 const setTimeout = require('safe-timers').setTimeout;
-const dmFollowup = require('./../bot-response/dm/dm-event-followup');
-const channelFollowup = require('./../bot-response/publish/publish-channel-followup');
+const dmFollowup = require('../bot-response/dm/dm-event-followup');
+const channelFollowup = require('../bot-response/publish/publish-channel-followup');
 
 /*------------------
- SCHEDULE FOLLOWUP
+  SCHEDULE FOLLOWUP
 ------------------*/
 
 const schedule = {
@@ -15,6 +15,7 @@ const schedule = {
     timeoutCb = () => {
       dmFollowup(app, recordObj);
       channelFollowup(app, recordObj);
+      clearTimeout(followupID);
     }
     const followupID = setTimeout(timeoutCb, timeout);
     // Logging

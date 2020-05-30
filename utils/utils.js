@@ -77,6 +77,22 @@ const utils = {
     const nextDayDatetime = jsDatetime + dayms;
     const jsNextDay = new Date(nextDayDatetime);
     return jsNextDay.toISOString();
+  },
+  /*----
+    Takes a JS date string and returns simple ISO string
+    @Param: anything that can be converted to a JS date (e.g., 'Mon Jun 01 2020 12:00:00 GMT-0400', timestamp, ISO, etc.)
+    @Param: number - offset from passed date in days (optional)
+    @Returns: Simple ISO date string (YYYY-MM-DD)
+  ----*/
+  dateStrToISO(dateInput, dayOffset) {
+    const msOffset = dayOffset ? dayOffset * (1000 * 60 * 60 * 24) : 0;
+    const baseDate = new Date(dateInput);
+    const dateObj = new Date(baseDate.getTime() + msOffset);
+    const date = ('0' + dateObj.getDate()).slice(-2);
+    const month = ('0' + (dateObj.getMonth() * 1 + 1)).slice(-2);
+    const year = dateObj.getFullYear();
+    const iso = `${year}-${month}-${date}`;
+    return iso;
   }
 };
 
