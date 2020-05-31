@@ -3,7 +3,10 @@ BUTTON: EDIT REPORT
 with initial values
 ------------------*/
 
-const btnEditReport = (eventObj) => {
+const btnEditReport = (eventObj, homeParams) => {
+  if (homeParams) {
+    eventObj.homeParams = homeParams;
+  }
   return {
     "type": "button",
     "text": {

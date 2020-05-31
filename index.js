@@ -43,8 +43,6 @@ store.initSettings();
 at.getFollowupEvents(app);
 // Set up weekly roundups
 jobs.eventsThisWeek(app, at);
-// TESTING USER EVENTS
-at.getUserEvents('U01238R77J6')
 
 /*------------------
      TRIGGERS

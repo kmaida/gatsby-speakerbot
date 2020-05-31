@@ -216,11 +216,11 @@ const at = {
   Get all events from a specific user
   @Returns: blocks for displaying all events
 ----*/
-  async getUserEvents(userID) {
+  async getUserEvents(homeParams) {
     try {
       const results = [];
       const atData = await base(table).select({
-        filterByFormula: `{Submitter Slack ID} = "${userID}"`,
+        filterByFormula: `{Submitter Slack ID} = "${homeParams.userID}"`,
         view: viewID
       }).all();
       atData.forEach((record) => {

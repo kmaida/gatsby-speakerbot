@@ -5,8 +5,7 @@ const btnEditReport = require('../ix-components/btn-edit-report');
  BLOCKS: USER EVENTS
 ------------------*/
 
-const blocksUserEvents = (userID, sortedEvents) => {
-  console.log('blocksUserEvents', userID, sortedEvents);
+const blocksUserEvents = (sortedEvents, homeParams) => {
   let upcomingEvents = [];
   const upcomingEventsListBlocks = [];
   let reports = [];
@@ -39,7 +38,7 @@ const blocksUserEvents = (userID, sortedEvents) => {
           "type": "mrkdwn",
           "text": `• *${eventObj.event_name}*: ${eventObj.event_type} (${eventObj.event_date})`
         },
-        "accessory": btnEditEvent(eventObj)
+        "accessory": btnEditEvent(eventObj, homeParams)
       };
       upcomingEventsListBlocks.push(thisEventBlock);
     });
@@ -70,7 +69,7 @@ const blocksUserEvents = (userID, sortedEvents) => {
           "type": "mrkdwn",
           "text": `• *${eventObj.event_name}*: ${eventObj.event_type} (${eventObj.event_date})`
         },
-        "accessory": btnEditReport(eventObj)
+        "accessory": btnEditReport(eventObj, homeParams)
       };
       reportsListBlocks.push(thisEventBlock);
     });

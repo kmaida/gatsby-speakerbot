@@ -3,7 +3,10 @@ BUTTON: EDIT EVENT
 with initial values
 ------------------*/
 
-const btnEditEvent = (eventObj) => {
+const btnEditEvent = (eventObj, homeParams) => {
+  if (homeParams) {
+    eventObj.homeParams = homeParams;
+  }
   return {
     "type": "button",
     "text": {

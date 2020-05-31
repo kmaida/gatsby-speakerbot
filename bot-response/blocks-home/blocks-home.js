@@ -8,7 +8,7 @@ const blocksHome = async (homeParams, at) => {
   const introBlocks = require('./blocks-home-intro')(homeParams);
   const adminBlocks = isUserAdmin ? require('./blocks-home-admin')(homeParams) : [];
   const reportBlocks = await at.getPastEventsNeedReport(homeParams);
-  const eventBlocks = await at.getUserEvents(homeParams.userID);
+  const eventBlocks = await at.getUserEvents(homeParams);
   const useBlocks = require('./blocks-home-use')(homeParams);
   const footerBlocks = require('./blocks-home-footer');
 
