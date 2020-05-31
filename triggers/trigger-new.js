@@ -21,7 +21,7 @@ const triggerSpeakingNew = (app) => {
             type: 'plain_text',
             text: 'List Your Speaking Event'
           },
-          blocks: blocksListEvent,
+          blocks: blocksListEvent(),
           submit: {
             type: 'plain_text',
             text: 'Save Event'

@@ -21,10 +21,10 @@ const blocksReport = (prefill = {}) => {
     eventType('r_event_type', prefill.event_type),
     speakers('r_speakers', 'Who spoke at this event?', prefill.speakers),
     topic('r_topic', 'What did you speak about?', prefill.topic),
-    reach('r_reach'),
-    contentLinks('r_content_links'),
-    eventRating('r_rating'),
-    report('r_report')
+    reach('r_reach', prefill.reach),
+    contentLinks('r_content_links', prefill.content_links),
+    eventRating('r_rating', prefill.rating),
+    report('r_report', prefill.report)
   ];
 }
 

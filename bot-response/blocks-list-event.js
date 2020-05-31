@@ -11,15 +11,17 @@ const notes = require('./form-components/notes');
  BLOCKS: LIST EVENT
 ------------------*/
 
-const blocksListEvent = [
-  eventName('a_event_name'),
-  eventDate('a_event_date', 'When will you speak?', 'If this is a multi-day event, enter the date you\'ll be speaking. If you\'re speaking multiple days, enter the first date.'),
-  eventLocation('a_location'),
-  eventUrl('a_url'),
-  speakers('a_speakers', 'Who is speaking at this event?'),
-  eventType('a_event_type'),
-  topic('a_topic', 'What are you speaking about?'),
-  notes('a_notes')
-];
+const blocksListEvent = (prefill = {}) => {
+  return [
+    eventName('a_event_name', prefill.event_name),
+    eventDate('a_event_date', 'When will you speak?', 'If this is a multi-day event, enter the date you\'ll be speaking. If you\'re speaking multiple days, enter the first date.', prefill.event_date),
+    eventLocation('a_location', prefill.location),
+    eventUrl('a_url', prefill.url),
+    speakers('a_speakers', 'Who is speaking at this event?', prefill.speakers),
+    eventType('a_event_type', prefill.event_type),
+    topic('a_topic', 'What are you speaking about?', prefill.topic),
+    notes('a_notes', prefill.notes)
+  ]
+};
 
 module.exports = blocksListEvent;
