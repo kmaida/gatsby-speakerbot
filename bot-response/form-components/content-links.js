@@ -2,7 +2,7 @@
 FORM: CONTENT LINKS
 ------------------*/
 
-module.exports = (aid) => {
+module.exports = (aid, initial) => {
   return {
     "type": "input",
     "block_id": "content_links",
@@ -13,7 +13,8 @@ module.exports = (aid) => {
       "placeholder": {
         "type": "plain_text",
         "text": "https://...\nhttps://..."
-      }
+      },
+      "initial_value": initial
     },
     "label": {
       "type": "plain_text",

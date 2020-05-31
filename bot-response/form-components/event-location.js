@@ -2,7 +2,7 @@
 FORM: EVENT LOCATION
 ------------------*/
 
-module.exports = (aid) => {
+module.exports = (aid, initial) => {
   return {
     "type": "input",
     "block_id": "location",
@@ -12,7 +12,8 @@ module.exports = (aid) => {
       "placeholder": {
         "type": "plain_text",
         "text": "Where is the event taking place?"
-      }
+      },
+      "initial_value": initial
     },
     "label": {
       "type": "plain_text",

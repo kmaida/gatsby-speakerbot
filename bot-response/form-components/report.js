@@ -2,7 +2,7 @@
     FORM: REPORT
 ------------------*/
 
-module.exports = (aid) => {
+module.exports = (aid, initial) => {
   return {
     "type": "input",
     "block_id": "event_report",
@@ -13,7 +13,8 @@ module.exports = (aid) => {
       "placeholder": {
         "type": "plain_text",
         "text": "Let us know how the event went and any interesting takeaways."
-      }
+      },
+      "initial_value": initial
     },
     "label": {
       "type": "plain_text",

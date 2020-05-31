@@ -2,7 +2,21 @@
  FORM: EVENT RATING
 ------------------*/
 
-module.exports = (aid) => {
+module.exports = (aid, initial) => {
+  const optionText = [
+    ':disappointed: Poor',
+    ':neutral_face: Okay',
+    ':simple_smile: Good',
+    ':star-struck: Great!'
+  ];
+  const initialOption = initial ? {
+    "text": {
+      "type": "plain_text",
+      "text": optionText[(initial * 1) + 1]
+    },
+    "value": initial
+  } : undefined;
+
   return {
     "type": "input",
     "block_id": "rating",
@@ -13,6 +27,7 @@ module.exports = (aid) => {
         "type": "plain_text",
         "text": "How was this event?"
       },
+      "initial_option": initialOption,
       "options": [
         {
           "text": {
