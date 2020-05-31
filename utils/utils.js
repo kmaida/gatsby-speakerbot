@@ -87,6 +87,33 @@ const utils = {
     const dateObj = new Date(baseDate.getTime() + msOffset);
     const iso = dateObj.toISOString().split('T')[0];
     return iso;
+  },
+  /*----
+    Sort all of a user's events into upcoming and reports
+    This does not display events that have passed and need reports;
+    That is handled separately
+    @Param: array of events
+    @Returns: object of sorted events arrays
+  ----*/
+  sortUserEvents(allEvents) {
+    const sortedEvents = {
+      upcoming: [],
+      reports: []
+    };
+    allEvents.forEach((event) => {
+      const isFuture = this.dateCompare(event.event_date, true);
+      const isPast = this.dateCompare(event.event_date);
+      const hasRating = !!event.rating === true;
+      const isUpcoming = isFuture && !hasRating;
+      const isReport = isPast && hasRating;
+      if (isUpcoming) {
+        sortedEvents.upcoming.push(event);
+      }
+      else if (isReport) {
+        sortedEvents.reports.push(event);
+      }
+    });
+    return sortedEvents;
   }
 };
 

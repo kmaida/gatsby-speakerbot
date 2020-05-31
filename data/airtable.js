@@ -10,6 +10,7 @@ const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
 const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
 const schedule = require('../schedule/schedule-followup');
 const blocksHomeNeedsReport = require('./../bot-response/blocks-home/blocks-home-needsreport');
+const blocksUserEvents = require('./../bot-response/blocks-user-events');
 
 /*------------------
       AIRTABLE
@@ -209,6 +210,57 @@ const at = {
       schedule.followup(app, recordObj);
       return recordObj;
     }
+  },
+
+/*----
+  Get all events from a specific user
+  @Returns: blocks for displaying all events
+----*/
+  async getUserEvents(userID) {
+    try {
+      const results = [];
+      const atData = await base(table).select({
+        filterByFormula: `{Submitter Slack ID} = "${userID}"`,
+        view: viewID
+      }).all();
+      atData.forEach((record) => {
+        const resObj = this.setupUserEvents(record);
+        results.push(resObj);
+      });
+      const sortedEvents = utils.sortUserEvents(results);
+      return blocksUserEvents(userID, sortedEvents);
+    }
+    catch (err) {
+      sendErr(err);
+    }
+  },
+
+  /*----
+    Return a record object for a specific user
+    for events in the past that don't yet have
+    a report submitted
+    (This object should be used to populate
+    initial fields in event report form from
+    user's app home)
+  ----*/
+  setupUserEvents(record) {
+    const recordObj = {
+      id: record.getId(),
+      event_name: record.fields['Name'],
+      event_date: record.fields['Date'],
+      event_type: record.fields['Event Type'],
+      topic: record.fields['Topic'],
+      speakers: record.fields["Who's speaking?"],
+      url: record.fields['Event URL'],
+      location: record.fields['Location'],
+      notes: record.fields['Notes'],
+      reach: record.fields['Est. Reach'],
+      rating: record.fields['Event Rating'],
+      report: record.fields['Post Event Report'],
+      submitterID: record.fields['Submitter Slack ID']
+    };
+    // Return known record data to prefill form
+    return recordObj;
   },
 
   /*----
