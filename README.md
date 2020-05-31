@@ -1,6 +1,6 @@
 # gatsby-speakers-slackbot
 
-`@speakerbot` manages records of speaking events and event reports for Gatsby employees using Airtable.
+`@Speakerbot` manages records of speaking events and event reports for Gatsby employees using Airtable.
 
 ## Documentation
 

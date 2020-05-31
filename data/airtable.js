@@ -188,7 +188,7 @@ const at = {
   setupFollowup(app, record) {
     // Build followup object with necessary data to schedule followup
     const followuptime = new Date(record.fields['Followup'] + 'T00:00:00Z').getTime();
-    const hourDelay = (1000 * 60 * 60) * 16.5;  // 11:30/12:30 Eastern (depending on DST)
+    const hourDelay = (1000 * 60 * 60) * 17.5;  // 12:30/1:30 Eastern (depending on DST)
     const followupAt = followuptime + hourDelay;
     const now = new Date().getTime();
     // If followup time has not passed
