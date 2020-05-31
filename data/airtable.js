@@ -20,7 +20,7 @@ const sendErr = (err) => {
   return new Error(err);
 };
 
-module.exports = {
+const at = {
   /*----
     Get record by ID
   ----*/
@@ -302,3 +302,5 @@ module.exports = {
     return recordString;
   }
 };
+
+module.exports = at;
