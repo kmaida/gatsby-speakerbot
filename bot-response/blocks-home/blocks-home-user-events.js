@@ -1,5 +1,5 @@
-const btnEditEvent = require('./../bot-response/ix-components/btn-edit-event');
-const btnEditReport = require('./../bot-response/ix-components/btn-edit-report');
+const btnEditEvent = require('../ix-components/btn-edit-event');
+const btnEditReport = require('../ix-components/btn-edit-report');
 
 /*------------------
  BLOCKS: USER EVENTS
@@ -11,6 +11,9 @@ const blocksUserEvents = (userID, sortedEvents) => {
   const upcomingEventsListBlocks = [];
   let reports = [];
   const reportsListBlocks = [];
+  const divider = {
+    "type": "divider"
+  };
   // If there are upcoming events, compose them into blocks
   if (sortedEvents.upcoming.length) {
     upcomingEvents = [
@@ -20,6 +23,13 @@ const blocksUserEvents = (userID, sortedEvents) => {
           "type": "mrkdwn",
           "text": ":spiral_calendar_pad: *Your Upcoming Events:*"
         }
+      },
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "You have some events coming up. If you need to make any changes to these event listings, you can do so below."
+        }
       }
     ];
     sortedEvents.upcoming.forEach((eventObj) => {
@@ -27,12 +37,13 @@ const blocksUserEvents = (userID, sortedEvents) => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": `:microphone: *${eventObj.event_name}*: ${eventObj.event_type} (${eventObj.event_date})`
+          "text": `• *${eventObj.event_name}*: ${eventObj.event_type} (${eventObj.event_date})`
         },
         "accessory": btnEditEvent(eventObj)
       };
       upcomingEventsListBlocks.push(thisEventBlock);
     });
+    upcomingEventsListBlocks.push(divider);
   }
   // If there are completed event reports, compose them into blocks
   if (sortedEvents.reports.length) {
@@ -43,6 +54,13 @@ const blocksUserEvents = (userID, sortedEvents) => {
           "type": "mrkdwn",
           "text": ":newspaper: *Your Post-Event Reports:*"
         }
+      },
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "You filled out the following post-event reports. If you need to make any changes, you can edit your reports here."
+        }
       }
     ];
     sortedEvents.reports.forEach((eventObj) => {
@@ -50,12 +68,13 @@ const blocksUserEvents = (userID, sortedEvents) => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": `:microphone: *${eventObj.event_name}*: ${eventObj.event_type} (${eventObj.event_date})`
+          "text": `• *${eventObj.event_name}*: ${eventObj.event_type} (${eventObj.event_date})`
         },
         "accessory": btnEditReport(eventObj)
       };
       reportsListBlocks.push(thisEventBlock);
     });
+    reportsListBlocks.push(divider);
   }
   // Return compiled blocks
   return upcomingEvents.concat(upcomingEventsListBlocks).concat(reports).concat(reportsListBlocks);

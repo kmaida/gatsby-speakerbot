@@ -10,7 +10,7 @@ const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
 const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
 const schedule = require('../schedule/schedule-followup');
 const blocksHomeNeedsReport = require('./../bot-response/blocks-home/blocks-home-needsreport');
-const blocksUserEvents = require('./../bot-response/blocks-user-events');
+const blocksUserEvents = require('../bot-response/blocks-home/blocks-home-user-events');
 
 /*------------------
       AIRTABLE

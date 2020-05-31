@@ -28,7 +28,7 @@ const blocksHomeNeedsReport = (recordObjArr, homeParams) => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": `:microphone: *${recordObj.event_name}*: ${recordObj.event_type} (${recordObj.event_date})`
+          "text": `• *${recordObj.event_name}*: ${recordObj.event_type} (${recordObj.event_date})`
         },
         "accessory": btnEventReport(recordObj, homeParams)
       };
@@ -40,7 +40,7 @@ const blocksHomeNeedsReport = (recordObjArr, homeParams) => {
         "elements": [
           {
             "type": "mrkdwn",
-            "text": `:pencil: I've included everything I know in the reports so far. Please make sure the info in the form is correct, then fill in the remaining fields.`
+            "text": `:writing_hand: I've included everything I know in the reports so far. Please make sure the info in the form is correct, then fill in the remaining fields.`
           }
         ]
       },
