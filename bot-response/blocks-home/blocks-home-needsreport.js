@@ -11,7 +11,7 @@ const blocksHomeNeedsReport = (recordObjArr, homeParams) => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": ":spiral_calendar_pad: *Submit Your Event Reports:*"
+          "text": ":pencil: *Submit Your Event Reports:*"
         }
       },
       {

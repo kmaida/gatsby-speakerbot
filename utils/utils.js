@@ -114,6 +114,16 @@ const utils = {
       }
     });
     return sortedEvents;
+  },
+  /*----
+    Clear newline
+  ----*/
+  clearNewline(input) {
+    if (input === '\n') {
+      return undefined;
+    } else {
+      return input;
+    }
   }
 };
 

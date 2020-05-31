@@ -253,10 +253,11 @@ const at = {
       speakers: record.fields["Who's speaking?"],
       url: record.fields['Event URL'],
       location: record.fields['Location'],
-      notes: record.fields['Notes'],
+      notes: utils.clearNewline(record.fields['Notes']),
       reach: record.fields['Est. Reach'],
+      content_links: utils.clearNewline(record.fields['Content Links']),
       rating: record.fields['Event Rating'],
-      report: record.fields['Post Event Report'],
+      report: utils.clearNewline(record.fields['Post Event Report']),
       submitterID: record.fields['Submitter Slack ID']
     };
     // Return known record data to prefill form
