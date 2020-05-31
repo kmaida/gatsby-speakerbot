@@ -12,7 +12,7 @@ module.exports = (aid, initial) => {
   const initialOption = initial ? {
     "text": {
       "type": "plain_text",
-      "text": optionText[(initial * 1) + 1]
+      "text": optionText[(initial * 1) - 1]
     },
     "value": initial
   } : undefined;

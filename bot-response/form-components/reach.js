@@ -13,7 +13,7 @@ module.exports = (aid, initial) => {
         "type": "plain_text",
         "text": "# of people"
       },
-      "initial_value": initial
+      "initial_value": initial.toString()
     },
     "label": {
       "type": "plain_text",

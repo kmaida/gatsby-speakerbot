@@ -3,6 +3,7 @@ const homeBlocks = require('../bot-response/blocks-home/blocks-home');
 const errSlack = require('./../utils/error-slack');
 const triggerHomeViewUpdate = require('./../triggers/trigger-home-view-update');
 const blocksEventReport = require('./../bot-response/blocks-event-report');
+const blocksListEvent = require('./../bot-response/blocks-list-event');
 
 /*------------------
   APP HOME OPENED
@@ -82,6 +83,69 @@ const appHomeOpened = async (app, at) => {
           submit: {
             type: 'plain_text',
             text: 'Submit Report'
+          }
+        }
+      });
+    }
+    catch (err) {
+      errSlack(app, homeParams.userID, err);
+    }
+  });
+
+  // Open an edit event report form
+  // @TODO: this could technically be abstracted trigger-report.js try/catch block
+  app.action('btn_edit_report', async ({ ack, body, context }) => {
+    await ack();
+    // If prefill info is available, set it
+    const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
+    // Open post event report form
+    try {
+      const result = await app.client.views.open({
+        token: context.botToken,
+        trigger_id: body.trigger_id,
+        view: {
+          type: 'modal',
+          callback_id: 'event_report',
+          title: {
+            type: 'plain_text',
+            text: 'Edit Post Event Report'
+          },
+          blocks: blocksEventReport(prefill),
+          private_metadata: JSON.stringify(homeParams),
+          submit: {
+            type: 'plain_text',
+            text: 'Update Report'
+          }
+        }
+      });
+    }
+    catch (err) {
+      errSlack(app, homeParams.userID, err);
+    }
+  });
+
+  // Open an event form with prefilled data to edit
+  app.action('btn_edit_event', async ({ ack, body, context }) => {
+    await ack();
+    // If prefill info is available, set it
+    const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
+    // Open post event report form
+    try {
+      const result = await app.client.views.open({
+        token: context.botToken,
+        trigger_id: body.trigger_id,
+        view: {
+          type: 'modal',
+          callback_id: 'list_event',
+          title: {
+            type: 'plain_text',
+            text: 'Edit Event Listing'
+          },
+          blocks: blocksListEvent(prefill),
+          private_metadata: JSON.stringify(homeParams),
+          submit: {
+            type: 'plain_text',
+            text: 'Update Event'
           }
         }
       });

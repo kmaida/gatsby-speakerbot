@@ -41,7 +41,7 @@ const triggerSpeakingReport = (app) => {
   // Global shortcut Submit event report
   app.shortcut('event_report', openReportModal);
   // Button click from scheduled followup
-  // (Button click from app home: app-home-opened.js)
+  // (Button clicks from app home: app-home-opened.js)
   app.action('btn_event_report', openReportModal);
 };
 

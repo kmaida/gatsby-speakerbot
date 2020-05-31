@@ -228,7 +228,7 @@ const at = {
         results.push(resObj);
       });
       const sortedEvents = utils.sortUserEvents(results);
-      return blocksUserEvents(userID, sortedEvents);
+      return blocksUserEvents(sortedEvents, homeParams);
     }
     catch (err) {
       sendErr(err);
