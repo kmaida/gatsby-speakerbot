@@ -86,6 +86,7 @@ const appHomeOpened = async (app, at) => {
           }
         }
       });
+      delete homeParams.submitReportID;
     }
     catch (err) {
       errSlack(app, homeParams.userID, err);
@@ -98,6 +99,7 @@ const appHomeOpened = async (app, at) => {
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
     homeParams.editReportID = prefill ? prefill.id : undefined;
+    homeParams.editReport = true;
     // Open post event report form
     try {
       const result = await app.client.views.open({
@@ -118,6 +120,8 @@ const appHomeOpened = async (app, at) => {
           }
         }
       });
+      delete homeParams.editReportID;
+      delete homeParams.editReport;
     }
     catch (err) {
       errSlack(app, homeParams.userID, err);
@@ -150,6 +154,7 @@ const appHomeOpened = async (app, at) => {
           }
         }
       });
+      delete homeParams.editEventID;
     }
     catch (err) {
       errSlack(app, homeParams.userID, err);

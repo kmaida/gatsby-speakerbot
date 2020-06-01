@@ -134,7 +134,7 @@ const at = {
     Check if event exists already, if so, update
     If event does not exist, create new record
   ----*/
-  async submitEventReport(app, bc, data, editID) {
+  async submitEventReport(app, bc, data, editID, editReport) {
     // Check to see if report exists
     if (!editID) {
       // If no editID was passed as a parameter, search for a matching event
@@ -172,16 +172,15 @@ const at = {
           sendErr(err);
         }
         const updated = records[0].getId();
-        const edit = !!editID;
-        console.log(!edit ? 'Updated existing event to add report:' : 'Updated existing report', updated);
+        console.log(!editReport ? 'Updated existing event to add report:' : 'Updated existing report', updated);
         const updatedObj = {
           id: updated,
           link: `https://airtable.com/${tableID}/${viewID}/${updated}`
         };
         // Share event output in designated Slack channel
-        publishSlackReport(app, data, updatedObj, edit);
+        publishSlackReport(app, data, updatedObj, editReport);
         // DM user who submitted event
-        dmConfirmReport(app, bc, data, edit);
+        dmConfirmReport(app, bc, data, editReport);
         return updatedObj;
       });
     }

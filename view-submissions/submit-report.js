@@ -51,7 +51,7 @@ const submitReport = (app, at, utils) => {
 
     // Save data to Airtable and output results in Slack channel
     try {
-      const saveToAirtable = await at.submitEventReport(app, bc, data, homeParams.editReportID);
+      const saveToAirtable = await at.submitEventReport(app, bc, data, homeParams.editReportID, homeParams.editReport);
     }
     catch (err) {
       errSlack(app, bc.userID, err);
