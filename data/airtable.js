@@ -8,7 +8,7 @@ const publishSlackReport = require('./../bot-response/publish/publish-slack-repo
 const publishWeekly = require('./../bot-response/publish/publish-weekly-upcoming');
 const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
 const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
-const schedule = require('../schedule/schedule-followup');
+const schedule = require('./../schedule/schedule-followup');
 const blocksHomeNeedsReport = require('./../bot-response/blocks-home/blocks-home-needsreport');
 const blocksUserEvents = require('../bot-response/blocks-home/blocks-home-user-events');
 
@@ -66,15 +66,19 @@ const at = {
         if (err) {
           sendErr(err);
         }
-        const updated = records[0].getId();
-        console.log('Edited existing upcoming event:', updated);
+        const originalDate = results[0].fields['Date'];
+        const updatedRecord = records[0];
+        const updatedID = updatedRecord.getId();
+        console.log('Edited existing upcoming event:', updatedID);
         const updatedObj = {
-          id: updated,
-          link: `https://airtable.com/${tableID}/${viewID}/${updated}`
+          id: updatedID,
+          link: `https://airtable.com/${tableID}/${viewID}/${updatedID}`
         };
-        // If the date has been changed for an event, re-schedule followups
-        if (results[0].fields['Date'] != data.event_date) {
-          at.getFollowupEvents(app);
+        // If the date has been changed for an event, re-schedule followup
+        if (originalDate !== data.event_date) {
+          console.log('Edited date for an existing upcoming event: followup needs to be updated');
+          // Reschedule only the updated event
+          schedule.setupFollowup(app, updatedRecord);
         }
         // Share event output in designated Slack channel
         publishSlackEvent(app, data, updatedObj, true);
@@ -113,7 +117,7 @@ const at = {
         // DM user who submitted event
         dmConfirmNew(app, bc, data);
         // Set up followup
-        this.setupFollowup(app, saved);
+        schedule.setupFollowup(app, saved);
         return savedObj;
       });
     }
@@ -219,43 +223,13 @@ const at = {
         fields: ["Name", "Date", "Event Type", "Topic", "Event URL", "Who's speaking?", "Followup", "Submitter Slack ID"]
       }).all();
       atData.forEach((record) => {
-        const resObj = this.setupFollowup(app, record);
+        const resObj = schedule.setupFollowup(app, record);
         results.push(resObj);
       });
       return results;
     }
     catch (err) {
       sendErr(err);
-    }
-  },
-
-  /*----
-    Set up followup by forming a followup object
-    Passing object to schedule.followup() service
-  ----*/
-  setupFollowup(app, record) {
-    // Build followup object with necessary data to schedule followup
-    const followuptime = new Date(record.fields['Followup'] + 'T00:00:00Z').getTime();
-    const hourDelay = (1000 * 60 * 60) * 17.5;  // 12:30/1:30 Eastern (depending on DST)
-    const followupAt = followuptime + hourDelay;
-    const now = new Date().getTime();
-    // If followup time has not passed
-    if (now < followupAt) {
-      const recordObj = {
-        id: record.getId(),
-        event_name: record.fields['Name'],
-        event_date: record.fields['Date'],
-        datetime: new Date(record.fields['Date'] + 'T00:00:00Z').getTime(),
-        followup_at: followupAt,
-        event_type: record.fields['Event Type'],
-        topic: record.fields['Topic'],
-        speakers: record.fields["Who's speaking?"],
-        url: record.fields['Event URL'],
-        submitterID: record.fields['Submitter Slack ID']
-      };
-      // Schedule the followup
-      schedule.followup(app, recordObj);
-      return recordObj;
     }
   },
 

@@ -6,19 +6,67 @@ const channelFollowup = require('../bot-response/publish/publish-channel-followu
   SCHEDULE FOLLOWUP
 ------------------*/
 
+let timeouts = {};
+
 const schedule = {
+  /*----
+    Set up followup by forming a followup object
+    Passing object to schedule.followup()
+  ----*/
+  setupFollowup(app, record) {
+    // Build followup object with necessary data to schedule followup
+    const followuptime = new Date(record.fields['Followup'] + 'T00:00:00Z').getTime();
+    const hourDelay = (1000 * 60 * 60) * 17.5;  // 12:30/1:30 Eastern (depending on DST)
+    const followupAt = followuptime + hourDelay;
+    const now = new Date().getTime();
+    // If followup time has not passed
+    if (now < followupAt) {
+      const eventObj = {
+        id: record.getId(),
+        event_name: record.fields['Name'],
+        event_date: record.fields['Date'],
+        datetime: new Date(record.fields['Date'] + 'T00:00:00Z').getTime(),
+        followup_at: followupAt,
+        event_type: record.fields['Event Type'],
+        topic: record.fields['Topic'],
+        speakers: record.fields["Who's speaking?"],
+        url: record.fields['Event URL'],
+        submitterID: record.fields['Submitter Slack ID']
+      };
+      // Schedule the followup
+      schedule.followup(app, eventObj);
+      // Return the reformatted event object
+      return eventObj;
+    }
+  },
+  /*----
+    Clear a specific scheduled followup timeout
+    @Param: timeoutKey is the record's Airtable ID
+  ----*/
+  clear(timeoutKey) {
+    if (timeoutKey in timeouts) {
+      clearTimeout(timeouts[timeoutKey]);
+      delete timeouts[timeoutKey];
+      console.log('Scheduled followup was cleared for', timeoutKey);
+    }
+  },
+  /*----
+    Schedule a followup timeout
+  ----*/
   followup(app, recordObj) {
+    const timeoutKey = recordObj.id;
+    schedule.clear(timeoutKey);
     const now = new Date().getTime();
     const timeout = recordObj.followup_at - now;
     timeoutCb = () => {
       dmFollowup(app, recordObj);
       channelFollowup(app, recordObj);
-      clearTimeout(followupID);
+      schedule.clear(timeoutKey);
     }
-    const followupID = setTimeout(timeoutCb, timeout);
+    timeouts[timeoutKey] = setTimeout(timeoutCb, timeout);
     // Logging
     const logDays = Math.round(((timeout / (1000 * 60 * 60) / 24) + 0.00001) * 100) / 100;
-    console.log(`Scheduled followup for ${recordObj.event_name} in ${logDays} days: ${new Date(recordObj.followup_at)}`);
+    console.log(`Scheduled new followup for ${recordObj.event_name} (${timeoutKey}) in ${logDays} days: ${new Date(recordObj.followup_at)}`);
   }
 };
 
