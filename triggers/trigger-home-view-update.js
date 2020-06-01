@@ -3,6 +3,7 @@ const errSlack = require('./../utils/error-slack');
 
 // Update the app home view (when data in it has changed)
 const triggerHomeViewUpdate = async (app, homeParams, at) => {
+  const composedView = await homeBlocks(homeParams, at);
   try {
     const updateHomeView = await app.client.views.update({
       token: process.env.SLACK_BOT_TOKEN,
@@ -10,10 +11,10 @@ const triggerHomeViewUpdate = async (app, homeParams, at) => {
       view_id: homeParams.viewID,
       view: {
         "type": "home",
-        "blocks": await homeBlocks(homeParams, at)
+        "blocks": composedView
       }
     });
-    console.log('App home view updated (data changed)');
+    console.log('App home view updated (data changed)', homeParams.viewID);
   }
   catch (err) {
     errSlack(app, homeParams.userID, err);

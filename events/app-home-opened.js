@@ -18,6 +18,7 @@ const appHomeOpened = async (app, at) => {
     const settings = await store.getSettings();
     homeParams.channel = settings.channel;
     homeParams.admins = settings.admins;
+    const composedView = await homeBlocks(homeParams, at);
 
     try {
       const showHomeView = await app.client.views.publish({
@@ -25,7 +26,7 @@ const appHomeOpened = async (app, at) => {
         user_id: homeParams.userID,
         view: {
           "type": "home",
-          "blocks": await homeBlocks(homeParams, at)
+          "blocks": composedView
         }
       });
       homeParams.viewID = showHomeView.view.id;
