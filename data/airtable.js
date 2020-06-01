@@ -72,6 +72,10 @@ const at = {
           id: updated,
           link: `https://airtable.com/${tableID}/${viewID}/${updated}`
         };
+        // If the date has been changed for an event, re-schedule followups
+        if (results[0].fields['Date'] != data.event_date) {
+          at.getFollowupEvents(app);
+        }
         // Share event output in designated Slack channel
         publishSlackEvent(app, data, updatedObj, true);
         // DM user who submitted event

@@ -4,10 +4,12 @@ Once Speakerbot has been installed in your Slack workspace, all users can intera
 
 * List new upcoming events
 * Submit post-event reports
-* View a weekly roundup of upcoming events
+* View a weekly roundup of upcoming events across the company
 * View details of new event listings and reports as they are submitted
-* Receive followup prompts to submit event reports once an event has occurred
-* See a list of their own events that need reports
+* Receive followup prompts to submit event reports once an event has taken place
+* Home: See a list of their own past events that need reports and add reports
+* Home: See a list of their upcoming events and edit them
+* Home: See a list of their post-event reports and edit them
 
 ## Slash Commands
 
