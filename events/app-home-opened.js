@@ -61,7 +61,6 @@ const appHomeOpened = async (app, at) => {
   });
 
   // Open an event report form
-  // @TODO: this could technically be abstracted trigger-report.js try/catch block
   app.action('btn_event_report_home', async ({ ack, body, context }) => {
     await ack();
     // If prefill info is available, set it
@@ -93,7 +92,6 @@ const appHomeOpened = async (app, at) => {
   });
 
   // Open an edit event report form
-  // @TODO: this could technically be abstracted trigger-report.js try/catch block
   app.action('btn_edit_report', async ({ ack, body, context }) => {
     await ack();
     // If prefill info is available, set it
