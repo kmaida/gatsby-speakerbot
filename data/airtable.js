@@ -37,56 +37,59 @@ const at = {
   /*----
     Add or update a new event record in Airtable
   ----*/
-  async listNewEvent(app, bc, data) {
-    // Check to see if event exists
-    const results = await base(table).select({
-      filterByFormula: `AND({Name} = "${data.event_name}", {Event Type} = "${data.event_type}", {Submitter Slack ID} = "${data.submitterID}")`,
-      maxRecords: 1
-    }).all();
-    const recordID = results.length ? results[0].getId() : null;
-    // If event exists, update
-    if (!!recordID) {
-      base(table).update([
-        {
-          "id": recordID,
-          "fields": {
-            "Name": data.event_name,
-            "Date": data.event_date,
-            "Location": data.location,
-            "Event URL": data.url,
-            "Who's speaking?": data.speakers,
-            "Event Type": data.event_type,
-            "Topic": data.topic,
-            "Notes": data.notes,
-            "Followup": utils.getFollowupISO(data.event_date),
-            "Submitter Slack ID": data.submitterID
-          }
-        }
-      ], function (err, records) {
+  async listNewEvent(app, bc, data, editID) {
+    // Check to see if updating an existing event
+    if (editID) {
+      // Retrieve existing record
+      base(table).find(editID, function (err, origRecord) {
         if (err) {
           sendErr(err);
         }
-        const originalDate = results[0].fields['Date'];
-        const updatedRecord = records[0];
-        const updatedID = updatedRecord.getId();
-        console.log('Edited existing upcoming event:', updatedID);
-        const updatedObj = {
-          id: updatedID,
-          link: `https://airtable.com/${tableID}/${viewID}/${updatedID}`
-        };
-        // If the date has been changed for an event, re-schedule followup
-        if (originalDate !== data.event_date) {
-          console.log('Edited date for an existing upcoming event: followup needs to be updated');
-          // Reschedule only the updated event
-          schedule.setupFollowup(app, updatedRecord);
-        }
-        // Share event output in designated Slack channel
-        publishSlackEvent(app, data, updatedObj, true);
-        // DM user who submitted event
-        dmConfirmNew(app, bc, data, true);
-        return updatedObj;
+        // Update existing record
+        base(table).update([
+          {
+            "id": editID,
+            "fields": {
+              "Name": data.event_name,
+              "Date": data.event_date,
+              "Location": data.location,
+              "Event URL": data.url,
+              "Who's speaking?": data.speakers,
+              "Event Type": data.event_type,
+              "Topic": data.topic,
+              "Notes": data.notes,
+              "Followup": utils.getFollowupISO(data.event_date),
+              "Submitter Slack ID": data.submitterID
+            }
+          }
+        ], function (err, records) {
+          if (err) {
+            sendErr(err);
+          }
+          const originalDate = origRecord.fields['Date'];
+          const updatedRecord = records[0];
+          const updatedID = updatedRecord.getId();
+          console.log('Edited existing upcoming event:', updatedID);
+          const updatedObj = {
+            id: updatedID,
+            link: `https://airtable.com/${tableID}/${viewID}/${updatedID}`
+          };
+          // If the date has been changed for an event, re-schedule followup
+          if (originalDate !== data.event_date) {
+            console.log('Edited date for an existing upcoming event: followup needs to be updated');
+            // Reschedule only the updated event
+            schedule.setupFollowup(app, updatedRecord);
+          }
+          // Share event output in designated Slack channel
+          publishSlackEvent(app, data, updatedObj, true);
+          // DM user who submitted event
+          dmConfirmNew(app, bc, data, true);
+          return updatedObj;
+        });
       });
-    } else {
+    }
+    // No edit ID passed, add a new upcoming event record
+    else {
       base(table).create([
         {
           "fields": {
@@ -107,9 +110,10 @@ const at = {
           sendErr(err);
         }
         const saved = records[0];
+        const savedID = saved.getId();
         const savedObj = {
-          id: saved.getId(),
-          link: `https://airtable.com/${tableID}/${viewID}/${saved.getId()}`
+          id: savedID,
+          link: `https://airtable.com/${tableID}/${viewID}/${savedID}`
         };
         console.log('Saved new event:', savedObj);
         // Share event output in designated Slack channel
@@ -128,8 +132,9 @@ const at = {
     Check if event exists already, if so, update
     If event does not exist, create new record
   ----*/
-  async submitEventReport(app, bc, data) {
+  async submitEventReport(app, bc, data, editID) {
     // Check to see if report exists
+    // @TODO: get by edit ID
     const results = await base(table).select({
       filterByFormula: `AND({Name} = "${data.event_name}", {Event Type} = "${data.event_type}", {Submitter Slack ID} = "${data.submitterID}")`,
       maxRecords: 1

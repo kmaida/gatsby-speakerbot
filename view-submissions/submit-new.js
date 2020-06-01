@@ -14,6 +14,7 @@ const submitNew = (app, at, utils) => {
       botToken: context.botToken,
       botID: context.botUserId
     };
+    const homeParams = view.private_metadata ? JSON.parse(view.private_metadata) : {};
     const payload = view.state.values;
     // Capture data from modal interactions
     const data = {
@@ -48,14 +49,13 @@ const submitNew = (app, at, utils) => {
 
     // Save data to Airtable and output results in Slack channel
     try {
-      at.listNewEvent(app, bc, data);
+      at.listNewEvent(app, bc, data, homeParams.editEventID);
     }
     catch (err) {
       errSlack(app, bc.userID, err);
     }
     // Update the home view
-    if (view.private_metadata) {
-      const homeParams = JSON.parse(view.private_metadata);
+    if (homeParams) {
       try {
         const updateHome = await triggerHomeViewUpdate(app, homeParams, at);
       }

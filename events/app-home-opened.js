@@ -65,6 +65,7 @@ const appHomeOpened = async (app, at) => {
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
+    homeParams.submitReportID = prefill ? prefill.id : undefined;
     // Open post event report form
     try {
       const result = await app.client.views.open({
@@ -96,6 +97,7 @@ const appHomeOpened = async (app, at) => {
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
+    homeParams.editReportID = prefill ? prefill.id : undefined;
     // Open post event report form
     try {
       const result = await app.client.views.open({
@@ -127,6 +129,7 @@ const appHomeOpened = async (app, at) => {
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
+    homeParams.editEventID = prefill ? prefill.id : undefined;
     // Open post event report form
     try {
       const result = await app.client.views.open({

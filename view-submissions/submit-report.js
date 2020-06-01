@@ -13,6 +13,7 @@ const submitReport = (app, at, utils) => {
       userMention: `<@${body.user.id}>`,
       botToken: context.botToken
     };
+    const homeParams = view.private_metadata ? JSON.parse(view.private_metadata) : {};
     const payload = view.state.values;
     const data = {
       submitterID: bc.userID,
@@ -50,14 +51,13 @@ const submitReport = (app, at, utils) => {
 
     // Save data to Airtable and output results in Slack channel
     try {
-      const saveToAirtable = await at.submitEventReport(app, bc, data);
+      const saveToAirtable = await at.submitEventReport(app, bc, data, homeParams.editReportID);
     }
     catch (err) {
       errSlack(app, bc.userID, err);
     }
     // Update the home view
-    if (view.private_metadata) {
-      const homeParams = JSON.parse(view.private_metadata);
+    if (homeParams) {
       try {
         const updateHome = await triggerHomeViewUpdate(app, homeParams, at);
       }
