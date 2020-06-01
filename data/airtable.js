@@ -154,8 +154,11 @@ const at = {
         {
           "id": editID,
           "fields": {
+            "Name": data.event_name,
             "Date": data.event_date,
+            "Event Type": data.event_type,
             "Event URL": data.url,
+            "Who's speaking?": data.speakers,
             "Topic": data.topic,
             "Est. Reach": data.reach,
             "Content Links": data.content_links,
