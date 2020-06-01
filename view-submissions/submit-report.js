@@ -56,8 +56,8 @@ const submitReport = (app, at, utils) => {
     catch (err) {
       errSlack(app, bc.userID, err);
     }
-    // Update the home view
-    if (homeParams) {
+    // Update the home view (if applicable)
+    if (homeParams.viewID) {
       try {
         const updateHome = await triggerHomeViewUpdate(app, homeParams, at);
       }

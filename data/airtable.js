@@ -45,47 +45,49 @@ const at = {
         if (err) {
           sendErr(err);
         }
-        // Update existing record
-        base(table).update([
-          {
-            "id": editID,
-            "fields": {
-              "Name": data.event_name,
-              "Date": data.event_date,
-              "Location": data.location,
-              "Event URL": data.url,
-              "Who's speaking?": data.speakers,
-              "Event Type": data.event_type,
-              "Topic": data.topic,
-              "Notes": data.notes,
-              "Followup": utils.getFollowupISO(data.event_date),
-              "Submitter Slack ID": data.submitterID
+        if (origRecord) {
+          // Update existing record
+          base(table).update([
+            {
+              "id": editID,
+              "fields": {
+                "Name": data.event_name,
+                "Date": data.event_date,
+                "Location": data.location,
+                "Event URL": data.url,
+                "Who's speaking?": data.speakers,
+                "Event Type": data.event_type,
+                "Topic": data.topic,
+                "Notes": data.notes,
+                "Followup": utils.getFollowupISO(data.event_date),
+                "Submitter Slack ID": data.submitterID
+              }
             }
-          }
-        ], function (err, records) {
-          if (err) {
-            sendErr(err);
-          }
-          const originalDate = origRecord.fields['Date'];
-          const updatedRecord = records[0];
-          const updatedID = updatedRecord.getId();
-          console.log('Edited existing upcoming event:', updatedID);
-          const updatedObj = {
-            id: updatedID,
-            link: `https://airtable.com/${tableID}/${viewID}/${updatedID}`
-          };
-          // If the date has been changed for an event, re-schedule followup
-          if (originalDate !== data.event_date) {
-            console.log('Edited date for an existing upcoming event: followup needs to be updated');
-            // Reschedule only the updated event
-            schedule.setupFollowup(app, updatedRecord);
-          }
-          // Share event output in designated Slack channel
-          publishSlackEvent(app, data, updatedObj, true);
-          // DM user who submitted event
-          dmConfirmNew(app, bc, data, true);
-          return updatedObj;
-        });
+          ], function (err, records) {
+            if (err) {
+              sendErr(err);
+            }
+            const originalDate = origRecord.fields['Date'];
+            const updatedRecord = records[0];
+            const updatedID = updatedRecord.getId();  // Same as editID
+            console.log('Edited existing upcoming event:', updatedID);
+            const updatedObj = {
+              id: updatedID,
+              link: `https://airtable.com/${tableID}/${viewID}/${updatedID}`
+            };
+            // If the date has been changed for an event, re-schedule followup
+            if (originalDate !== data.event_date) {
+              console.log('Edited date for an existing upcoming event: followup needs to be updated');
+              // Reschedule only the updated event
+              schedule.setupFollowup(app, updatedRecord);
+            }
+            // Share event output in designated Slack channel
+            publishSlackEvent(app, data, updatedObj, true);
+            // DM user who submitted event
+            dmConfirmNew(app, bc, data, true);
+            return updatedObj;
+          });
+        }
       });
     }
     // No edit ID passed, add a new upcoming event record
@@ -134,19 +136,23 @@ const at = {
   ----*/
   async submitEventReport(app, bc, data, editID) {
     // Check to see if report exists
-    // @TODO: get by edit ID
-    const results = await base(table).select({
-      filterByFormula: `AND({Name} = "${data.event_name}", {Event Type} = "${data.event_type}", {Submitter Slack ID} = "${data.submitterID}")`,
-      maxRecords: 1
-    }).all();
-    const edit = results.length ? !!results[0].fields['Event Rating'] : false;
-    const recordID = results.length ? results[0].getId() : null;
-
-    // If event exists, update
-    if (!!recordID) {
+    if (!editID) {
+      // If no editID was passed as a parameter, search for a matching event
+      // that does not have a report already (any direct edited event will have an ID)
+      // Search for events that match name OR date AND type AND Slack ID AND have no rating
+      search = await base(table).select({
+        filterByFormula: `AND(OR({Name} = "${data.event_name}", IS_SAME({Date}, "${data.event_date}")), {Event Type} = "${data.event_type}", {Submitter Slack ID} = "${data.submitterID}", {Event Rating} = BLANK())`,
+        maxRecords: 1
+      }).all();
+      // If a matching event is found, store its ID to update this report
+      editID = search.length ? search[0].getId() : undefined;
+    }
+    // If we're editing an existing event listing:
+    if (editID) {
+      // Update existing report
       base(table).update([
         {
-          "id": recordID,
+          "id": editID,
           "fields": {
             "Date": data.event_date,
             "Event URL": data.url,
@@ -163,6 +169,7 @@ const at = {
           sendErr(err);
         }
         const updated = records[0].getId();
+        const edit = !!editID;
         console.log(!edit ? 'Updated existing event to add report:' : 'Updated existing report', updated);
         const updatedObj = {
           id: updated,
@@ -175,7 +182,7 @@ const at = {
         return updatedObj;
       });
     }
-    // If event does not exist, create new
+    // If report does not exist, create new
     else {
       base(table).create([
         {
