@@ -5,7 +5,7 @@ const slackErr = require('./../../utils/error-slack');
 PUBLISH SLACK REPORT
 ------------------*/
 
-const publishSlackReport = async (app, data, savedObj) => {
+const publishSlackReport = async (app, data, savedObj, edit) => {
   // Post event to designated channel
   const settings = await store.getSettings();
   const channel = settings.channel;
@@ -18,7 +18,7 @@ const publishSlackReport = async (app, data, savedObj) => {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": `:microphone: *Post-Event Report Added* :newspaper:`
+            "text": edit ? `:writing_hand: *Existing Report Updated* :pencil:` : `:microphone: *Post-Event Report Added* :newspaper:`
           }
         },
         {

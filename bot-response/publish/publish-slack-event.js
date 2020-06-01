@@ -5,7 +5,7 @@ const slackErr = require('./../../utils/error-slack');
 PUBLISH SLACK EVENT
 ------------------*/
 
-const publishSlackEvent = async (app, data, savedObj) => {
+const publishSlackEvent = async (app, data, savedObj, edit) => {
   // Post event to designated channel
   const settings = await store.getSettings();
   const channel = settings.channel;
@@ -18,7 +18,7 @@ const publishSlackEvent = async (app, data, savedObj) => {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": `:microphone: *New Event Added* :sparkles:`
+            "text": edit ? `:writing_hand: *Existing Event Updated* :pencil:` : `:microphone: *New Event Added* :sparkles:`
           }
         },
         {

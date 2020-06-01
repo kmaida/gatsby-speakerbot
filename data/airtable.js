@@ -35,42 +35,84 @@ const at = {
   },
 
   /*----
-    Add a new event to Airtable
+    Add or update a new event record in Airtable
   ----*/
   async listNewEvent(app, bc, data) {
-    base(table).create([
-      {
-        "fields": {
-          "Name": data.event_name,
-          "Date": data.event_date,
-          "Location": data.location,
-          "Event URL": data.url,
-          "Who's speaking?": data.speakers,
-          "Event Type": data.event_type,
-          "Topic": data.topic,
-          "Notes": data.notes,
-          "Followup": utils.getFollowupISO(data.event_date),
-          "Submitter Slack ID": data.submitterID
+    // Check to see if event exists
+    const results = await base(table).select({
+      filterByFormula: `AND({Name} = "${data.event_name}", {Event Type} = "${data.event_type}", {Submitter Slack ID} = "${data.submitterID}")`,
+      maxRecords: 1
+    }).all();
+    const recordID = results.length ? results[0].getId() : null;
+    // If event exists, update
+    if (!!recordID) {
+      base(table).update([
+        {
+          "id": recordID,
+          "fields": {
+            "Name": data.event_name,
+            "Date": data.event_date,
+            "Location": data.location,
+            "Event URL": data.url,
+            "Who's speaking?": data.speakers,
+            "Event Type": data.event_type,
+            "Topic": data.topic,
+            "Notes": data.notes,
+            "Followup": utils.getFollowupISO(data.event_date),
+            "Submitter Slack ID": data.submitterID
+          }
         }
-      }
-    ], (err, records) => {
-      if (err) {
-        sendErr(err);
-      }
-      const saved = records[0];
-      const savedObj = {
-        id: saved.getId(),
-        link: `https://airtable.com/${tableID}/${viewID}/${saved.getId()}`
-      };
-      console.log('Saved new event:', savedObj);
-      // Share event output in designated Slack channel
-      publishSlackEvent(app, data, savedObj);
-      // DM user who submitted event
-      dmConfirmNew(app, bc, data);
-      // Set up followup
-      this.setupFollowup(app, saved);
-      return savedObj;
-    });
+      ], function (err, records) {
+        if (err) {
+          sendErr(err);
+        }
+        const updated = records[0].getId();
+        console.log('Edited existing upcoming event:', updated);
+        const updatedObj = {
+          id: updated,
+          link: `https://airtable.com/${tableID}/${viewID}/${updated}`
+        };
+        // Share event output in designated Slack channel
+        publishSlackEvent(app, data, updatedObj, true);
+        // DM user who submitted event
+        dmConfirmNew(app, bc, data, true);
+        return updatedObj;
+      });
+    } else {
+      base(table).create([
+        {
+          "fields": {
+            "Name": data.event_name,
+            "Date": data.event_date,
+            "Location": data.location,
+            "Event URL": data.url,
+            "Who's speaking?": data.speakers,
+            "Event Type": data.event_type,
+            "Topic": data.topic,
+            "Notes": data.notes,
+            "Followup": utils.getFollowupISO(data.event_date),
+            "Submitter Slack ID": data.submitterID
+          }
+        }
+      ], (err, records) => {
+        if (err) {
+          sendErr(err);
+        }
+        const saved = records[0];
+        const savedObj = {
+          id: saved.getId(),
+          link: `https://airtable.com/${tableID}/${viewID}/${saved.getId()}`
+        };
+        console.log('Saved new event:', savedObj);
+        // Share event output in designated Slack channel
+        publishSlackEvent(app, data, savedObj);
+        // DM user who submitted event
+        dmConfirmNew(app, bc, data);
+        // Set up followup
+        this.setupFollowup(app, saved);
+        return savedObj;
+      });
+    }
   },
 
   /*----
@@ -84,6 +126,7 @@ const at = {
       filterByFormula: `AND({Name} = "${data.event_name}", {Event Type} = "${data.event_type}", {Submitter Slack ID} = "${data.submitterID}")`,
       maxRecords: 1
     }).all();
+    const edit = results.length ? !!results[0].fields['Event Rating'] : false;
     const recordID = results.length ? results[0].getId() : null;
 
     // If event exists, update
@@ -107,15 +150,15 @@ const at = {
           sendErr(err);
         }
         const updated = records[0].getId();
-        console.log('Updated existing event to add report:', updated);
+        console.log(!edit ? 'Updated existing event to add report:' : 'Updated existing report', updated);
         const updatedObj = {
           id: updated,
           link: `https://airtable.com/${tableID}/${viewID}/${updated}`
         };
         // Share event output in designated Slack channel
-        publishSlackReport(app, data, updatedObj);
+        publishSlackReport(app, data, updatedObj, edit);
         // DM user who submitted event
-        dmConfirmReport(app, bc, data);
+        dmConfirmReport(app, bc, data, edit);
         return updatedObj;
       });
     }

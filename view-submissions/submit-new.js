@@ -1,3 +1,4 @@
+const triggerHomeViewUpdate = require('./../triggers/trigger-home-view-update');
 const errSlack = require('./../utils/error-slack');
 
 /*------------------
@@ -51,6 +52,16 @@ const submitNew = (app, at, utils) => {
     }
     catch (err) {
       errSlack(app, bc.userID, err);
+    }
+    // Update the home view
+    if (view.private_metadata) {
+      const homeParams = JSON.parse(view.private_metadata);
+      try {
+        const updateHome = await triggerHomeViewUpdate(app, homeParams, at);
+      }
+      catch (err) {
+        errSlack(app, bc.userID, err);
+      }
     }
   });
 };
