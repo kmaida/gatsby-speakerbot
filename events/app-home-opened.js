@@ -51,18 +51,26 @@ const appHomeOpened = async (app, at) => {
     // Set the new channel
     const newChannel = action.selected_channel;
     const settings = await store.setChannel(newChannel);
-    const userViewID = await userHomeStore.getUserViewID(body.user.id);
     const localHomeParams = {
       userID: body.user.id,
-      viewID: userViewID,
+      viewID: body.view.id,
       botID: context.botUserId,
       channel: newChannel,
       admins: settings.admins
     };
-    // Update the reporting channel in the home view for current user
+    // Update the reporting channel in the home view for all users
     try {
-      // @TODO: update all user's home views?
-      const updateHome = await triggerHomeViewUpdate(app, localHomeParams, at);
+      const allUserHomes = await userHomeStore.getUserHomes();
+      allUserHomes.forEach(async (userHome) => {
+        const userHomeParams = {
+          userID: userHome.userID,
+          viewID: userHome.viewID,
+          botID: localHomeParams.botUserId,
+          channel: newChannel,
+          admins: settings.admins
+        };
+        await triggerHomeViewUpdate(app, userHomeParams, at);
+      });
     }
     catch (err) {
       errSlack(app, localHomeParams.userID, err);
@@ -72,12 +80,28 @@ const appHomeOpened = async (app, at) => {
   /*----
     ACTION: Admin users selected
   ----*/
-  app.action('a_select_admins', async ({ action, ack }) => {
+  app.action('a_select_admins', async ({ action, ack, context }) => {
     await ack();
     // Set the new admins
     const newAdmins = action.selected_users;
-    await store.setAdmins(newAdmins);
-    // @TODO: update all user's home views?
+    const settings = await store.setAdmins(newAdmins);
+    // Update the admins in the home view for all users
+    try {
+      const allUserHomes = await userHomeStore.getUserHomes();
+      allUserHomes.forEach(async (userHome) => {
+        const userHomeParams = {
+          userID: userHome.userID,
+          viewID: userHome.viewID,
+          botID: context.botUserId,
+          channel: settings.channel,
+          admins: newAdmins
+        };
+        await triggerHomeViewUpdate(app, userHomeParams, at);
+      });
+    }
+    catch (err) {
+      errSlack(app, localHomeParams.userID, err);
+    }
   });
 
   /*----
