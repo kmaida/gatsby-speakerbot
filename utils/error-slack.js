@@ -3,12 +3,13 @@ OUTPUT ERROR IN SLACK
 ------------------*/
 
 module.exports = async (app, channel, err) => {
-  console.error('An error occurred:', err);
+  const msg = err.message || err;
+  console.error('An error occurred:', msg);
   try {
     const sendErr = await app.client.chat.postMessage({
       token: process.env.SLACK_BOT_TOKEN,
       channel: channel,
-      text: ":disappointed: I'm sorry, I couldn't do that because an error occurred: ```" + JSON.stringify(err) + "```"
+      text: ":x: I'm sorry, I couldn't do that because an error occurred: ```" + JSON.stringify(msg) + "```"
     });
   }
   catch (err) {

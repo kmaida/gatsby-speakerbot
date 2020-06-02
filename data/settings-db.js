@@ -5,8 +5,7 @@ const Settings = require('./Settings');
 ------------------*/
 
 const dbErrHandler = (err) => {
-  console.error(err.message);
-  return new Error(err.message);
+  return new Error(`SETTINGS DB Error: ${err.message || err}`);
 };
 
 const settings = {

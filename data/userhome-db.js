@@ -5,8 +5,7 @@ const UserHome = require('./UserHome');
 ------------------*/
 
 const dbErrHandler = (err) => {
-  console.error(err.message);
-  return new Error(err.message);
+  return new Error(`USERHOME DB Error: ${err.message || err}`);
 };
 
 const userHome = {
