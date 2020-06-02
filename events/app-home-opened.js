@@ -11,6 +11,9 @@ const blocksListEvent = require('./../bot-response/blocks-list-event');
 ------------------*/
 
 const appHomeOpened = async (app, at) => {
+  /*----
+    EVENT: app-home-opened
+  ----*/
   app.event('app_home_opened', async ({ event, context }) => {
     const settings = await store.getSettings();
     const localHomeParams = {
@@ -40,7 +43,9 @@ const appHomeOpened = async (app, at) => {
     }
   });
 
-  // Reporting channel selected
+  /*----
+    ACTION: Reporting channel selected
+  ----*/
   app.action('a_select_channel', async ({ action, ack, context, body }) => {
     await ack();
     // Set the new channel
@@ -65,23 +70,35 @@ const appHomeOpened = async (app, at) => {
     }
   });
 
-  // Admin users selected
+  /*----
+    ACTION: Admin users selected
+  ----*/
   app.action('a_select_admins', async ({ action, ack }) => {
     await ack();
     // Set the new admins
     const newAdmins = action.selected_users;
-    store.setAdmins(newAdmins);
+    await store.setAdmins(newAdmins);
     // @TODO: update all user's home views?
   });
 
-  // Open an event report form
+  /*----
+    ACTION: Open an event report form
+  ----*/
   app.action('btn_event_report_home', async ({ ack, body, context }) => {
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
     console.log('context', context, 'body', body);
-    homeParams.submitReportID = prefill ? prefill.id : undefined;
-    // userHomeStore.setSubmitReport()
+    const settings = await store.getSettings();
+    const submitReportID = prefill ? prefill.id : undefined;
+    const updateUserHome = await userHomeStore.setSubmitReport(body.user.id, submitReportID);
+    const localHomeParams = {
+      userID: body.user.id,
+      viewID: updateUserHome.viewID,
+      botID: context.botUserId,
+      channel: settings.channel,
+      admins: settings.admins
+    };
     // Open post event report form
     try {
       const result = await app.client.views.open({
@@ -95,21 +112,23 @@ const appHomeOpened = async (app, at) => {
             text: 'Post Event Report'
           },
           blocks: blocksEventReport(prefill),
-          private_metadata: JSON.stringify(homeParams),
+          private_metadata: JSON.stringify(localHomeParams),
           submit: {
             type: 'plain_text',
             text: 'Submit Report'
           }
         }
       });
-      delete homeParams.submitReportID;
+      await userHomeStore.clearUserHomeParams('submitReportID');
     }
     catch (err) {
       errSlack(app, homeParams.userID, err);
     }
   });
 
-  // Open an edit event report form
+  /*----
+    ACTION: Open an edit event report form
+  ----*/
   app.action('btn_edit_report', async ({ ack, body, context }) => {
     await ack();
     // If prefill info is available, set it
@@ -144,7 +163,9 @@ const appHomeOpened = async (app, at) => {
     }
   });
 
-  // Open an event form with prefilled data to edit
+  /*----
+    ACTION: Edit an existing event report
+  ----*/
   app.action('btn_edit_event', async ({ ack, body, context }) => {
     await ack();
     // If prefill info is available, set it
