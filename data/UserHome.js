@@ -13,4 +13,4 @@ const userHomeSchema = new Schema({
   editReport: Boolean
 });
 
-module.exports = mongoose.model('SpeakerbotUserHomes', settingsSchema);
+module.exports = mongoose.model('SpeakerbotUserHomes', userHomeSchema);

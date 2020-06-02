@@ -1,4 +1,5 @@
 const store = require('../data/settings-db');
+const userHomeStore = require('./../data/userHome-db');
 const homeBlocks = require('../bot-response/blocks-home/blocks-home');
 const errSlack = require('./../utils/error-slack');
 const triggerHomeViewUpdate = require('./../triggers/trigger-home-view-update');
@@ -10,45 +11,57 @@ const blocksListEvent = require('./../bot-response/blocks-list-event');
 ------------------*/
 
 const appHomeOpened = async (app, at) => {
-  const homeParams = {};
-  
   app.event('app_home_opened', async ({ event, context }) => {
-    homeParams.userID = event.user;
-    homeParams.botID = context.botUserId;
     const settings = await store.getSettings();
-    homeParams.channel = settings.channel;
-    homeParams.admins = settings.admins;
-    const composedView = await homeBlocks(homeParams, at);
+    const localHomeParams = {
+      userID: event.user,
+      botID: context.botUserId,
+      channel: settings.channel,
+      admins: settings.admins
+    };
+    const composedView = await homeBlocks(localHomeParams, at);
+    let userHome;
 
+    // Publish this user's home view
     try {
       const showHomeView = await app.client.views.publish({
         token: context.botToken,
-        user_id: homeParams.userID,
+        user_id: localHomeParams.userID,
         view: {
           "type": "home",
           "blocks": composedView
         }
       });
-      homeParams.viewID = showHomeView.view.id;
+      // Set this user's home view ID in database
+      userHome = await userHomeStore.setUserHomeView(localHomeParams.userID, showHomeView.view.id);
     }
     catch (err) {
-      errSlack(app, homeParams.userID, err);
+      errSlack(app, localHomeParams.userID, err);
     }
   });
 
   // Reporting channel selected
-  app.action('a_select_channel', async ({ action, ack }) => {
+  app.action('a_select_channel', async ({ action, ack, context, body }) => {
     await ack();
     // Set the new channel
     const newChannel = action.selected_channel;
-    store.setChannel(newChannel);
-    homeParams.channel = newChannel;
+    const settings = await store.setChannel(newChannel);
+    // Get user's local home params
+    const userHome = await userHomeStore.getUserHome(body.user.id);
+    const localHomeParams = {
+      userID: body.user.id,
+      viewID: userHome.viewID,
+      botID: context.botUserId,
+      channel: newChannel,
+      admins: settings.admins
+    };
     // Update the reporting channel in the home view for current user
     try {
-      const updateHome = await triggerHomeViewUpdate(app, homeParams, at);
+      // @TODO: update all user's home views?
+      const updateHome = await triggerHomeViewUpdate(app, localHomeParams, at);
     }
     catch (err) {
-      errSlack(app, homeParams.userID, err);
+      errSlack(app, localHomeParams.userID, err);
     }
   });
 
@@ -58,7 +71,7 @@ const appHomeOpened = async (app, at) => {
     // Set the new admins
     const newAdmins = action.selected_users;
     store.setAdmins(newAdmins);
-    homeParams.admins = newAdmins;
+    // @TODO: update all user's home views?
   });
 
   // Open an event report form
@@ -66,7 +79,9 @@ const appHomeOpened = async (app, at) => {
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
+    console.log('context', context, 'body', body);
     homeParams.submitReportID = prefill ? prefill.id : undefined;
+    // userHomeStore.setSubmitReport()
     // Open post event report form
     try {
       const result = await app.client.views.open({

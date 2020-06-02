@@ -29,7 +29,7 @@ const userHome = {
   async setUserHomeView(userID, viewID) {
     return UserHome.findOne({ userID }, (err, userHome) => {
       if (err) return dbErrHandler(err);
-      if (!submitReportID) return new Error('No report ID provided');
+      if (!viewID) return new Error('No view ID provided');
       // If userHome doesn't exist, create it
       if (!userHome) {
         const newUserHome = new UserHome({
