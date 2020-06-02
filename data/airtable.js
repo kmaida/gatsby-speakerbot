@@ -39,7 +39,7 @@ const at = {
     Add or update a new event record in Airtable
   ----*/
   async listNewEvent(app, bc, data, homeParams = {}) {
-    const editID = homeParams.editEventID;
+    const editID = homeParams.eventID;
     // Check to see if updating an existing event
     if (editID) {
       // Retrieve existing record
@@ -147,9 +147,8 @@ const at = {
     If event does not exist, create new record
   ----*/
   async submitEventReport(app, bc, data, homeParams = {}) {
-    let editID = homeParams.editReportID;
+    let editID = homeParams.eventID;
     const editReport = homeParams.editReport;
-    console.log(homeParams);
     // Check to see if report exists
     if (!editID) {
       // If no editID was passed as a parameter, search for a matching event
@@ -162,9 +161,10 @@ const at = {
       // If a matching event is found, store its ID to update this report
       editID = search.length ? search[0].getId() : undefined;
     }
-    // If we're editing an existing event listing:
+    // If we're editing an existing event listing to either modify a report
+    // or add a new report to an existing event listing:
     if (editID) {
-      // Update existing report
+      // Update existing event entry
       base(table).update([
         {
           "id": editID,

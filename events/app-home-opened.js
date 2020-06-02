@@ -51,11 +51,10 @@ const appHomeOpened = async (app, at) => {
     // Set the new channel
     const newChannel = action.selected_channel;
     const settings = await store.setChannel(newChannel);
-    // Get user's local home params
-    const userHome = await userHomeStore.getUserHome(body.user.id);
+    const userViewID = await userHomeStore.getUserViewID(body.user.id);
     const localHomeParams = {
       userID: body.user.id,
-      viewID: userHome.viewID,
+      viewID: userViewID,
       botID: context.botUserId,
       channel: newChannel,
       admins: settings.admins
@@ -82,22 +81,21 @@ const appHomeOpened = async (app, at) => {
   });
 
   /*----
-    ACTION: Open an event report form
+    ACTION: Add an event report to an existing event that needs new report
   ----*/
   app.action('btn_event_report_home', async ({ ack, body, context }) => {
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
-    console.log('context', context, 'body', body);
     const settings = await store.getSettings();
-    const submitReportID = prefill ? prefill.id : undefined;
-    const updateUserHome = await userHomeStore.setSubmitReport(body.user.id, submitReportID);
+    const eventID = prefill ? prefill.id : undefined;
     const localHomeParams = {
       userID: body.user.id,
-      viewID: updateUserHome.viewID,
+      viewID: body.view.id,
       botID: context.botUserId,
       channel: settings.channel,
-      admins: settings.admins
+      admins: settings.admins,
+      eventID: eventID
     };
     // Open post event report form
     try {
@@ -119,10 +117,9 @@ const appHomeOpened = async (app, at) => {
           }
         }
       });
-      await userHomeStore.clearUserHomeParams('submitReportID');
     }
     catch (err) {
-      errSlack(app, homeParams.userID, err);
+      errSlack(app, localHomeParams.userID, err);
     }
   });
 
@@ -133,8 +130,17 @@ const appHomeOpened = async (app, at) => {
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
-    homeParams.editReportID = prefill ? prefill.id : undefined;
-    homeParams.editReport = true;
+    const settings = await store.getSettings();
+    const eventID = prefill ? prefill.id : undefined;
+    const localHomeParams = {
+      userID: body.user.id,
+      viewID: body.view.id,
+      botID: context.botUserId,
+      channel: settings.channel,
+      admins: settings.admins,
+      eventID: eventID,
+      editReport: true
+    };
     // Open post event report form
     try {
       const result = await app.client.views.open({
@@ -148,18 +154,16 @@ const appHomeOpened = async (app, at) => {
             text: 'Edit Post Event Report'
           },
           blocks: blocksEventReport(prefill),
-          private_metadata: JSON.stringify(homeParams),
+          private_metadata: JSON.stringify(localHomeParams),
           submit: {
             type: 'plain_text',
             text: 'Update Report'
           }
         }
       });
-      delete homeParams.editReportID;
-      delete homeParams.editReport;
     }
     catch (err) {
-      errSlack(app, homeParams.userID, err);
+      errSlack(app, localHomeParams.userID, err);
     }
   });
 
@@ -170,7 +174,16 @@ const appHomeOpened = async (app, at) => {
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
-    homeParams.editEventID = prefill ? prefill.id : undefined;
+    const settings = await store.getSettings();
+    const eventID = prefill ? prefill.id : undefined;
+    const localHomeParams = {
+      userID: body.user.id,
+      viewID: body.view.id,
+      botID: context.botUserId,
+      channel: settings.channel,
+      admins: settings.admins,
+      eventID: eventID
+    };
     // Open post event report form
     try {
       const result = await app.client.views.open({
@@ -184,17 +197,16 @@ const appHomeOpened = async (app, at) => {
             text: 'Edit Event Listing'
           },
           blocks: blocksListEvent(prefill),
-          private_metadata: JSON.stringify(homeParams),
+          private_metadata: JSON.stringify(localHomeParams),
           submit: {
             type: 'plain_text',
             text: 'Update Event'
           }
         }
       });
-      delete homeParams.editEventID;
     }
     catch (err) {
-      errSlack(app, homeParams.userID, err);
+      errSlack(app, localHomeParams.userID, err);
     }
   });
 }

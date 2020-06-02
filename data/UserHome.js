@@ -7,10 +7,7 @@ const Schema = mongoose.Schema;
 
 const userHomeSchema = new Schema({
   userID: { type: String, required: true },
-  viewID: { type: String, required: true },
-  submitReportID: String,
-  editReportID: String,
-  editReport: Boolean
+  viewID: { type: String, required: true }
 });
 
 module.exports = mongoose.model('SpeakerbotUserHomes', userHomeSchema);
