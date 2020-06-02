@@ -11,15 +11,13 @@ const dbErrHandler = (err) => {
 
 const userHome = {
   /*----
-    Get a user home by user ID
-    @Param: userID
+    Get all user home objects
   ----*/
-  async getUserHome(userID) {
-    return UserHome.findOne({ userID }, (err, userHome) => {
+  async getUserHomes() {
+    return UserHome.find({}, (err, userHomes) => {
       if (err) return dbErrHandler(err);
-      if (!userHome) return new Error('No user home saved for this user');
-      if (!userHome.viewID) return new Error('No user home view saved for this user');
-      return userHome;
+      if (!userHomes) return new Error('No user homes found');
+      return userHomes;
     });
   },
   /*----
