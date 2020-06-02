@@ -87,6 +87,7 @@ const appHomeOpened = async (app, at) => {
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
+    // Create home parameters object
     const settings = await store.getSettings();
     const eventID = prefill ? prefill.id : undefined;
     const localHomeParams = {
@@ -130,6 +131,7 @@ const appHomeOpened = async (app, at) => {
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
+    // Create home parameters object
     const settings = await store.getSettings();
     const eventID = prefill ? prefill.id : undefined;
     const localHomeParams = {
@@ -174,6 +176,7 @@ const appHomeOpened = async (app, at) => {
     await ack();
     // If prefill info is available, set it
     const prefill = body.actions ? JSON.parse(body.actions[0].value) : {};
+    // Create home parameters object
     const settings = await store.getSettings();
     const eventID = prefill ? prefill.id : undefined;
     const localHomeParams = {
