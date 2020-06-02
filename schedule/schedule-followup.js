@@ -47,7 +47,7 @@ const schedule = {
     if (timeoutKey in timeouts) {
       clearTimeout(timeouts[timeoutKey]);
       delete timeouts[timeoutKey];
-      console.log('Scheduled followup was cleared for', timeoutKey);
+      console.log('SCHEDULE: followup was cleared for', timeoutKey);
     }
   },
   /*----
@@ -66,7 +66,7 @@ const schedule = {
     timeouts[timeoutKey] = setTimeout(timeoutCb, timeout);
     // Logging
     const logDays = Math.round(((timeout / (1000 * 60 * 60) / 24) + 0.00001) * 100) / 100;
-    console.log(`Scheduled new followup for ${recordObj.event_name} (${timeoutKey}) in ${logDays} days: ${new Date(recordObj.followup_at)}`);
+    console.log(`SCHEDULE: new followup for ${recordObj.event_name} (${timeoutKey}) in ${logDays} days: ${new Date(recordObj.followup_at)}`);
   }
 };
 

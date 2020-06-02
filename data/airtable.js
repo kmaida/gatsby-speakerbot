@@ -72,14 +72,14 @@ const at = {
             const originalDate = origRecord.fields['Date'];
             const updatedRecord = records[0];
             const updatedID = updatedRecord.getId();  // Same as editID
-            console.log('Edited existing upcoming event:', updatedID);
+            console.log('AIRTABLE: edited existing upcoming event', updatedID);
             const updatedObj = {
               id: updatedID,
               link: `https://airtable.com/${tableID}/${viewID}/${updatedID}`
             };
             // If the date has been changed for an event, re-schedule followup
             if (originalDate !== data.event_date) {
-              console.log('Edited date for an existing upcoming event: followup needs to be updated');
+              console.log('AIRTABLE: changed the date for existing upcoming event; proceed to reschedule followup');
               // Reschedule only the updated event
               schedule.setupFollowup(app, updatedRecord);
             }
@@ -187,7 +187,7 @@ const at = {
           sendErr(err);
         }
         const updatedID = records[0].getId();
-        console.log(!editReport ? 'Updated existing event to add report:' : 'Updated existing report', updatedID);
+        console.log(!editReport ? 'AIRTABLE: added report to existing event record' : 'AIRTABLE: edited existing report', updatedID);
         const updatedObj = {
           id: updatedID,
           link: `https://airtable.com/${tableID}/${viewID}/${updatedID}`
@@ -232,7 +232,7 @@ const at = {
           sendErr(err);
         }
         const newReport = records[0].getId();
-        console.log('Saved new event with post-event report:', newReport);
+        console.log('AIRTABLE: saved new event with post-event report', newReport);
         const newObj = {
           id: newReport,
           link: `https://airtable.com/${tableID}/${viewID}/${newReport}`

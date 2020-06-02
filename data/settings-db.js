@@ -62,7 +62,7 @@ const settings = {
         settings.channel = channel;
         settings.save((err) => {
           if (err) return dbErrHandler(err);
-          console.log('Successfully set channel to', settings.channel);
+          console.log('SETTINGS DB: successfully set channel to', settings.channel);
           return settings;
         });
       }
@@ -92,7 +92,7 @@ const settings = {
         settings.admins = admins;
         settings.save((err) => {
           if (err) return dbErrHandler(err);
-          console.log('Successfully updated admin list to', settings.admins);
+          console.log('SETTINGS DB: successfully updated admin list to', settings.admins);
           return settings;
         });
       }

@@ -14,7 +14,7 @@ const triggerHomeViewUpdate = async (app, homeParams, at) => {
         "blocks": composedView
       }
     });
-    console.log('App home view updated (data changed)', homeParams.viewID);
+    console.log('TRIGGER HOME VIEW UPDATE: app home view updated for viewID', homeParams.viewID);
   }
   catch (err) {
     errSlack(app, homeParams.userID, err);

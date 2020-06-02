@@ -45,7 +45,7 @@ const userHome = {
         userHome.viewID = viewID;
         userHome.save((err) => {
           if (err) return dbErrHandler(err);
-          console.log('Succesfully updated user\'s viewID', userHome.viewID);
+          console.log('USERHOME DB: succesfully updated user\'s viewID', userHome.viewID);
           return userHome;
         })
       }

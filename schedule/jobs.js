@@ -19,7 +19,7 @@ const jobs = {
       timeZone: 'America/Detroit'
     });
     // Log next 5 scheduled dates
-    console.log('Next 3 weekly roundups scheduled for:', job.nextDates(3).map(date => date.toString()));
+    console.log('JOBS: next 3 weekly roundups scheduled for', job.nextDates(3).map(date => date.toString()));
     job.start();
   }
 };
