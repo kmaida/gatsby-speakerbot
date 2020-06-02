@@ -1,7 +1,7 @@
 const Settings = require('./Settings');
 
 /*------------------
-   SETTINGS DB
+   SETTINGS API
 ------------------*/
 
 const dbErrHandler = (err) => {
