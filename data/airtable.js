@@ -10,7 +10,8 @@ const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
 const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
 const schedule = require('./../schedule/schedule-followup');
 const blocksHomeNeedsReport = require('./../bot-response/blocks-home/blocks-home-needsreport');
-const blocksUserEvents = require('../bot-response/blocks-home/blocks-home-user-events');
+const blocksUserEvents = require('./../bot-response/blocks-home/blocks-home-user-events');
+const triggerHomeViewUpdate = require('./../triggers/trigger-home-view-update');
 
 /*------------------
       AIRTABLE
@@ -37,7 +38,8 @@ const at = {
   /*----
     Add or update a new event record in Airtable
   ----*/
-  async listNewEvent(app, bc, data, editID) {
+  async listNewEvent(app, bc, data, homeParams = {}) {
+    const editID = homeParams.editEventID;
     // Check to see if updating an existing event
     if (editID) {
       // Retrieve existing record
@@ -85,6 +87,16 @@ const at = {
             publishSlackEvent(app, data, updatedObj, true);
             // DM user who submitted event
             dmConfirmNew(app, bc, data, true);
+            // Update the home view (if applicable)
+            if (homeParams.viewID) {
+              try {
+                triggerHomeViewUpdate(app, homeParams, at);
+              }
+              catch (err) {
+                errSlack(app, homeParams.userID, err);
+              }
+            }
+            // RETURN
             return updatedObj;
           });
         }
@@ -134,7 +146,10 @@ const at = {
     Check if event exists already, if so, update
     If event does not exist, create new record
   ----*/
-  async submitEventReport(app, bc, data, editID, editReport) {
+  async submitEventReport(app, bc, data, homeParams = {}) {
+    let editID = homeParams.editReportID;
+    const editReport = homeParams.editReport;
+    console.log(homeParams);
     // Check to see if report exists
     if (!editID) {
       // If no editID was passed as a parameter, search for a matching event
@@ -171,16 +186,26 @@ const at = {
         if (err) {
           sendErr(err);
         }
-        const updated = records[0].getId();
-        console.log(!editReport ? 'Updated existing event to add report:' : 'Updated existing report', updated);
+        const updatedID = records[0].getId();
+        console.log(!editReport ? 'Updated existing event to add report:' : 'Updated existing report', updatedID);
         const updatedObj = {
-          id: updated,
-          link: `https://airtable.com/${tableID}/${viewID}/${updated}`
+          id: updatedID,
+          link: `https://airtable.com/${tableID}/${viewID}/${updatedID}`
         };
         // Share event output in designated Slack channel
         publishSlackReport(app, data, updatedObj, editReport);
         // DM user who submitted event
         dmConfirmReport(app, bc, data, editReport);
+        // Update the home view (if applicable)
+        if (homeParams.viewID) {
+          try {
+            triggerHomeViewUpdate(app, homeParams, at);
+          }
+          catch (err) {
+            errSlack(app, homeParams.userID, err);
+          }
+        }
+        // RETURN
         return updatedObj;
       });
     }

@@ -48,20 +48,12 @@ const submitNew = (app, at, utils) => {
     await ack();
 
     // Save data to Airtable and output results in Slack channel
+    // listNewEvent also updates the home view (if homeParams available)
     try {
-      at.listNewEvent(app, bc, data, homeParams.editEventID);
+      const saveEvent = await at.listNewEvent(app, bc, data, homeParams);
     }
     catch (err) {
       errSlack(app, bc.userID, err);
-    }
-    // Update the home view (if applicable)
-    if (homeParams.viewID) {
-      try {
-        const updateHome = await triggerHomeViewUpdate(app, homeParams, at);
-      }
-      catch (err) {
-        errSlack(app, bc.userID, err);
-      }
     }
   });
 };

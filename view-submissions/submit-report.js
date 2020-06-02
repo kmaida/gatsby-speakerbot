@@ -51,19 +51,10 @@ const submitReport = (app, at, utils) => {
 
     // Save data to Airtable and output results in Slack channel
     try {
-      const saveToAirtable = await at.submitEventReport(app, bc, data, homeParams.editReportID, homeParams.editReport);
+      const saveToAirtable = await at.submitEventReport(app, bc, data, homeParams);
     }
     catch (err) {
       errSlack(app, bc.userID, err);
-    }
-    // Update the home view (if applicable)
-    if (homeParams.viewID) {
-      try {
-        const updateHome = await triggerHomeViewUpdate(app, homeParams, at);
-      }
-      catch (err) {
-        errSlack(app, bc.userID, err);
-      }
     }
   });
 };
