@@ -2,9 +2,12 @@ const store = require('../data/settings-db');
 const userHomeStore = require('./../data/userHome-db');
 const homeBlocks = require('../bot-response/blocks-home/blocks-home');
 const errSlack = require('./../utils/error-slack');
+// Imports shared between actions
 const triggerHomeViewUpdate = require('./../triggers/trigger-home-view-update');
 const blocksEventReport = require('./../bot-response/blocks-event-report');
-
+// Actions
+const actionSelectChannel = require('./../triggers/action-select-channel');
+const actionSelectAdmins = require('./../triggers/action-select-admins');
 const actionAddReport = require('./../triggers/action-report-home');
 const actionEditEvent = require('./../triggers/action-edit-event');
 const actionEditReport = require('./../triggers/action-edit-report');
@@ -47,66 +50,10 @@ const appHomeOpened = async (app, at) => {
   });
 
   /*----
-    ACTION: Reporting channel selected
+    ACTIONS
   ----*/
-  app.action('a_select_channel', async ({ action, ack, context, body }) => {
-    await ack();
-    // Set the new channel
-    const newChannel = action.selected_channel;
-    const settings = await store.setChannel(newChannel);
-    const localHomeParams = {
-      userID: body.user.id,
-      viewID: body.view.id,
-      botID: context.botUserId,
-      channel: newChannel,
-      admins: settings.admins
-    };
-    // Update the reporting channel in the home view for all users
-    try {
-      const allUserHomes = await userHomeStore.getUserHomes();
-      allUserHomes.forEach(async (userHome) => {
-        const userHomeParams = {
-          userID: userHome.userID,
-          viewID: userHome.viewID,
-          botID: localHomeParams.botUserId,
-          channel: newChannel,
-          admins: settings.admins
-        };
-        await triggerHomeViewUpdate(app, userHomeParams, at);
-      });
-    }
-    catch (err) {
-      errSlack(app, localHomeParams.userID, err);
-    }
-  });
-
-  /*----
-    ACTION: Admin users selected
-  ----*/
-  app.action('a_select_admins', async ({ action, ack, context }) => {
-    await ack();
-    // Set the new admins
-    const newAdmins = action.selected_users;
-    const settings = await store.setAdmins(newAdmins);
-    // Update the admins in the home view for all users
-    try {
-      const allUserHomes = await userHomeStore.getUserHomes();
-      allUserHomes.forEach(async (userHome) => {
-        const userHomeParams = {
-          userID: userHome.userID,
-          viewID: userHome.viewID,
-          botID: context.botUserId,
-          channel: settings.channel,
-          admins: newAdmins
-        };
-        await triggerHomeViewUpdate(app, userHomeParams, at);
-      });
-    }
-    catch (err) {
-      errSlack(app, localHomeParams.userID, err);
-    }
-  });
-
+  actionSelectChannel(app, store, userHomeStore, at, triggerHomeViewUpdate, errSlack);
+  actionSelectAdmins(app, store, userHomeStore, at, triggerHomeViewUpdate, errSlack);
   actionAddReport(app, store, blocksEventReport, errSlack);
   actionEditReport(app, store, blocksEventReport, errSlack);
   actionEditEvent(app, store, errSlack);
