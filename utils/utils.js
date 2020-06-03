@@ -11,11 +11,12 @@ const utils = {
   },
   /*----
     Is the date today + future, or today + past?
-    @Params: date string (YYYY-MM-DD)
-    @Params: boolean (testing future = true)
+    @Param: date string (YYYY-MM-DD)
+    @Param: boolean (testing future = true)
+    @Param: boolean ( future start tomorrow and not include today)
     @Returns: boolean
   ----*/
-  dateCompare(dateInput, testFuture) {
+  dateCompare(dateInput, testFuture, futureStartTomorrow) {
     // Get today's date in ISO at 11:59:59
     const now = new Date().toISOString().split('T')[0];
     const todayISO = now + 'T23:59:59Z';
@@ -23,8 +24,8 @@ const utils = {
     // Get event date in ISO at 11:59:59
     const eventDate = new Date(dateInput + 'T23:59:59Z');
     // Compare timestamps for UTC event date and UTC today to determine past/future
-    // (Today is valid for both past and future)
-    const isFuture = eventDate.getTime() >= today.getTime();
+    // (Today is valid for past and valid for future if !futureStartTomorrow)
+    const isFuture = !futureStartTomorrow ? eventDate.getTime() >= today.getTime() : eventDate.getTime() > today.getTime();
     const isPast = eventDate.getTime() <= today.getTime();
     // Are we checking for a future date or a past date?
     if (testFuture) {
@@ -39,7 +40,7 @@ const utils = {
     @Returns: boolean
   ----*/
   validUrl(input) {
-    const regex = new RegExp(this.regex.url);
+    const regex = new RegExp(utils.regex.url);
     const cleanStr = input.toString().trim();
     return cleanStr.match(regex);
   },
@@ -50,7 +51,7 @@ const utils = {
     @Returns: boolean
   ----*/
   isNumberFormat(input) {
-    const regex = new RegExp(this.regex.number);
+    const regex = new RegExp(utils.regex.number);
     const cleanStr = input.toString().trim();
     return cleanStr.match(regex);
   },
@@ -101,8 +102,10 @@ const utils = {
       reports: []
     };
     allEvents.forEach((event) => {
-      const isFuture = this.dateCompare(event.event_date, true);
-      const isPast = this.dateCompare(event.event_date);
+      // Future starts tomorrow
+      const isFuture = utils.dateCompare(event.event_date, true, true);
+      // Past includes today
+      const isPast = utils.dateCompare(event.event_date);
       const hasRating = !!event.rating === true;
       const isUpcoming = isFuture && !hasRating;
       const isReport = isPast && hasRating;

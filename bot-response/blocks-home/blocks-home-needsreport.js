@@ -11,7 +11,7 @@ const blocksHomeNeedsReport = (recordObjArr, homeParams) => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": ":pencil: *Submit Your Event Reports:*"
+          "text": ":pencil: *Add Post-Event Reports for Completed Events:*"
         }
       },
       {

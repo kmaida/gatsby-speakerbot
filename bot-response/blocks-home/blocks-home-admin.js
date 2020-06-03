@@ -76,7 +76,7 @@ const blocksHomeAdmin = (homeParams) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": `*View all event records* in the <https://airtable.com/${process.env.AIRTABLE_TABLE_ID}/${process.env.AIRTABLE_VIEW_ID}|Gatsby Speakers Airtable here>.`
+        "text": `*View all event records* in the :link: <https://airtable.com/${process.env.AIRTABLE_TABLE_ID}/${process.env.AIRTABLE_VIEW_ID}|Gatsby Speakers Airtable here>.`
       }
     },
     {

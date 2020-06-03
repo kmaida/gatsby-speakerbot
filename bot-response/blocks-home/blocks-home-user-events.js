@@ -27,7 +27,7 @@ const blocksUserEvents = (sortedEvents, homeParams) => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": "You have some events coming up. If you need to make any changes to these event listings, you can do so below."
+          "text": "You have events happening soon. If you need to make any changes to these upcoming event listings, you can do so below."
         }
       }
     ];
@@ -51,7 +51,7 @@ const blocksUserEvents = (sortedEvents, homeParams) => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": ":newspaper: *Your Post-Event Reports:*"
+          "text": ":newspaper: *Your Completed Post-Event Reports:*"
         }
       },
       {
