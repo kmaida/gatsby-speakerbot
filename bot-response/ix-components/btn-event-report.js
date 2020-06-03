@@ -12,7 +12,7 @@ const btnEventReport = (recordObj, homeParams) => {
     "type": "button",
     "text": {
       "type": "plain_text",
-      "text": "Submit Event Report"
+      "text": "Add Event Report"
     },
     "action_id": aid,
     "value": JSON.stringify(recordObj)

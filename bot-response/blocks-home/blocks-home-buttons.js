@@ -8,13 +8,6 @@ const btnNewReport = require('./../ix-components/btn-new-report');
 const blocksHomeButtons = (homeParams) => {
     const blocksButtons = [
       {
-        "type": "section",
-        "text": {
-          "type": "mrkdwn",
-          "text": ":new: *Add Events and Reports:*"
-        }
-      },
-      {
         "type": "actions",
         "elements": [
           btnListEvent(homeParams),

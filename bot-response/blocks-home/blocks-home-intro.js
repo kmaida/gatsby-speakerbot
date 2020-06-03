@@ -15,9 +15,6 @@ const blocksHomeIntro = (homeParams) => {
         "type": "mrkdwn",
         "text": `:wave: *Hello, <@${homeParams.userID}>!* I'm <@${homeParams.botID}>, your friendly *Speaking Events Manager Bot* :microphone::robot_face:\n\nIt's my job to help folks at Gatsby communicate about their speaking events so the DevRel team can fully support their activities and follow up to gather insights and important takeaways.\n\nWhenever someone *lists a new event* or *submits an event report*, I share that in <#${homeParams.channel}>. Anyone can check out the feed there!`
       },
-    },
-    {
-      "type": "divider"
     }
   ];
 };

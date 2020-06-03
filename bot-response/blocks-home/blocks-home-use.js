@@ -1,3 +1,6 @@
+const btnListEvent = require('./../ix-components/btn-list-event');
+const btnNewReport = require('./../ix-components/btn-new-report');
+
 /*------------------
 BLOCKS: APP HOME USE
 ------------------*/
@@ -8,7 +11,7 @@ const blocksHomeUse = (homeParams) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":postbox: *How to Use:*\n\nYou can use `/slash` commands to open the appropriate forms to list events and submit reports.\n\nAlternatively, you can use the *speakerbot* shortcuts from the lightning bolt menu at the left side of the input textarea in channels and messages.\n\nIf you have listed events that have now passed and you haven't filled out a report yet, I've collected those for you and they will show up above so you can easily start filling out reports by clicking a button! If you don't see any report buttons above, you don't have any events that currently need reports. :sunny:"
+        "text": ":postbox: *How to Use:*\n\nYou can use `/slash` commands to open the appropriate forms to list events and submit reports.\n\nAlternatively, you can use the *speakerbot* shortcuts from the lightning bolt menu at the left side of the input textarea in channels and messages.\n\nIf you have listed events that have now passed and you haven't filled out a report yet, I've collected those for you and they will show up above so you can easily start filling out reports by clicking a button. You can also edit existing events and reports, or create new ones using the commands / shortcuts / buttons shown below."
       },
       "accessory": {
         "type": "image",
@@ -48,6 +51,12 @@ const blocksHomeUse = (homeParams) => {
       }
     },
     {
+      "type": "actions",
+      "elements": [
+        btnListEvent(homeParams)
+      ]
+    },
+    {
       "type": "divider"
     },
     {
@@ -77,6 +86,12 @@ const blocksHomeUse = (homeParams) => {
         "type": "mrkdwn",
         "text": "*Slash Command:* `/speaking-report`\n\n*Shortcut:* `Submit event report`"
       }
+    },
+    {
+      "type": "actions",
+      "elements": [
+        btnNewReport(homeParams)
+      ]
     },
     {
       "type": "divider"
