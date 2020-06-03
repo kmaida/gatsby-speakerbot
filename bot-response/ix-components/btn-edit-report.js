@@ -14,7 +14,6 @@ const btnEditReport = (eventObj, homeParams) => {
       "text": "Edit Event Report"
     },
     "action_id": "btn_edit_report",
-    "style": "primary",
     "value": JSON.stringify(eventObj)
   };
 }

@@ -14,7 +14,6 @@ const btnEditEvent = (eventObj, homeParams) => {
       "text": "Edit Event Listing"
     },
     "action_id": "btn_edit_event",
-    "style": "primary",
     "value": JSON.stringify(eventObj)
   };
 }

@@ -22,6 +22,18 @@ const sendErr = (err) => {
   return new Error(err);
 };
 
+const updateHome = (homeParams, app, at) => {
+  // Update the home view (if applicable)
+  if (homeParams.viewID) {
+    try {
+      triggerHomeViewUpdate(app, homeParams, at);
+    }
+    catch (err) {
+      errSlack(app, homeParams.userID, err);
+    }
+  }
+}
+
 const at = {
   /*----
     Get record by ID
@@ -88,14 +100,7 @@ const at = {
             // DM user who submitted event
             dmConfirmNew(app, bc, data, true);
             // Update the home view (if applicable)
-            if (homeParams.viewID) {
-              try {
-                triggerHomeViewUpdate(app, homeParams, at);
-              }
-              catch (err) {
-                errSlack(app, homeParams.userID, err);
-              }
-            }
+            updateHome(homeParams, app, at);
             // RETURN
             return updatedObj;
           });
@@ -130,6 +135,8 @@ const at = {
           link: `https://airtable.com/${tableID}/${viewID}/${savedID}`
         };
         console.log('Saved new event:', savedObj);
+        // Update the home view (if applicable)
+        updateHome(homeParams, app, at);
         // Share event output in designated Slack channel
         publishSlackEvent(app, data, savedObj);
         // DM user who submitted event
@@ -197,14 +204,7 @@ const at = {
         // DM user who submitted event
         dmConfirmReport(app, bc, data, editReport);
         // Update the home view (if applicable)
-        if (homeParams.viewID) {
-          try {
-            triggerHomeViewUpdate(app, homeParams, at);
-          }
-          catch (err) {
-            errSlack(app, homeParams.userID, err);
-          }
-        }
+        updateHome(homeParams, app, at);
         // RETURN
         return updatedObj;
       });
@@ -237,6 +237,8 @@ const at = {
           id: newReport,
           link: `https://airtable.com/${tableID}/${viewID}/${newReport}`
         };
+        // Update the home view (if applicable)
+        updateHome(homeParams, app, at);
         // Share event output in designated Slack channel
         publishSlackReport(app, data, newObj);
         // DM user who submitted report

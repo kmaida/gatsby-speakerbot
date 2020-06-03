@@ -8,6 +8,7 @@ const blocksHome = async (homeParams, at) => {
     // Blocks Composition
     const introBlocks = require('./blocks-home-intro')(homeParams);
     const adminBlocks = isUserAdmin ? require('./blocks-home-admin')(homeParams) : [];
+    const buttonBlocks = require('./../blocks-home/blocks-home-buttons')(homeParams);
     const reportBlocks = await at.getPastEventsNeedReport(homeParams);
     const eventBlocks = await at.getUserEvents(homeParams);
     const useBlocks = require('./blocks-home-use')(homeParams);
@@ -16,6 +17,7 @@ const blocksHome = async (homeParams, at) => {
     // Concat arrays and return appropriate configuration
     const allBlocks = introBlocks
       .concat(adminBlocks)
+      .concat(buttonBlocks)
       .concat(reportBlocks)
       .concat(eventBlocks)
       .concat(useBlocks)
