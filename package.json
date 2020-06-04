@@ -1,7 +1,7 @@
 {
-  "name": "gatsby-speakers-slackbot",
-  "version": "0.1.0",
-  "description": "Slack app for managing internal Gatsby speaker events",
+  "name": "gatsby-speakerbot",
+  "version": "0.2.0",
+  "description": "Slack app for managing internal Gatsby inkteam speaker events",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -19,7 +19,7 @@
   },
   "author": "Kim Maida",
   "repository": {
-    "url": "https://github.com/kmaida/gatsby-speakers-slackbot"
+    "url": "https://github.com/gatsby-inc/speakerbot"
   },
   "license": "MIT",
   "keywords": [
