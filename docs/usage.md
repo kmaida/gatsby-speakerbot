@@ -18,6 +18,10 @@ Once Speakerbot has been installed in your Slack workspace, all users can intera
 
 ## Shortcuts
 
-Speakerbot provides [global shortcuts](https://api.slack.com/interactivity/shortcuts) that can be used to list upcoming speaking events and submit post-event reports. They can be accessed through the shortcut menu in Slack, which is represented by a lightning bolt icon on the bottome left of the message input area as shown below:
+Speakerbot provides [global shortcuts](https://api.slack.com/interactivity/shortcuts) that can be used to list upcoming speaking events and submit post-event reports. They can be accessed through the shortcut menu in Slack, which is represented by a lightning bolt icon on the bottom left of the message input area as shown below:
 
 ![shortcuts screenshot](https://i.imgur.com/aWRn21z.png)
+
+## App Home
+
+
