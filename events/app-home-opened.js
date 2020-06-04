@@ -1,5 +1,5 @@
 const store = require('../data/settings-db');
-const userHomeStore = require('./../data/userHome-db');
+const userHomeStore = require('./../data/userhome-db');
 const homeBlocks = require('../bot-response/blocks-home/blocks-home');
 const errSlack = require('./../utils/error-slack');
 // Imports shared between actions
