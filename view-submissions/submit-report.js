@@ -1,4 +1,3 @@
-const triggerHomeViewUpdate = require('./../triggers/trigger-home-view-update');
 const errSlack = require('./../utils/error-slack');
 
 /*------------------
