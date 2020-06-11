@@ -67,6 +67,11 @@ require('./events/app-home-opened')(app, at);
 require('./events/app-mention')(app);
 
 /*------------------
+       BOT DM
+------------------*/
+require('./events/bot-dm')(app);
+
+/*------------------
      START APP
 ------------------*/
 (async () => {
