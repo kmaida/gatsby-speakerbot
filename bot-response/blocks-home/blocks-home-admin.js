@@ -76,7 +76,15 @@ const blocksHomeAdmin = (homeParams) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": `*View all event records* in the :link: <https://airtable.com/${process.env.AIRTABLE_TABLE_ID}/${process.env.AIRTABLE_VIEW_ID}|Gatsby Speakers Airtable here>.`
+        "text": `*Sync events from Airtable*: if you make manual updates to events _in the <https://airtable.com/${process.env.AIRTABLE_TABLE_ID}/${process.env.AIRTABLE_VIEW_ID}|Airtable itself>_, you should sync Speakerbot with Airtable afterward. Airtable does not provide a webhook to push record updates, so this has to be done manually if changes are made outside of the Slack app.`
+      },
+      "accessory": {
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "text": "Sync All Events"
+        },
+        "action_id": "btn_sync_events"
       }
     },
     {

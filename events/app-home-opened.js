@@ -8,6 +8,7 @@ const blocksEventReport = require('./../bot-response/blocks-event-report');
 // Actions
 const actionSelectChannel = require('./../triggers/action-select-channel');
 const actionSelectAdmins = require('./../triggers/action-select-admins');
+const actionSyncEvents = require('./../triggers/action-sync-events');
 const actionListEvent = require('./../triggers/action-list-event-home');
 const actionNewReport = require('./../triggers/action-new-report');
 const actionAddReport = require('./../triggers/action-report-home');
@@ -56,6 +57,7 @@ const appHomeOpened = async (app, at) => {
   ----*/
   actionSelectChannel(app, store, userHomeStore, at, triggerHomeViewUpdate, errSlack);
   actionSelectAdmins(app, store, userHomeStore, at, triggerHomeViewUpdate, errSlack);
+  actionSyncEvents(app, store, userHomeStore, at, triggerHomeViewUpdate, errSlack);
   actionListEvent(app, store, errSlack);
   actionNewReport(app, store, blocksEventReport, errSlack);
   actionAddReport(app, store, blocksEventReport, errSlack);
