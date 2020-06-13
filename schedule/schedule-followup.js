@@ -51,6 +51,16 @@ const schedule = {
     }
   },
   /*----
+    Clear all timeouts
+  ----*/
+  clearAll() {
+    for (const timeoutKey in timeouts) {
+      clearTimeout(timeouts[timeoutKey]);
+      delete timeouts[timeoutKey];
+      console.log('SCHEDULE: followup was cleared for', timeoutKey);
+    }
+  },
+  /*----
     Schedule a followup timeout
   ----*/
   followup(app, recordObj) {
