@@ -57,7 +57,7 @@ const appHomeOpened = async (app, at) => {
   ----*/
   actionSelectChannel(app, store, userHomeStore, at, triggerHomeViewUpdate, errSlack);
   actionSelectAdmins(app, store, userHomeStore, at, triggerHomeViewUpdate, errSlack);
-  actionSyncEvents(app, store, userHomeStore, at, triggerHomeViewUpdate, errSlack);
+  actionSyncEvents(app, at, store);
   actionListEvent(app, store, errSlack);
   actionNewReport(app, store, blocksEventReport, errSlack);
   actionAddReport(app, store, blocksEventReport, errSlack);

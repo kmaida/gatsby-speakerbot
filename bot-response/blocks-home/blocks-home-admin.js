@@ -76,7 +76,7 @@ const blocksHomeAdmin = (homeParams) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": `*Sync events from Airtable*: if you make manual updates to events _in the <https://airtable.com/${process.env.AIRTABLE_TABLE_ID}/${process.env.AIRTABLE_VIEW_ID}|Airtable itself>_, you should sync Speakerbot with Airtable afterward. Airtable does not provide a webhook to push record updates, so this has to be done manually if changes are made outside of the Slack app.`
+        "text": `*Sync events from Airtable*: if you make manual updates to events _in the <https://airtable.com/${process.env.AIRTABLE_TABLE_ID}/${process.env.AIRTABLE_VIEW_ID}|Airtable itself>_, you should sync Speakerbot with Airtable afterward. Airtable does not provide a webhook or Zapier integration to push record updates, so this has to be done manually if changes are made outside of the Slack app.`
       },
       "accessory": {
         "type": "button",
@@ -86,6 +86,15 @@ const blocksHomeAdmin = (homeParams) => {
         },
         "action_id": "btn_sync_events"
       }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": `*Note:* Speakerbot syncs with Airtable every night, but if you want to see changes instantly after making Airtable updates, you'll need to sync manually.`
+        }
+      ]
     },
     {
       "type": "divider"
