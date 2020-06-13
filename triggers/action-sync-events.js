@@ -1,19 +1,19 @@
-const at = require('./../data/airtable');
-const store = require('./../data/settings-db');
-const userHomeStore = require('./../data/userhome-db');
-const schedule = require('./../schedule/schedule-followup');
-const triggerHomeViewUpdate = require('./../triggers/trigger-home-view-update');
-const errSlack = require('./../utils/error-slack');
+const at = require('../data/airtable');
+const store = require('../data/settings-db');
+const userHomeStore = require('../data/userhome-db');
+const schedule = require('../schedule/schedule-followup');
+const triggerHomeViewUpdate = require('./trigger-home-view-update');
+const errSlack = require('../utils/error-slack');
 
 /*------------------
- ACTION: AIRTABLE UPDATE
+ ACTION: SYNC EVENTS
  Manual changes in Airtable
  Reschedule all events
  Update all home views
 ------------------*/
 
 module.exports = (app) => {
-  app.action('btn_airtable_update', async ({ ack, context, body }) => {
+  app.action('btn_sync_events', async ({ ack, context, body }) => {
     await ack();
     const userID = body.user.id;
     // Get app settings
@@ -37,6 +37,17 @@ module.exports = (app) => {
             admins: settings.admins
           };
           await triggerHomeViewUpdate(app, userHomeParams, at);
+        });
+      }
+      catch (err) {
+        errSlack(app, userID, err);
+      }
+      // Confirm events synced with admin user
+      try {
+        const confirmUpdateDM = await app.client.chat.postMessage({
+          token: context.botToken,
+          channel: userID,
+          text: `:arrows_counterclockwise: I've successfully synced with the <https://airtable.com/${process.env.AIRTABLE_TABLE_ID}/${process.env.AIRTABLE_VIEW_ID}|events in Airtable>!`
         });
       }
       catch (err) {
