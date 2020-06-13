@@ -1,4 +1,3 @@
-const schedule = require('../schedule/schedule-followup');
 const dmSyncEvents = require('./../bot-response/dm/dm-sync-events');
 
 /*------------------
@@ -17,9 +16,8 @@ module.exports = (app, store, userHomeStore, at, triggerHomeViewUpdate, errSlack
     const isAdmin = settings.admins.indexOf(userID) > -1;
     // Final verification that user is an admin
     if (isAdmin) {
-      // Clear all scheduled events
-      schedule.clearAll();
       // Re-schedule all event followups
+      // (Scheduling followups clears any previous)
       at.getFollowupEvents(app);
       // Update app home view for all users who have opened app home
       try {

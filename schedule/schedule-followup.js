@@ -51,21 +51,13 @@ const schedule = {
     }
   },
   /*----
-    Clear all timeouts
-  ----*/
-  clearAll() {
-    for (const timeoutKey in timeouts) {
-      clearTimeout(timeouts[timeoutKey]);
-      delete timeouts[timeoutKey];
-      console.log('SCHEDULE: followup was cleared for', timeoutKey);
-    }
-  },
-  /*----
     Schedule a followup timeout
   ----*/
   followup(app, recordObj) {
     const timeoutKey = recordObj.id;
+    // Clear previously scheduled timeout, if one exists
     schedule.clear(timeoutKey);
+    // Set new followup
     const now = new Date().getTime();
     const timeout = recordObj.followup_at - now;
     timeoutCb = () => {
@@ -76,7 +68,7 @@ const schedule = {
     timeouts[timeoutKey] = setTimeout(timeoutCb, timeout);
     // Logging
     const logDays = Math.round(((timeout / (1000 * 60 * 60) / 24) + 0.00001) * 100) / 100;
-    console.log(`SCHEDULE: new followup for ${recordObj.event_name} (${timeoutKey}) in ${logDays} days: ${new Date(recordObj.followup_at)}`);
+    console.log(`SCHEDULE: new followup for ${recordObj.event_name} with ${recordObj.submitterID} (${timeoutKey}) in ${logDays} days: ${new Date(recordObj.followup_at)}`);
   }
 };
 
