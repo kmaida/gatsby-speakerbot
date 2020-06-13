@@ -34,8 +34,6 @@ const appHomeOpened = async (app, at) => {
     const composedView = await homeBlocks(localHomeParams, at);
     let userHome;
 
-    console.log(context);
-
     // Publish this user's home view
     try {
       const showHomeView = await app.client.views.publish({
