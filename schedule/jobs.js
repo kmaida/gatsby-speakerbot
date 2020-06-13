@@ -45,7 +45,7 @@ const jobs = {
         const userHomeParams = {
           userID: userHome.userID,
           viewID: userHome.viewID,
-          botID: process.env.SLACK_BOT_TOKEN,
+          botID: process.env.SLACK_BOT_USER_ID,
           channel: settings.channel,
           admins: settings.admins
         };
