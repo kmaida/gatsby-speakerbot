@@ -1,16 +1,16 @@
 {
   "name": "gatsby-speakerbot",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Slack app for managing internal Gatsby inkteam speaker events",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "@slack/bolt": "^2.0.1",
+    "@slack/bolt": "^2.1.1",
     "airtable": "^0.8.1",
     "dotenv": "^8.2.0",
-    "mongoose": "^5.9.14",
+    "mongoose": "^5.9.18",
     "cron": "^1.8.2",
     "safe-timers": "^1.1.0"
   },
@@ -19,7 +19,7 @@
   },
   "author": "Kim Maida",
   "repository": {
-    "url": "https://github.com/gatsby-inc/speakerbot"
+    "url": "https://github.com/kmaida/gatsby-speakerbot"
   },
   "license": "MIT",
   "keywords": [
