@@ -12,15 +12,18 @@ Speakerbot is custom-built for internal team use at [Gatsby](https://gatsbyjs.co
 * An [ngrok](https://ngrok.com) account ([you can sign up for free here](https://dashboard.ngrok.com/signup))
 * [ngrok for desktop](https://dashboard.ngrok.com/get-started/setup) (log into ngrok and then follow instructions to download the ngrok binary)
 
-## Code Setup
+## Initial Setup
 
 1. Clone or download the repo: [https://github.com/kmaida/gatsby-speakerbot.git](https://github.com/kmaida/gatsby-speakerbot.git) to your machine.
 2. From the cloned directory, run `$ npm install` to install dependencies.
 3. Remove `-sample` from the `.env-sample` filename. 
 4. Open the `.env` file and add your Slack workspace name to the `SLACK_TEAM` variable (e.g., `SLACK_TEAM=kim-testing-ground`).
-5. Open your Slack workspace _in the web browser_ by navigating to its URL (e.g., `https://[your-team-name].slack.com`). The URL will update automatically to look like this: `https://app.slack.com/client/[TXXXXXX]`. Copy the segment of the URL that begins with "T". This is your `SLACK_TEAM_ID`. Add it to the `.env` file. We will begin filling in the other environment variables as we proceed with Slack Setup.
+5. Open your Slack workspace _in the web browser_ by navigating to its URL (e.g., `https://[your-team-name].slack.com`). The URL will update automatically to look like this: `https://app.slack.com/client/[TXXXXXX]`. Copy the segment of the URL that begins with "T". This is your `SLACK_TEAM_ID`. Add it to the `.env` file.
+6. Create a new channel in your Slack workspace where you'd like Speakerbot to output notifications about new events and reports. Navigate to the channel _in the web browser_. The URL will look like this: `https://app.slack.com/client/[SLACK_TEAM_ID]/[CXXXXXX]`. Copy the URL segment that begins with "C". This is your `SLACK_CHANNEL_ID`. Add it to your `.env` file. (Once we set up our Slack app, we will need to invite `@Speakerbot` into this channel so it can post there).
 
-## Slack Setup
+We will begin filling in the other environment variables as we proceed with Slack App Setup:
+
+## Slack App Setup
 
 It's time to set up your new Slack app that will become Speakerbot. We'll need credentials from the Slack app in order to set our environment variables for the app's code to run properly.
 
@@ -33,4 +36,5 @@ It's time to set up your new Slack app that will become Speakerbot. We'll need c
 
 **App Credentials**
 
-Copy the App ID, Signing Secret, 
+* Copy the **App ID** and add it to your `.env` file's `SLACK_APP_ID`.
+* Copy the **Signing Secret** and add it to your `.env` file's `SLACK_SIGNING_SECRET`.
