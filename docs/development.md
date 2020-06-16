@@ -1,4 +1,4 @@
-# Development Get Started
+# Development: Getting Started
 
 Speakerbot is custom-built for internal team use at [Gatsby](https://gatsbyjs.com) (therefore, it has several references in it to Gatsby Developer Relations goals, motivations, and internal docs). However, it is freely available open-source, and can be forked and modified to suit your needs.
 

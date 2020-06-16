@@ -6,7 +6,7 @@
 
 * [How to Use Speakerbot](docs/usage.md)
   * [Admin](docs/admin.md)
-* [Development](docs/development.md)
+* [Development (Getting Started)](docs/development.md)
   * [Airtable](docs/development-airtable.md)
   * [MongoDB](docs/development-mongodb.md)
   * [Slack App Setup](docs/development-slack-app.md)
