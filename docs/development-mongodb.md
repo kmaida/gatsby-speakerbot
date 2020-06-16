@@ -9,9 +9,9 @@ If you don't already have an account, follow these steps after signup:
 3. Atlas will take a few minutes to provision your cluster. Standby while your cluster is created (until the process completes).
 4. When the cluster has been created, click on the "CONNECT" button.
 5. Under **Whitelist a connection IP address**, click the "Add a Different IP Address" button.
-6. Enter IP Address: `0.0.0.0/0` and click "Add IP Address."
+6. Enter IP Address: `0.0.0.0/0` and click "Add IP Address." This allows traffic from all IPs (we'll secure our connection with a username and password, which should remain confidential and never be checked into a public repository.)
 7. Under **Create a MongoDB User**, enter your desired username.
-8. For the password, click the "Autogenerate Secure Password" button and then copy the generated password to your password manager of choice. Then click the "Create MongoDB User" button.
+8. For the password, click the "Autogenerate Secure Password" button and then copy the generated password to your clipboad (and password manager of choice). Next, click the "Create MongoDB User" button.
 9. When available, click the "Choose a connection method" button to proceed to the next step.
 10. Click **Connect your application**. The default driver is `Node.js`. This is what we want, so do not change anything here.
 12. Under **Add your connection string into your application code**, copy the provided snippet. This is your MongoDB URI connection string.

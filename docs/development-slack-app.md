@@ -165,4 +165,13 @@ This will open Speakerbot's App Home, which will trigger the `app_home_opened` e
 
 Copy the bot user ID and add it to the `.env` file's `SLACK_BOT_USER_ID` variable. You can then comment out the `console.log` again.
 
-Stop and restart the Node server again to propagate the changes to environment settings.
+Stop and restart the Node server again to propagate the changes to environment settings:
+
+```
+Ctrl + c
+$ npm start
+```
+
+## Congratulations!
+
+You're now ready to use the Speakerbot app with an active Slack workspace.
