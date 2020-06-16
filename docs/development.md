@@ -69,9 +69,9 @@ You can modify your app's display name and bot name here. The bot's name should 
 
 At this point, we need to install our Slack app to our Slack workspace to generate a bot token. Go to the **Install App** sidebar item in your Slack App Settings and click the **Install App** button.
 
-You will receive a prompt telling you that Speakerbot is requesting permission to access your workspace. You may also be prompted to choose the channel that Speakerbot posts to as an app. Select the channel you created in the [Initial Setup](#initial-setup) section above.
+You will receive a prompt telling you that Speakerbot is requesting permission to access your workspace. You may also be prompted to choose the channel that Speakerbot posts to. Select the channel you created in the [Initial Setup](#initial-setup) section above.
 
-Click **Allow** to install the application. You will then have a **Bot User OAuth Access Token** available in your Slack App Settings. Copy this token and paste it into your `.env` file's `SLACK_BOT_TOKEN` variable.
+Click **Allow** to install the application. You will then have a **Bot User OAuth Access Token** available in the **Install App** section of your Slack App Settings. Copy this token and paste it into your `.env` file's `SLACK_BOT_TOKEN` variable.
 
 ## Start App Server and Ngrok Tunnel
 
@@ -93,11 +93,15 @@ This will create a tunnel to your app on localhost. You can then access the app 
 
 > **Note:** On a free plan, this URL will be different every time you restart ngrok. If you'd like to use a subdomain or reserve a domain to use all the time, you'll need to [upgrade to a paid plan](https://ngrok.com/pricing). I use and like the Basic plan, which is $5/month at the time of this writing, and provides custom subdomains and 3 reserved domains per user.
 
+## Finish Slack App Setup
+
+Now that you have a tunnel pointing to your Slack app code, you can finish setting up the Slack App in Slack's API. In your Speakerbot Slack App Settings, do the following in each named section:
+
 ### Interactivity & Shortcuts
 
 **Interactivity**: `on`
 
-* Request URL: `https://[your-ngrok-tunnel].ngrok.io/slack/events`
+* Request URL: `https://[your-ngrok-tunnel]/slack/events`
 
 **Shortcuts**
 
@@ -118,14 +122,14 @@ Create a new _global_ shortcut:
 Create a new command:
 
 * Command: `/speaking-new`
-* Request URL: `https://[your-ngrok-tunnel].ngrok.io/slack/events`
+* Request URL: `https://[your-ngrok-tunnel]/slack/events`
 * Short Description: `List a new / upcoming event`
 * Escape channels, users, and links sent to your app: `off`
 
 Create a new command:
 
 * Command: `/speaking-report`
-* Request URL: `https://[your-ngrok-tunnel].ngrok.io/slack/events`
+* Request URL: `https://[your-ngrok-tunnel]/slack/events`
 * Short Description: `Tell us how your speaking event went`
 * Escape channels, users, and links sent to your app: `off`
 
@@ -133,7 +137,7 @@ Create a new command:
 
 **OAuth Tokens & Redirect URLs**
 
-Copy the `Bot User OAuth Access Token` and paste it into your `.env` file as `SLACK_BOT_TOKEN`.
+Copy the `Bot User OAuth Access Token` and paste it into your `.env` file as `SLACK_BOT_TOKEN` if you didn't already do so when [installing the app](#install-slack-app).
 
 **Scopes**
 
@@ -145,11 +149,15 @@ Add the following Bot Token OAuth Scopes / make sure these scopes are present:
 * `im:history`
 * `incoming-webhook`
 
+> **Note:** Changing permissions / scopes will cause Slack to instruct you to re-install your Slack app. Do so whenever prompted.
+
 ### Event Subscriptions
 
 **Enable Events**: `On`
 
-* Request URL: `https://[your-ngrok-tunnel].ngrok.io/slack/events`
+* Request URL: `https://[your-ngrok-tunnel]/slack/events`
+
+Once the Request URL has been added, Slack will verify that the endpoint responds promptly. This is why we needed to have our Speakerbot app code running on a publicly-accessible server. If Slack cannot verify the Request URL, it won't let you subscribe to bot events.
 
 **Subscribe to bot events**
 
