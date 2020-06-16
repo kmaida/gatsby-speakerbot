@@ -20,23 +20,23 @@ For simplicity and expediency, **this guide will walk you through setting up you
 
 ## Set Up Production Airtable, MongoDB, and Slack
 
-Follow the [development instructions](development.md) again with your [production Airtable account](development-airtable.md), [production MongoDB Atlas account](development-mongodb.md), and [production Slack app](development-slack-app.md). Once these have been set up, we can deploy to Heroku and update our 
+Follow the [development instructions](development.md) again with your [production Airtable account](development-airtable.md), [production MongoDB Atlas account](development-mongodb.md), and [production Slack app](development-slack-app.md). Once these have been set up, we can deploy Speakerbot to Heroku.
 
 ## Deploying to Heroku
 
 1. Sign up for a free [Heroku](https://signup.heroku.com/) account.
 2. Create a new app, give it a unique name, and select a region. Click the "Create app" button.
-3. Open your app's Heroku settings.
+3. Open your new app's Heroku settings.
 4. In the **Config Vars** section, add the production environment configuration variables. Heroku uses these variables (not an `.env` file).
 5. In the **Resources** section, click the "Change Dyno Type" button.
 6. Select **Hobby** and click the button to subscribe. (Free dynos do not work for Slack apps because they go to sleep, and this causes long wake-up times and delays when users try to interact with the sleeping bot.)
-7. In the **Deploy** section, you can deploy your application in the way that you prefer. I like to use `Heroku Git` because it provides a `heroku` remote that I can push to as desired. Follow the provided instructions to deploy using your preferred method.
+7. In the **Deploy** section, you can deploy your application in the way that you prefer. I like to use [Heroku Git](https://devcenter.heroku.com/articles/git) because it provides a `heroku` Git remote that I can push to as desired. You should follow Heroku's provided instructions to deploy using your preferred method.
 
-> **Note:** After deploying, you can check your application in the browser by navigating to its URL (e.g., `https://[your-Heroku-app].herokuapp.com`). If it's properly deployed, you should see a `GET` request error (because it does not have a home page route since it's a Slack app). If you see a Heroku error instead, something has gone wrong.
+> **Note:** After deploying, you can check your application in the browser by navigating to its URL (e.g., `https://[your-Heroku-app].herokuapp.com`). If it's properly deployed, you should see a `GET` request error (because it does not have a default route since it's a Slack app). If you see a Heroku error instead, something has gone wrong.
 
-## Update Slack App Settings
+## Update Production Slack App Settings
 
-In your Slack App settings, you'll need to replace your local tunnel URL with your deployed Heroku app's URL. Your Heroku URL is `https://[your-Heroku-app].herokuapp.com`.
+In your production Slack App settings, you'll need to replace your local tunnel URL with your deployed Heroku app's URL. Your Heroku URL is `https://[your-Heroku-app].herokuapp.com`.
 
 1. Open your production Slack App settings in the browser.
 2. In **Interactivity**, update the Request URL to `https://[your-Heroku-app].herokuapp.com/slack/events`.
