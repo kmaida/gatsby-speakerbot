@@ -8,7 +8,7 @@ const blocksHomeFooter = [
     "elements": [
       {
         "type": "mrkdwn",
-        "text": `:hammer_and_wrench: This app was built by <https://twitter.com/KimMaida|@KimMaida> | <https://github.com/gatsby-inc/speakerbot|View code on GitHub>`
+        "text": `:hammer_and_wrench: This app was built by <https://twitter.com/KimMaida|@KimMaida> | <https://github.com/kmaida/gatsby-speakerbot|View code on GitHub>`
       }
     ]
   }
