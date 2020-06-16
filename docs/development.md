@@ -20,6 +20,9 @@ Speakerbot is custom-built for internal team use at [Gatsby](https://gatsbyjs.co
 4. Open the `.env` file and add your Slack workspace name to the `SLACK_TEAM` variable (e.g., `SLACK_TEAM=kim-testing-ground`).
 5. Open your Slack workspace _in the web browser_ by navigating to its URL (e.g., `https://[your-team-name].slack.com`). The URL will update automatically to look like this: `https://app.slack.com/client/[TXXXXXX]`. Copy the segment of the URL that begins with "T". This is your `SLACK_TEAM_ID`. Add it to the `.env` file.
 6. Create a new channel in your Slack workspace where you'd like Speakerbot to output notifications about new events and reports. Navigate to the channel _in the web browser_. The URL will look like this: `https://app.slack.com/client/[SLACK_TEAM_ID]/[CXXXXXX]`. Copy the URL segment that begins with "C". This is your `SLACK_CHANNEL_ID`. Add it to your `.env` file. (Once we set up our Slack app, we will need to invite `@Speakerbot` into this channel so it can post there).
+7. View your own user profile in Slack. You can do this by clicking the Direct Message with yourself, and then clicking on your profile image / name in the DM space. This will open your profile in a sidebar. Click on the three dots `...` / `More` item and then select **Copy member ID**. Paste your member ID into the `.env` file as the `SLACK_ADMINS` variable.
+
+![copy member ID](member-id.png)
 
 We will begin filling in the other environment variables as we proceed with Slack App Setup:
 
