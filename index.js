@@ -59,7 +59,7 @@ require('./view-submissions/submit-report')(app, at, utils);
 /*------------------
   APP HOME OPENED
 ------------------*/
-require('./events/app-home-opened')(app, at);
+require('./events/app-home-opened')(app, at, store);
 
 /*------------------
     APP MENTION

@@ -1,4 +1,3 @@
-const store = require('../data/settings-db');
 const userHomeStore = require('./../data/userhome-db');
 const homeBlocks = require('../bot-response/blocks-home/blocks-home');
 const errSlack = require('./../utils/error-slack');
@@ -19,7 +18,7 @@ const actionEditReport = require('./../triggers/action-edit-report');
   APP HOME OPENED
 ------------------*/
 
-const appHomeOpened = async (app, at) => {
+const appHomeOpened = async (app, at, store) => {
   /*----
     EVENT: app-home-opened
   ----*/
