@@ -5,5 +5,6 @@
 ## Documentation
 
 * [How to Use Speakerbot](docs/usage.md)
+* [Admin](docs/admin.md)
 * [Development](docs/development.md)
 * [Deployment](docs/deployment.md)
