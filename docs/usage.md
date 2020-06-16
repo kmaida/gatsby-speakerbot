@@ -34,12 +34,18 @@ You can use the buttons available in the top of App Home to list new upcoming ev
 
 ![image of App Home with new event and report buttons](app-home.png)
 
+When new upcoming events and reports are added (or edited), messages are sent to a designated Slack channel:
+
+![screenshot of new event listing in channel](channel-new-event.png)
+
 ### Add Post-Event Reports for Completed Events
+
+If you have events that have already happened but do not have post-event reports yet, those events will show up in your App Home with a button to fill in your event report.
 
 ![image of App Home with event report button](add-report.png)
 
-## Scheduled Followups
+## Scheduled Followup DMs
 
-When you submit a new upcoming speaking event, Speakerbot will notify you after your event date has elapsed to prompt you to fill out a post-event report.
+When you submit a new upcoming speaking event, Speakerbot will notify you via DM _after your event date has elapsed_ to prompt you to fill out a post-event report. A button to do so will be provided in the message, with information prefilled from your event listing.
 
 ![screenshot of DM followup](scheduled-followup.png)
