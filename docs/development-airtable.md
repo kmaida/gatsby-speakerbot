@@ -40,3 +40,17 @@ Now we need to set up a base and table to store events and event reports.
   * **Submitter Slack ID** | Single line text
 8. When finished, your table's column headings should look like this:
 ![Airtable column headings](airtable-fields.png)
+9. Add your table's name to your `.env` file in the `AIRTABLE_TABLE` variable.
+10. Examine the table's URL in the browser. It should look something like this: `https://airtable.com/[tblXXXxxx]/[viwXXXxxx]?blocks=...`
+11. Copy the segment of the URL that begins with "tbl" to `.env` as the `AIRTABLE_TABLE_ID` variable.
+12. Copy the segment of the URL that begins with "viw" to `.env` as the `AIRTABLE_VIEW_ID` variable. (It should be the "Grid view.")
+13. In the upper right of your base view, you should see a link that says `HELP (?)`.
+![Airtable upper right menu items](airtable-menu.png)
+Click on this link and in the dropdown, choose "API Documentation." This opens the API docs for your base.
+14. In the Airtable API Introduction section, find the line that says:
+```
+The ID of this base is appXXXXXX.
+```
+15. Copy the base ID and paste it into your `.env` file as `AIRTABLE_BASE_ID`.
+16. Now return to your base view. In the upper right, click on your avatar icon and choose "Account."
+17. You should now see your **Account overview** page. In the "API" section, there is a personal API key (displayed in dots). Click in the field to reveal the text contents. It should reveal a string starting with "key." Copy this API key and paste it into your `.env` as `AIRTABLE_API_KEY`.
