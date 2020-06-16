@@ -137,7 +137,7 @@ Create a new command:
 
 **OAuth Tokens & Redirect URLs**
 
-Copy the `Bot User OAuth Access Token` and paste it into your `.env` file as `SLACK_BOT_TOKEN` if you didn't already do so when [installing the app](#install-slack-app).
+The `Bot User OAuth Access Token` is available here. You should have already pasted it into your `.env` file as `SLACK_BOT_TOKEN` when [installing the app](#install-slack-app).
 
 **Scopes**
 
@@ -166,3 +166,26 @@ Add the following Bot User Events:
 * `app_home_opened`
 * `app_mention`
 * `message.im`
+
+## Slack Bot User ID
+
+You may have noticed that there's still a Slack environment variable missing from the `.env` file: `SLACK_BOT_USER_ID`. This one requires a code change. You cannot retrieve the Speakerbot's member ID the way you can get a human user's ID because Speakerbot is actually an _app_, so all of its information displayed in Slack's interface are related to the app itself rather than the bot user member.
+
+To find the Slack Bot User ID, open the `/events/app-home-opened.js` file. Find this code:
+
+```js
+// Find the bot user ID to set in .env:
+// Uncomment the following line
+// Open the App Home, and check console logs
+// console.log('Bot User ID:', localHomeParams.botID);
+```
+
+1. Uncomment the line with the `console.log`.
+2. Restart the Node Slackbot server with `Ctrl + c` followed by `$ npm start`.
+3. In your Slack workspace, add the Speakerbot app:
+  * Find **Apps** in the sidebar and click the `+` to add an app.
+  * Find **Speakerbot** in the Apps listing and click on it to add it to the sidebar.
+
+This will open Speakerbot's App Home, which will trigger the `app_home_opened` event and run the code containing the `console.log` that was just uncommented. In your terminal, you should see the bot user ID outputted to the logs.
+
+Copy the bot user ID and add it to the `.env` file's `SLACK_BOT_USER_ID` variable. You can then comment out the `console.log` again.

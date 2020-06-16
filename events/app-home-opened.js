@@ -33,6 +33,11 @@ const appHomeOpened = async (app, at, store) => {
     const composedView = await homeBlocks(localHomeParams, at);
     let userHome;
 
+    // Find the bot user ID to set in .env:
+    // Uncomment the following line
+    // Open the App Home, and check console logs
+    // console.log('Bot User ID:', localHomeParams.botID);
+
     // Publish this user's home view
     try {
       const showHomeView = await app.client.views.publish({
