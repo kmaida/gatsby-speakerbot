@@ -65,6 +65,34 @@ You can modify your app's display name and bot name here. The bot's name should 
 
 **Activate Incoming Webhooks**: `on`
 
+## Install Slack App
+
+At this point, we need to install our Slack app to our Slack workspace to generate a bot token. Go to the **Install App** sidebar item in your Slack App Settings and click the **Install App** button.
+
+You will receive a prompt telling you that Speakerbot is requesting permission to access your workspace. You may also be prompted to choose the channel that Speakerbot posts to as an app. Select the channel you created in the [Initial Setup](#initial-setup) section above.
+
+Click **Allow** to install the application. You will then have a **Bot User OAuth Access Token** available in your Slack App Settings. Copy this token and paste it into your `.env` file's `SLACK_BOT_TOKEN` variable.
+
+## Start App Server and Ngrok Tunnel
+
+At this point, you'll need to **start your app server and use [ngrok](https://ngrok.com) to provide a publicly-available forwarding tunnel** so you can finish adding your app's settings in Slack.
+
+In your terminal or command prompt, navigate to the root directory of the folder where you've cloned the source code for this repository. Then run:
+
+```
+$ npm start
+```
+
+Next, start ngrok, forwarding to the localhost port that your app is running on (`8585` by default):
+
+```
+$ [./your/path/to/]ngrok http 8585
+```
+
+This will create a tunnel to your app on localhost. You can then access the app publicly in the browser at the URL provided by ngrok when the tunnel is created.
+
+> **Note:** On a free plan, this URL will be different every time you restart ngrok. If you'd like to use a subdomain or reserve a domain to use all the time, you'll need to [upgrade to a paid plan](https://ngrok.com/pricing). I use and like the Basic plan, which is $5/month at the time of this writing, and provides custom subdomains and 3 reserved domains per user.
+
 ### Interactivity & Shortcuts
 
 **Interactivity**: `on`
@@ -85,7 +113,7 @@ Create a new _global_ shortcut:
 * Short Description: `Tell us how your speaking event went (insights, outcomes, audience, etc.)`
 * Callback ID: `event_report`
 
-## Slash Commands
+### Slash Commands
 
 Create a new command:
 
@@ -101,7 +129,7 @@ Create a new command:
 * Short Description: `Tell us how your speaking event went`
 * Escape channels, users, and links sent to your app: `off`
 
-## OAuth & Permissions
+### OAuth & Permissions
 
 **OAuth Tokens & Redirect URLs**
 
@@ -117,7 +145,7 @@ Add the following Bot Token OAuth Scopes / make sure these scopes are present:
 * `im:history`
 * `incoming-webhook`
 
-## Event Subscriptions
+### Event Subscriptions
 
 **Enable Events**: `On`
 
