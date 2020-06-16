@@ -52,7 +52,8 @@ Click on this link and in the dropdown, choose **API Documentation**. This opens
 The ID of this base is appXXXXXX.
 ```
 15. Copy the base ID and paste it into your `.env` file as the `AIRTABLE_BASE_ID` variable.
-16. Now return to your base view. In the upper right corner, click on your avatar icon and choose **Account**.
+16. Now return to your base view. In the upper right corner, click on your avatar icon and choose **Account** from the dropdown.
 17. You should now see your **Account overview** page. In the "API" section, there is a personal API key (displayed as dots in an input field). Click in the field to view the text contents. It should reveal a string starting with "key." Copy this API key and paste it into your `.env` file as `AIRTABLE_API_KEY`.
+18. Save your `.env` changes.
 
-You are now ready to use Airtable as your data source for events! Head back to the [Development docs](development.md) or you can move to the next step: [Development: MongoDB docs](development-mongodb.md).
+You are now ready to use Airtable as your data source for events! Head back to the [Development docs](development.md) or you can move to the next step: [Development: MongoDB Setup](development-mongodb.md).
