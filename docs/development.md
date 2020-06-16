@@ -20,9 +20,7 @@ Speakerbot is custom-built for internal team use at [Gatsby](https://gatsbyjs.co
 4. Open the `.env` file and add your Slack workspace name to the `SLACK_TEAM` variable (e.g., `SLACK_TEAM=kim-testing-ground`).
 5. Open your Slack workspace _in the web browser_ by navigating to its URL (e.g., `https://[your-team-name].slack.com`). The URL will update automatically to look like this: `https://app.slack.com/client/[TXXXXXX]`. Copy the segment of the URL that begins with "T". This is your `SLACK_TEAM_ID`. Add it to the `.env` file.
 6. Create a new channel in your Slack workspace where you'd like Speakerbot to output notifications about new events and reports. Navigate to the channel _in the web browser_. The URL will look like this: `https://app.slack.com/client/[SLACK_TEAM_ID]/[CXXXXXX]`. Copy the URL segment that begins with "C". This is your `SLACK_CHANNEL_ID`. Add it to your `.env` file. (Once we set up our Slack app, we will need to invite `@Speakerbot` into this channel so it can post there).
-7. View your own user profile in Slack. You can do this by clicking the Direct Message with yourself, and then clicking on your profile image / name in the DM space. This will open your profile in a sidebar. Click on the three dots `...` / `More` item and then select **Copy member ID**. Paste your member ID into the `.env` file as the `SLACK_ADMINS` variable.
-
-![copy member ID](member-id.png)
+7. View your own user profile in Slack. You can do this by clicking the Direct Message with yourself, and then clicking on your profile image / name in the DM space. This will open your profile in a sidebar. Click on the ellipsis `... / More` item and then select **Copy member ID** from the dropdown. Paste your Slack member ID into the `.env` file as the `SLACK_ADMINS` variable. This will set you as a Speakerbot admin by default.
 
 We will begin filling in the other environment variables as we proceed with Slack App Setup:
 
@@ -41,3 +39,94 @@ It's time to set up your new Slack app that will become Speakerbot. We'll need c
 
 * Copy the **App ID** and add it to your `.env` file's `SLACK_APP_ID`.
 * Copy the **Signing Secret** and add it to your `.env` file's `SLACK_SIGNING_SECRET`.
+
+**Display Information**
+
+You'll need to give your app a name and short description. You can also provide an app icon and background color if you wish. Make sure your app is named `Speakerbot`. A short description might be something like:
+
+```
+I'm your friendly Speaking Events Manager Bot
+```
+
+### App Home
+
+**Your App's Presence in Slack**
+
+You can modify your app's display name and bot name here. The bot's name should be `Speakerbot`.
+
+* Always Show My Bot as Online: `on`
+
+**Show Tabs**
+
+* Home Tab: `on`
+* Messages Tab: `on`
+
+### Incoming Webhooks
+
+**Activate Incoming Webhooks**: `on`
+
+### Interactivity & Shortcuts
+
+**Interactivity**: `on`
+
+* Request URL: `https://[your-ngrok-tunnel].ngrok.io/slack/events`
+
+**Shortcuts**
+
+Create a new _global_ shortcut:
+
+* Name: `List a speaking event`
+* Short Description: `List an upcoming speaking event (conference, meetup, workshop, podcast, etc.)`
+* Callback ID: `list_event`
+
+Create a new _global_ shortcut:
+
+* Name: `Submit event report`
+* Short Description: `Tell us how your speaking event went (insights, outcomes, audience, etc.)`
+* Callback ID: `event_report`
+
+## Slash Commands
+
+Create a new command:
+
+* Command: `/speaking-new`
+* Request URL: `https://[your-ngrok-tunnel].ngrok.io/slack/events`
+* Short Description: `List a new / upcoming event`
+* Escape channels, users, and links sent to your app: `off`
+
+Create a new command:
+
+* Command: `/speaking-report`
+* Request URL: `https://[your-ngrok-tunnel].ngrok.io/slack/events`
+* Short Description: `Tell us how your speaking event went`
+* Escape channels, users, and links sent to your app: `off`
+
+## OAuth & Permissions
+
+**OAuth Tokens & Redirect URLs**
+
+Copy the `Bot User OAuth Access Token` and paste it into your `.env` file as `SLACK_BOT_TOKEN`.
+
+**Scopes**
+
+Add the following Bot Token OAuth Scopes / make sure these scopes are present:
+
+* `app_mentions:read`
+* `chat:write`
+* `commands`
+* `im:history`
+* `incoming-webhook`
+
+## Event Subscriptions
+
+**Enable Events**: `On`
+
+* Request URL: `https://[your-ngrok-tunnel].ngrok.io/slack/events`
+
+**Subscribe to bot events**
+
+Add the following Bot User Events:
+
+* `app_home_opened`
+* `app_mention`
+* `message.im`
