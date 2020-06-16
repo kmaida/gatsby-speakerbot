@@ -4,14 +4,14 @@ You should already have an [Airtable](https://airtable.com) account, as detailed
 
 Now we need to set up a base and table to store events and event reports.
 
-1. Log into Airtable. The dashboard defaults to the Bases view.
+1. [Log into Airtable](https://airtable.com/login). The dashboard defaults to the Bases view.
 2. Click the `+` icon to `Add a base`.
 3. In the dropdown, choose **Start from scratch**.
-4. Name your base whatever you want (it's the _table_ name that will become significant for our Speakerbot app, which we'll add in a minute). You can also select a color and an icon for your base. A base is a _collection_ of tables.
-5. Once your base is set up, click on it to open it. You will see an empty table in grid view. Your view should look something like this:
+4. Name your base something descriptive. A base is a _collection_ of tables, and we'll use a table inside this base to store speaking events. You can also select a color and an icon for your base.
+5. Once your base is set up, click on it to open it. You will see an empty table in grid view. It should look something like this:
 ![Airtable with blank table](airtable-table1.png)
 6. Rename "Table 1" to a name of your choosing. This will be the table where Speakerbot saves and reads data. For example, at Gatsby, this table is called `Gatsby Speakers`.
-7. Modify/add the table fields as follows. It's very important that the fields be named and formatted _exactly_ as shown, otherwise, the app will not be able to read or save the data properly without further code edits:
+7. Modify/add the table fields as described below. It's very important that the fields be named and formatted _exactly_ as shown, otherwise, the app will not be able to read or save the data properly without further code edits:
   * **Name** | Single line text
   * **Date** | Date | Date format: `ISO (2020-06-16)`
   * **Location** | Single line text
@@ -45,12 +45,14 @@ Now we need to set up a base and table to store events and event reports.
 11. Copy the segment of the URL that begins with "tbl" to `.env` as the `AIRTABLE_TABLE_ID` variable.
 12. Copy the segment of the URL that begins with "viw" to `.env` as the `AIRTABLE_VIEW_ID` variable. (It should be the "Grid view.")
 13. In the upper right of your base view, you should see a link that says `HELP (?)`.
-![Airtable upper right menu items](airtable-menu.png)
-Click on this link and in the dropdown, choose "API Documentation." This opens the API docs for your base.
+![Airtable upper right menu items](airtable-menu.png)<br>
+Click on this link and in the dropdown, choose **API Documentation**. This opens the API docs for your base.
 14. In the Airtable API Introduction section, find the line that says:
 ```
 The ID of this base is appXXXXXX.
 ```
-15. Copy the base ID and paste it into your `.env` file as `AIRTABLE_BASE_ID`.
-16. Now return to your base view. In the upper right, click on your avatar icon and choose "Account."
-17. You should now see your **Account overview** page. In the "API" section, there is a personal API key (displayed in dots). Click in the field to reveal the text contents. It should reveal a string starting with "key." Copy this API key and paste it into your `.env` as `AIRTABLE_API_KEY`.
+15. Copy the base ID and paste it into your `.env` file as the `AIRTABLE_BASE_ID` variable.
+16. Now return to your base view. In the upper right corner, click on your avatar icon and choose **Account**.
+17. You should now see your **Account overview** page. In the "API" section, there is a personal API key (displayed as dots in an input field). Click in the field to view the text contents. It should reveal a string starting with "key." Copy this API key and paste it into your `.env` file as `AIRTABLE_API_KEY`.
+
+You are now ready to use Airtable as your data source for events! Head back to the [Development docs](development.md) or you can move to the next step: [Development: MongoDB docs](development-mongodb.md).
