@@ -1,6 +1,6 @@
 # Development: Slack App Setup
 
-It's time to set up your new Slack app that will become Speakerbot. We'll need credentials from the Slack app in order to set our environment variables for the app's code to run properly.
+It's time to set up our new Slack app that will become Speakerbot. We'll need credentials from the Slack app in order to set our environment variables for the app's code to run properly.
 
 ## Slack App Settings
 
@@ -45,7 +45,7 @@ You can modify your app's display name and bot name here. The bot's name should 
 
 At this point, we need to install our Slack app to our Slack workspace to generate a bot token. Go to the **Install App** sidebar item in your Slack App Settings and click the **Install App** button.
 
-You will receive a prompt telling you that Speakerbot is requesting permission to access your workspace. You may also be prompted to choose the channel that Speakerbot posts to. Select the channel you created in the [Initial Setup](#initial-setup) section above.
+You will receive a prompt telling you that Speakerbot is requesting permission to access your workspace. You may also be prompted to choose the channel that Speakerbot posts to. Select the channel you created in the [Initial Setup](development.md#initial-setup) section.
 
 Click **Allow** to install the application. You will then have a **Bot User OAuth Access Token** available in the **Install App** section of your Slack App Settings. Copy this token and paste it into your `.env` file's `SLACK_BOT_TOKEN` variable.
 
@@ -147,7 +147,7 @@ Add the following Bot User Events:
 
 You may have noticed that there's still a Slack environment variable missing from the `.env` file: `SLACK_BOT_USER_ID`. This one requires a code change. You cannot retrieve the Speakerbot's member ID the way you can get a human user's ID because Speakerbot is actually an _app_, so all of its information displayed in Slack's interface is related to the app itself rather than the bot user member.
 
-To find the Slack Bot User ID, open the `/events/app-home-opened.js` file. Find [this block of code](https://github.com/kmaida/gatsby-speakerbot/blob/master/events/app-home-opened.js#L36-L39) in the file:
+To find the Slack Bot User ID, open the `/events/app-home-opened.js` file. Find this block of code in the file:
 
 ```js
 // Find the bot user ID to set in .env:

@@ -1,4 +1,4 @@
-# Development: Get Started
+# Development Get Started
 
 Speakerbot is custom-built for internal team use at [Gatsby](https://gatsbyjs.com) (therefore, it has several references in it to Gatsby Developer Relations goals, motivations, and internal docs). However, it is freely available open-source, and can be forked and modified to suit your needs.
 
@@ -24,7 +24,7 @@ Speakerbot is custom-built for internal team use at [Gatsby](https://gatsbyjs.co
 
 ## Airtable Setup
 
-You need somewhere to read and write events. At Gatsby, we use Airtable for this. Head over to the [Development: Airtable docs](development-airtable.md) to learn how to set up Airtable to work with Speakerbot.
+We'll need somewhere to read and write events. At Gatsby, we use Airtable for this. Head over to the [Development: Airtable docs](development-airtable.md) to learn how to set up Airtable to work with Speakerbot.
 
 ## MongoDB Setup
 
