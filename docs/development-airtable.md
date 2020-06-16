@@ -36,5 +36,7 @@ Now we need to set up a base and table to store events and event reports.
     * `2`
     * `3`
     * `4`
-  * **Post Event Report** | Long text (Enable rich text formatting)
+  * **Post Event Report** | Long text (enable rich text formatting)
   * **Submitter Slack ID** | Single line text
+8. When finished, your table's column headings should look like this:
+![Airtable column headings](airtable-fields.png)
