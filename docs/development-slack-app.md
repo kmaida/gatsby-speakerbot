@@ -174,4 +174,4 @@ $ npm start
 
 ## Congratulations!
 
-You're now ready to use the Speakerbot app with an active Slack workspace.
+You're now ready to use the Speakerbot app with an active Slack workspace. For production deployment instructions, see [Deployment](deployment.md).
