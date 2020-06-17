@@ -52,7 +52,7 @@ $ heroku logs --app=[heroku-app-name] --tail
 
 You may have noticed that there are sections in Slack app settings called **Manage Distribution** and **Submit to App Directory**. We didn't do anything in these sections because the Gatsby Speakerbot is _not_ a publicly distributed Slack app; it was purpose-built for a single workspace and as such, is what we call a **[Single-workspace app](https://api.slack.com/start/distributing#single_workspace_apps)**.
 
-If you'd like to learn more about _distributing_ Slack apps, [read the Slack docs on public distribution here](https://api.slack.com/start/distributing/public). You'll need to ensure that your server and code can handle multiple workspaces. _As written_, Speakerbot does **not** do this; recall that our environment variables are all very specific to a specific Slack workspace.
+If you'd like to learn more about _distributing_ Slack apps, [read the Slack docs on public distribution here](https://api.slack.com/start/distributing/public). You'll need to ensure that your server and code can handle multiple workspaces. _As written_, Speakerbot does **not** do this; recall that our environment variables are all very specific to a single Slack workspace.
 
 ## Congratulations!
 
