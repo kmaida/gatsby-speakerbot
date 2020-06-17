@@ -12,6 +12,8 @@
   * [Slack App Setup](docs/development-slack-app.md)
 * [Deployment](docs/deployment.md)
 
-===
+---
 
 This Slack app was built by [@KimMaida](https://twitter.com/KimMaida) for Developer Relations activities on the [Gatsby org team](https://www.gatsbyjs.com/about/).
+
+LICENSE: [GNU GPLv3.0](LICENSE.txt)
