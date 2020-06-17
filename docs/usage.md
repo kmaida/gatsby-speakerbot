@@ -49,3 +49,7 @@ If you have events that have already happened but do not have post-event reports
 When you submit a new upcoming speaking event, Speakerbot will notify you via DM _after your event date has elapsed_ to prompt you to fill out a post-event report. A button to do so will be provided in the message, with information prefilled from your event listing.
 
 ![screenshot of DM followup](scheduled-followup.png)
+
+## Admin
+
+If you're an admin for Speakerbot, [check out the Admin docs here](admin.md).
