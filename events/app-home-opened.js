@@ -31,7 +31,6 @@ const appHomeOpened = async (app, at, store) => {
       admins: settings.admins
     };
     const composedView = await homeBlocks(localHomeParams, at);
-    let userHome;
 
     // Find the bot user ID to set in .env:
     // Uncomment the following line
@@ -49,7 +48,7 @@ const appHomeOpened = async (app, at, store) => {
         }
       });
       // Set this user's home view ID in database
-      userHome = await userHomeStore.setUserHomeView(localHomeParams.userID, showHomeView.view.id);
+      const userHome = await userHomeStore.setUserHomeView(localHomeParams.userID, showHomeView.view.id);
     }
     catch (err) {
       errSlack(app, localHomeParams.userID, err);
