@@ -8,6 +8,7 @@ const publishSlackReport = require('./../bot-response/publish/publish-slack-repo
 const publishWeekly = require('./../bot-response/publish/publish-weekly-upcoming');
 const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
 const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
+const dmConfirmSnooze = require('./../bot-response/dm/dm-confirm-snooze');
 const schedule = require('./../schedule/schedule-followup');
 const blocksHomeNeedsReport = require('./../bot-response/blocks-home/blocks-home-needsreport');
 const blocksUserEvents = require('./../bot-response/blocks-home/blocks-home-user-events');
@@ -246,6 +247,48 @@ const at = {
         return newObj;
       });
     }
+  },
+
+  /*----
+    Snooze followup
+  ----*/
+  async snoozeFollowup(app, eventID, newFollowup) {
+    // Retrieve existing record
+    base(table).find(eventID, function (err, origRecord) {
+      if (err) {
+        sendErr(err);
+      }
+      if (origRecord) {
+        // Update existing record
+        base(table).update([
+          {
+            "id": eventID,
+            "fields": {
+              "Followup": newFollowup
+            }
+          }
+        ], function (err, records) {
+          if (err) {
+            sendErr(err);
+          }
+          const updatedRecord = records[0];
+          const updatedID = updatedRecord.getId();  // Same as editID
+          const updatedObj = {
+            id: updatedID,
+            event_name: updatedRecord.fields['Name'],
+            followup: updatedRecord.fields['Followup'],
+            submitterID: updatedRecord.fields['Submitter Slack ID']
+          };
+          console.log(`AIRTABLE: snoozed followup date for ${updatedObj.event_name}: new followup scheduled for ${updatedObj.followup}`);
+          // Re-schedule followup
+          schedule.setupFollowup(app, updatedRecord);
+          // DM user who snoozed the event
+          dmConfirmSnooze(app, updatedObj);
+          // RETURN
+          return updatedObj;
+        });
+      }
+    });
   },
 
   /*----
