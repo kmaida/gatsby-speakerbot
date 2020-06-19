@@ -1,21 +1,21 @@
 const slackErr = require('./../../utils/error-slack');
 
 /*------------------
- DM SNOOZE FOLLOWUP
+  DM SNOOZE ERROR
 ------------------*/
 
-module.exports = async (app, recordObj) => {
+module.exports = async (app, submitterID) => {
   // Notify user they snoozed their post-event report followup
   try {
-    const confirmDM = await app.client.chat.postMessage({
+    const sendErrorDM = await app.client.chat.postMessage({
       token: process.env.SLACK_BOT_TOKEN,
-      channel: recordObj.submitterID,
+      channel: submitterID,
       blocks: [
         {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": `:alarm_clock: *You snoozed your post-event report follow-up for ${recordObj.event_name}.*\nI'll remind you again on ${recordObj.followup}!`
+            "text": `:white_check_mark: I couldn't snooze your report reminder because you've *already completed a report for that event*. Thank you! :tada:`
           }
         }
       ]

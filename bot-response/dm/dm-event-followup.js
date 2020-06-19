@@ -22,6 +22,15 @@ module.exports = async (app, recordObj) => {
           "accessory": btnEventReport(recordObj)
         },
         {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": `:alarm_clock: Need to snooze this reminder to fill out your event report? Pick a date and I'll follow up with you again then!`
+          },
+          "block_id": "dm_date_snooze_followup",
+          "accessory": dateSnoozeFollowup(recordObj)
+        },
+        {
           "type": "context",
           "elements": [
             {

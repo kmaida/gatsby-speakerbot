@@ -9,6 +9,7 @@ const publishWeekly = require('./../bot-response/publish/publish-weekly-upcoming
 const dmConfirmNew = require('./../bot-response/dm/dm-confirm-new');
 const dmConfirmReport = require('./../bot-response/dm/dm-confirm-report');
 const dmConfirmSnooze = require('./../bot-response/dm/dm-confirm-snooze');
+const dmErrorSnooze = require('./../bot-response/dm/dm-error-snooze');
 const schedule = require('./../schedule/schedule-followup');
 const blocksHomeNeedsReport = require('./../bot-response/blocks-home/blocks-home-needsreport');
 const blocksUserEvents = require('./../bot-response/blocks-home/blocks-home-user-events');
@@ -252,14 +253,20 @@ const at = {
   /*----
     Snooze followup
   ----*/
-  async snoozeFollowup(app, eventID, newFollowup) {
+  async snoozeFollowup(app, submitterID, eventID, newFollowup) {
     // Retrieve existing record
     base(table).find(eventID, function (err, origRecord) {
       if (err) {
         sendErr(err);
       }
       if (origRecord) {
-        // Update existing record
+        // If the record already has a rating, a report has already been filled out
+        if (!!origRecord.fields["Event Rating"]) {
+          // DM user saying report already finished / could not snooze reminder
+          dmErrorSnooze(app, submitterID);
+          return {};
+        }
+        // Update existing record with new followup date
         base(table).update([
           {
             "id": eventID,
@@ -272,14 +279,14 @@ const at = {
             sendErr(err);
           }
           const updatedRecord = records[0];
-          const updatedID = updatedRecord.getId();  // Same as editID
+          const updatedID = updatedRecord.getId();  // Same as eventID
           const updatedObj = {
             id: updatedID,
             event_name: updatedRecord.fields['Name'],
             followup: updatedRecord.fields['Followup'],
-            submitterID: updatedRecord.fields['Submitter Slack ID']
+            submitterID: submitterID
           };
-          console.log(`AIRTABLE: snoozed followup date for ${updatedObj.event_name}: new followup scheduled for ${updatedObj.followup}`);
+          console.log(`AIRTABLE: ${submitterID} snoozed followup date for ${updatedObj.event_name}: new followup scheduled for ${updatedObj.followup}`);
           // Re-schedule followup
           schedule.setupFollowup(app, updatedRecord);
           // DM user who snoozed the event
