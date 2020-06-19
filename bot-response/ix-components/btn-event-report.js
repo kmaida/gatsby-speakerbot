@@ -15,7 +15,8 @@ const btnEventReport = (recordObj, homeParams) => {
       "text": "Add Event Report"
     },
     "action_id": aid,
-    "value": JSON.stringify(recordObj)
+    "value": JSON.stringify(recordObj),
+    "style": "primary"
   };
 }
 

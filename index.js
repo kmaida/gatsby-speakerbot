@@ -49,12 +49,14 @@ jobs.setupEventSyncs(app, at, store);
 ------------------*/
 require('./triggers/trigger-new')(app);
 require('./triggers/trigger-report')(app);
+require('./triggers/action-snooze-followup')(app, at);
 
 /*------------------
   VIEW SUBMISSIONS
 ------------------*/
 require('./view-submissions/submit-new')(app, at, utils);
 require('./view-submissions/submit-report')(app, at, utils);
+require('./view-submissions/submit-snooze-followup')(app, at, utils);
 
 /*------------------
   APP HOME OPENED

@@ -1,4 +1,5 @@
 const btnEventReport = require('./../ix-components/btn-event-report');
+const btnSnoozeFollowup = require('./../ix-components/btn-snooze-followup');
 const slackErr = require('./../../utils/error-slack');
 
 /*------------------
@@ -22,15 +23,6 @@ module.exports = async (app, recordObj) => {
           "accessory": btnEventReport(recordObj)
         },
         {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": `:alarm_clock: Need to snooze this reminder to fill out your event report? Pick a date and I'll follow up with you again then!`
-          },
-          "block_id": "dm_date_snooze_followup",
-          "accessory": dateSnoozeFollowup(recordObj)
-        },
-        {
           "type": "context",
           "elements": [
             {
@@ -38,7 +30,16 @@ module.exports = async (app, recordObj) => {
               "text": ":information_desk_person: I've prefilled the form with information I already know. Please make sure it's correct, then fill in the remaining fields."
             }
           ]
-        }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": `:zzz: Not ready to fill out your event report yet? Snooze this reminder and I'll follow up again when it's more convenient for you!`
+          },
+          "block_id": "dm_date_snooze_followup",
+          "accessory": btnSnoozeFollowup(recordObj)
+        },
       ]
     });
   }

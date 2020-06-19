@@ -6,6 +6,7 @@ const slackErr = require('./../../utils/error-slack');
 
 module.exports = async (app, submitterID) => {
   // Notify user they snoozed their post-event report followup
+  // This shouldn't ever happen, but just in case it does:
   try {
     const sendErrorDM = await app.client.chat.postMessage({
       token: process.env.SLACK_BOT_TOKEN,

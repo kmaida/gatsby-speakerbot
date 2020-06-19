@@ -15,7 +15,7 @@ module.exports = async (app, recordObj) => {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": `:alarm_clock: *You snoozed your post-event report follow-up for ${recordObj.event_name}.*\nI'll remind you again on ${recordObj.followup}!`
+            "text": `:alarm_clock: *You snoozed your event report follow-up for ${recordObj.event_name}.*\nI'll remind you again on ${recordObj.followup}!`
           }
         }
       ]
