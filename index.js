@@ -1,12 +1,8 @@
 require('dotenv').config();
 const { App } = require('@slack/bolt');
-// Airtable
 const at = require('./data/airtable');
-// Roundups
 const jobs = require('./schedule/jobs');
-// Utils
 const utils = require('./utils/utils');
-// MongoDB
 const mongoose = require('mongoose');
 const store = require('./data/settings-db');
 
@@ -78,5 +74,5 @@ require('./events/bot-dm')(app);
 ------------------*/
 (async () => {
   await app.start(port);
-  console.log(`⚡️ gatsby-speakers is running on ${port}!`);
+  console.log(`⚡️ gatsby-speakerbot is running on ${port}!`);
 })();
