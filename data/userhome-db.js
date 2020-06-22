@@ -9,9 +9,10 @@ const dbErrHandler = (err) => {
 };
 
 const userHome = {
-  /*----
-    Get all user home objects
-  ----*/
+  /**
+   * Get all user home objects
+   * @return {object[]} array of user home objects containing user and view IDs
+   */
   async getUserHomes() {
     return UserHome.find({}, (err, userHomes) => {
       if (err) return dbErrHandler(err);
@@ -19,11 +20,12 @@ const userHome = {
       return userHomes;
     });
   },
-  /*----
-    Set user home view if it doesn't already exist
-    @Param: userID
-    @Param: viewID
-  ----*/
+  /**
+   * Set user home view if it doesn't already exist
+   * @param {string} userID
+   * @param {string} viewID
+   * @return {object} promise: new saved user home object
+   */
   async setUserHomeView(userID, viewID) {
     return UserHome.findOne({ userID }, (err, userHome) => {
       if (err) return dbErrHandler(err);
