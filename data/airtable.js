@@ -37,21 +37,14 @@ const updateHome = (homeParams, app, at) => {
 }
 
 const at = {
-  /*----
-    Get record by ID
-  ----*/
-  findEvent(id) {
-    base(table).find(id, function(err, record) {
-      if (err) {
-        sendErr(err);
-      }
-      return record.getId();
-    });
-  },
-
-  /*----
-    Add or update a new event record in Airtable
-  ----*/
+  /**
+   * Add or update a new event record in Airtable
+   * @param {App} app Slack app
+   * @param {object} bc bot and context object
+   * @param {object} data to save to Airtable
+   * @param {object} homeParams details about user App Home
+   * @return {object} object containing ID and Airtable link
+   */
   async listNewEvent(app, bc, data, homeParams = {}) {
     const editID = homeParams.eventID;
     // Check to see if updating an existing event
@@ -150,11 +143,16 @@ const at = {
     }
   },
 
-  /*----
-    Add post-event report
-    Check if event exists already, if so, update
-    If event does not exist, create new record
-  ----*/
+  /**
+   * Add post-event report
+   * Check if event exists already, if so, update
+   * If event does not exist, create new record
+   * @param {App} app Slack App
+   * @param {object} bc bot context object
+   * @param {object} data event report data to save to Airtable
+   * @param {object} homeParams details about user App Home
+   * @return {object} object containing ID and Airtable link
+   */
   async submitEventReport(app, bc, data, homeParams = {}) {
     let editID = homeParams.eventID;
     const editReport = homeParams.editReport;
@@ -250,9 +248,14 @@ const at = {
     }
   },
 
-  /*----
-    Snooze followup
-  ----*/
+  /**
+   * Snooze report followup to a new date
+   * @param {App} app Slack App
+   * @param {string} submitterID Slack ID
+   * @param {string} eventID ID of event record followup to snooze
+   * @param {string} newFollowup simple ISO date string of new followup (YYYY-MM-DD)
+   * @return {object} updated Airtable event record
+   */
   async snoozeFollowup(app, submitterID, eventID, newFollowup) {
     // Retrieve existing record
     base(table).find(eventID, function (err, origRecord) {
@@ -298,13 +301,15 @@ const at = {
     });
   },
 
-  /*----
-    Get data on events to schedule user followups
-    to fill out a post-event report
-    Do this for events with a followup of today or after today
-    Do for events that do NOT have a rating
-    (This should be called on init of the app)
-  ----*/
+  /**
+   * Get data on events to schedule user followups
+   * to fill out a post-event report
+   * Do this for events with a followup of today or after today
+   * Do for events that do NOT have a rating
+   * (This should be called on init of the app)
+   * @param {App} app Slack App
+   * @return {object[]} array of event records for which followups scheduled
+   */
   async getFollowupEvents(app) {
     try {
       const results = [];
@@ -324,10 +329,11 @@ const at = {
     }
   },
 
-/*----
-  Get all events from a specific user
-  @Returns: blocks for displaying all events
-----*/
+  /**
+   * Get all events from a specific user
+   * @param {object} homeParams details about user App Home
+   * @return {JSON} blocks for displaying all events
+   */
   async getUserEvents(homeParams) {
     try {
       const results = [];
@@ -347,14 +353,16 @@ const at = {
     }
   },
 
-  /*----
-    Return a record object for a specific user
-    for events in the past that don't yet have
-    a report submitted
-    (This object should be used to populate
-    initial fields in event report form from
-    user's app home)
-  ----*/
+  /**
+   * Return a record object for a specific user
+   * for events in the past that don't yet have
+   * a report submitted
+   * (This object should be used to populate
+   * initial fields in event report form from
+   * user's app home)
+   * @param {object} record Airtable record object
+   * @return {object} object containing data from Airtable record
+   */
   setupUserEvents(record) {
     const recordObj = {
       id: record.getId(),
@@ -376,13 +384,14 @@ const at = {
     return recordObj;
   },
 
-  /*----
-    Get data on recently past events for a
-    specific user that don't have a report yet.
-    Events can be today or in the past.
-    (Display in a user's app home)
-    @Returns: blocks for user's app home
-  ----*/
+  /**
+   * Get data on recently past events for a
+   * specific user that don't have a report yet
+   * Events can be today or in the past.
+   * (Display in a user's app home)
+   * @param {object} homeParams details about user App Home
+   * @return {JSON} blocks for user's App Home
+   */
   async getPastEventsNeedReport(homeParams) {
     try {
       const results = [];
@@ -402,14 +411,15 @@ const at = {
     }
   },
 
-  /*----
-    Return a record object for a specific user
-    for events in the past that don't yet have
-    a report submitted
-    (This object should be used to populate
-    initial fields in event report form from
-    user's app home)
-  ----*/
+  /**
+   * Return a record object for a specific user
+   * for events in the past that don't yet have
+   * a report submitted
+   * (This object should be used to populate
+   * initial fields in event report form from
+   * user's app home)
+   * @param {object} record data for form prefill
+   */
   setupNeedsReportByUser(record) {
     const recordObj = {
       id: record.getId(),
@@ -425,11 +435,12 @@ const at = {
     return recordObj;
   },
 
-  /*----
-    Get events upcoming this week
-    @Param: ISO before (YYYY-MM-DD) (7 days out)
-    @Returns: array of events
-  ----*/
+  /**
+   * Get events upcoming this week
+   * @param {string} beforeDate ISO before (YYYY-MM-DD) (7 days out)
+   * @param {App} app Slack App
+   * @return {function} publish results to channel
+   */
   async getEventsThisWeek(beforeDate, app) {
     try {
       const results = [];
@@ -448,12 +459,13 @@ const at = {
       sendErr(err);
     }
   },
-  /*----
-    Return a string formatted into display for a single record
-    for events upcoming this week
-    @Param: Airtable record
-    @Returns: string (to be displayed in iterable list)
-  ----*/
+
+  /**
+   * Return a string formatted into display for a single record
+   * for events upcoming this week
+   * @param {object} record Airtable event record
+   * @return {string} display text for 1 event record
+   */
   setupUpcomingWeekEvent(record) {
     const r = {
       link: `https://airtable.com/${tableID}/${viewID}/${record.getId()}`,
