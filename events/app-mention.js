@@ -8,7 +8,7 @@ const utils = require('../utils/utils');
 const appMention = (app) => {
   app.event('app_mention', async ({ event, context }) => {
     // Ignore edited message mentions and channel topic changes
-    if (utils.ignoreMention(event.subtype)) return;
+    if (utils.ignoreMention(event)) return;
     try {
       const result = await app.client.chat.postMessage({
         token: context.botToken,

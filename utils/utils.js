@@ -131,13 +131,13 @@ const utils = {
     }
   },
   /**
-   * Ignore app mentions of specific subtypes
-   * @param {string} subtype message subtype
+   * Ignore app mentions of specific subtypes / qualities
+   * @param {object} event event to check properties / subtype
    * @return {boolean} should this subtype be allowed?
    */
-  ignoreMention(subtype) {
+  ignoreMention(event) {
     const disallowedSubtypes = ['channel_topic', 'message_changed'];
-    return disallowedSubtypes.indexOf(subtype) > -1;
+    return disallowedSubtypes.indexOf(event.subtype) > -1 || event.edited;
   }
 };
 
