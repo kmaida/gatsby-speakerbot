@@ -19,9 +19,6 @@ const actionEditReport = require('./../triggers/action-edit-report');
 ------------------*/
 
 const appHomeOpened = async (app, at, store) => {
-  /*----
-    EVENT: app-home-opened
-  ----*/
   app.event('app_home_opened', async ({ event, context }) => {
     const settings = await store.getSettings();
     const localHomeParams = {
@@ -55,9 +52,7 @@ const appHomeOpened = async (app, at, store) => {
     }
   });
 
-  /*----
-    ACTIONS
-  ----*/
+  // Actions
   actionSelectChannel(app, store, userHomeStore, at, triggerHomeViewUpdate, errSlack);
   actionSelectAdmins(app, store, userHomeStore, at, triggerHomeViewUpdate, errSlack);
   actionSyncEvents(app, at, store);

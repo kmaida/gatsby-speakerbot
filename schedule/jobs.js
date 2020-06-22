@@ -10,9 +10,11 @@ const errSlack = require('./../utils/error-slack');
 ------------------*/
 
 const jobs = {
-  /*----
-    Get and share all events upcoming this week
-  ----*/
+  /**
+   * Get and share all events upcoming this week
+   * @param {App} app Slack App
+   * @param {module} at Airtable module
+   */
   eventsThisWeek(app, at) {
     const weeklyRoundup = async () => {
       const today = new Date();
@@ -29,9 +31,13 @@ const jobs = {
     console.log('JOBS: next 3 weekly roundups scheduled for', job.nextDates(3).map(date => date.toString()));
     job.start();
   },
-  /*----
-    Reschedule events / update home views
-  ----*/
+  /**
+   * Reschedule events / update home views
+   * @param {App} app Slack App
+   * @param {module} at Airtable module
+   * @param {module} store MongoDB module
+   * @param {string} userID Slack user ID of admin
+   */
   async syncAllEvents(app, at, store, userID) {
     // Get app settings
     const settings = await store.getSettings();
@@ -63,9 +69,12 @@ const jobs = {
     // If admin-initiated, confirm events synced with admin user in DM
     if (userID) dmSyncEvents(app, userID, errSlack);
   },
-  /*----
-    Reschedule events / update home views
-  ----*/
+  /**
+   * Reschedule events / update home views
+   * @param {App} app Slack App
+   * @param {module} at Airtable module
+   * @param {module} store MongoDB module
+   */
   setupEventSyncs(app, at, store) {
     const job = new cron.CronJob({
       cronTime: '0 0 * * *',

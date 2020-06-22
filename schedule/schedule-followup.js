@@ -9,10 +9,13 @@ const channelFollowup = require('../bot-response/publish/publish-channel-followu
 let timeouts = {};
 
 const schedule = {
-  /*----
-    Set up followup by forming a followup object
-    Passing object to schedule.followup()
-  ----*/
+  /**
+   * Set up followup by forming a followup object
+   * Passing object to schedule.followup()
+   * @param {App} app Slack App
+   * @param {object} record Airtable record object
+   * @return {object} scheduled event object
+   */
   setupFollowup(app, record) {
     // Build followup object with necessary data to schedule followup
     const followuptime = new Date(record.fields['Followup'] + 'T00:00:00Z').getTime();
@@ -39,10 +42,10 @@ const schedule = {
       return eventObj;
     }
   },
-  /*----
-    Clear a specific scheduled followup timeout
-    @Param: timeoutKey is the record's Airtable ID
-  ----*/
+  /**
+   * Clear a specific scheduled followup timeout
+   * @param {string} timeoutKey timeout to clear
+   */
   clear(timeoutKey) {
     if (timeoutKey in timeouts) {
       clearTimeout(timeouts[timeoutKey]);
@@ -50,9 +53,13 @@ const schedule = {
       console.log('SCHEDULE: followup was cleared for', timeoutKey);
     }
   },
-  /*----
-    Schedule a followup timeout
-  ----*/
+  /**
+   * Schedule a followup timeout
+   * Clear any previously scheduled timeouts for this event
+   * Set up new followup
+   * @param {App} app Slack App
+   * @param {object} recordObj event data object
+   */
   followup(app, recordObj) {
     const timeoutKey = recordObj.id;
     // Clear previously scheduled timeout, if one exists
