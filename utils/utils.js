@@ -9,13 +9,13 @@ const utils = {
     // Reach (number)
     number: /^[0-9]*$/g
   },
-  /*----
-    Is the date today + future, or today + past?
-    @Param: date string (YYYY-MM-DD)
-    @Param: boolean (testing future = true)
-    @Param: boolean ( future start tomorrow and not include today)
-    @Returns: boolean
-  ----*/
+  /**
+   * Is the date today + future, or today + past?
+   * @param {string} dateInput simple ISO date (YYYY-MM-DD)
+   * @param {boolean} testFuture testing if date is in future (true)
+   * @param {boolean} futureStartTomorrow testing if future should start tomorrow and not include today
+   * @return {boolean} true if future, false if past
+   */
   dateCompare(dateInput, testFuture, futureStartTomorrow) {
     // Get today's date in ISO at 11:59:59
     const now = new Date().toISOString().split('T')[0];
@@ -34,40 +34,40 @@ const utils = {
       return isPast;
     }
   },
-  /*----
-    Is the string a valid URL?
-    @Params: string
-    @Returns: boolean
-  ----*/
+  /**
+   * Check input for URL validity via regex
+   * @param {string} input URL form field input
+   * @return {boolean} is the input a valid URL?
+   */
   validUrl(input) {
     const regex = new RegExp(utils.regex.url);
     const cleanStr = input.toString().trim();
     return cleanStr.match(regex);
   },
-  /*----
-    Is the text field input a string that only contains numbers?
-    (We will coerce it later if it passes this validation)
-    @Params: string
-    @Returns: boolean
-  ----*/
+  /**
+   * Is the text field input a string that only contains numbers?
+   * (We will coerce it later if it passes this validation)
+   * @param {string} input reach form field input
+   * @return {boolean} is the input a number?
+   */
   isNumberFormat(input) {
     const regex = new RegExp(utils.regex.number);
     const cleanStr = input.toString().trim();
     return cleanStr.match(regex);
   },
-  /*----
-    Does the object have properties?
-    @Params: object
-    @Returns: boolean
-  ----*/
+  /**
+   * Does the object have properties?
+   * @param {object} obj object to test for properties
+   * @return {boolean} return true if object is not empty
+   */
   objNotEmpty(obj) {
     return Object.keys(obj).length && obj.constructor === Object;
   },
-  /*----
-    Takes event date and returns ISO string of next day
-    @Params: ISO date string (YYYY-MM-DD)
-    @Returns: ISO date string (full)
-  ----*/
+  /**
+   * Takes event date and returns ISO string of next day
+   * @param {string} dateStr Simple ISO date string (YYYY-MM-DD)
+   * @return {string} ISO date string
+   */
   getFollowupISO(dateStr) {
     const jsDate = new Date(dateStr);
     const jsDatetime = jsDate.getTime();
@@ -78,7 +78,7 @@ const utils = {
   },
   /**
    * Takes a JS date string and returns simple ISO string
-   * @param {Date Object} dateInput JS date
+   * @param {Date} dateInput JS date
    * @param {number} dayOffset number of days to offset by
    * @return {string} ISO date string
    */
