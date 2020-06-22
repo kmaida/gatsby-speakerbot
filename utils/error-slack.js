@@ -2,7 +2,7 @@
 OUTPUT ERROR IN SLACK
 ------------------*/
 
-module.exports = async (app, channel, err) => {
+const errSlack = async (app, channel, err) => {
   const msg = err.message || err;
   console.error('An error occurred:', msg);
   try {
@@ -16,3 +16,5 @@ module.exports = async (app, channel, err) => {
     console.error(err);
   }
 };
+
+module.exports = errSlack;
