@@ -76,12 +76,12 @@ const utils = {
     const jsNextDay = new Date(nextDayDatetime);
     return jsNextDay.toISOString();
   },
-  /*----
-    Takes a JS date string and returns simple ISO string
-    @Param: anything that can be converted to a JS date (e.g., 'Mon Jun 01 2020 12:00:00 GMT-0400', timestamp, ISO, etc.)
-    @Param: number - offset from passed date in days (optional)
-    @Returns: Simple ISO date string (YYYY-MM-DD)
-  ----*/
+  /**
+   * Takes a JS date string and returns simple ISO string
+   * @param {Date Object} dateInput JS date
+   * @param {number} dayOffset number of days to offset by
+   * @return {string} ISO date string
+   */
   dateToISO(dateInput, dayOffset) {
     const msOffset = dayOffset ? dayOffset * (1000 * 60 * 60 * 24) : 0;
     const baseDate = typeof dateInput.getMonth === 'function' ? dateInput : new Date(dateInput);
@@ -89,13 +89,13 @@ const utils = {
     const iso = dateObj.toISOString().split('T')[0];
     return iso;
   },
-  /*----
-    Sort all of a user's events into upcoming and reports
-    This does not display events that have passed and need reports;
-    That is handled separately
-    @Param: array of events
-    @Returns: object of sorted events arrays
-  ----*/
+  /**
+   * Sort user's events into upcoming and reports;
+   * This does not display events that have passed and need reports;
+   * That is handled separately
+   * @param {object[]} allEvents array of event objects
+   * @return {object} events sorted into upcoming and reports
+   */
   sortUserEvents(allEvents) {
     const sortedEvents = {
       upcoming: [],
@@ -118,15 +118,26 @@ const utils = {
     });
     return sortedEvents;
   },
-  /*----
-    Clear newline
-  ----*/
+  /**
+   * Replace strings of nothing but a newline with undefined
+   * @param {string} input text string
+   * @return {string} fixed input
+   */
   clearNewline(input) {
     if (input === '\n') {
       return undefined;
     } else {
       return input;
     }
+  },
+  /**
+   * Ignore app mentions of specific subtypes
+   * @param {string} subtype message subtype
+   * @return {boolean} should this subtype be allowed?
+   */
+  ignoreMention(subtype) {
+    const disallowedSubtypes = ['channel_topic', 'message_changed'];
+    return disallowedSubtypes.indexOf(subtype) > -1;
   }
 };
 
