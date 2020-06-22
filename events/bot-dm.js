@@ -7,17 +7,16 @@ const utils = require('./../utils/utils');
 const botDM = (app) => {
   app.event('message', async ({ event, context }) => {
     // Ignore edited message mentions
-    if (!utils.ignoreMention(event.subtype)) {
-      try {
-        const sendMsg = await app.client.chat.postMessage({
-          token: context.botToken,
-          channel: event.channel,
-          text: `:shrug: I'm sorry, I didn't understand that. Please go to my :house: *<slack://app?team=${process.env.SLACK_TEAM_ID}&id=${process.env.SLACK_APP_ID}&tab=home|Home tab>* to find out how I work, add upcoming speaking events, submit post-event reports, or edit any of your existing events!`
-        });
-      }
-      catch (err) {
-        console.error(err);
-      }
+    if (utils.ignoreMention(event.subtype)) return;
+    try {
+      const sendMsg = await app.client.chat.postMessage({
+        token: context.botToken,
+        channel: event.channel,
+        text: `:shrug: I'm sorry, I didn't understand that. Please go to my :house: *<slack://app?team=${process.env.SLACK_TEAM_ID}&id=${process.env.SLACK_APP_ID}&tab=home|Home tab>* to find out how I work, add upcoming speaking events, submit post-event reports, or edit any of your existing events!`
+      });
+    }
+    catch (err) {
+      console.error(err);
     }
   });
 };
