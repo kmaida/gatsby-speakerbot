@@ -9,9 +9,10 @@ const dbErrHandler = (err) => {
 };
 
 const settings = {
-  /*----
-    Initialize and set settings from ENV if there are no settings
-  ----*/
+  /**
+   * Initialize and set settings from ENV if there are no settings
+   * @return {object} promise: settings object
+   */
   async initSettings() {
     return Settings.findOne({}, (err, settings) => {
       if (err) return dbErrHandler(err);
@@ -27,9 +28,10 @@ const settings = {
       }
     });
   },
-  /*----
-    Get settings object
-  ----*/
+  /**
+   * Get settings object
+   * @return {object} promise: settings object
+   */
   async getSettings() {
     return Settings.findOne({}, (err, settings) => {
       if (err) return dbErrHandler(err);
@@ -37,10 +39,11 @@ const settings = {
       return settings;
     });
   },
-  /*----
-    Save channel to store
-    @Params: channel
-  ----*/
+  /**
+   * Save reporting channel to store
+   * @param {string} channel channel to save to DB
+   * @return {object} promise: settings object
+   */
   async setChannel(channel) {
     return Settings.findOne({}, (err, settings) => {
       if (err) return dbErrHandler(err);
@@ -67,10 +70,11 @@ const settings = {
       }
     });
   },
-  /*----
-    Save admins to settings
-    @Params: array of userID strings
-  ----*/
+  /**
+   * Save admins to settings
+   * @param {string[]} admins array of Slack user IDs for admins
+   * @return {object} promise: new settings
+   */
   async setAdmins(admins) {
     return Settings.findOne({}, (err, settings) => {
       if (err) return dbErrHandler(err);
