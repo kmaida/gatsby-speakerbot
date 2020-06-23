@@ -5,9 +5,7 @@ const utils = require('./../utils/utils');
 ------------------*/
 
 const botDM = (app) => {
-  app.event('message', async ({ event, context }) => {
-    // Ignore edited message mentions
-    if (utils.ignoreMention(event)) return;
+  app.event('message', utils.ignoreMention, async ({ event, context }) => {
     try {
       const sendMsg = await app.client.chat.postMessage({
         token: context.botToken,
